@@ -1,0 +1,87 @@
+noobsblade:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: DIAMOND_SWORD
+    name: "&bNoobsblade"
+    hide-flags: false
+    lore:
+      - "&7The sword for noobs!"
+    enchants:
+      DAMAGE_ALL: 1
+      KNOCKBACK: 1
+      DURABILITY: 1
+      FIRE_ASPECT: 1
+  legendary-item:
+      enabled: false
+      material: DIAMOND_SWORD
+      sell: 25000
+      buy: 100000
+      name: "&6Legendary Noobsblade"
+      hide-flags: false
+      lore:
+        - "&7The sword for noobs!"
+      enchants:
+        DAMAGE_ALL: 1
+        KNOCKBACK: 1
+        DURABILITY: 1
+        FIRE_ASPECT: 1
+
+excalibur:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: DIAMOND_SWORD
+    name: "&bExcalibur"
+    hide-flags: false
+    lore:
+      - "&7The essential pvp sword!"
+    enchants:
+      DAMAGE_ALL: 5
+      DAMAGE_UNDEAD: 5
+      KNOCKBACK: 2
+      FIRE_ASPECT: 2
+      LOOT_BONUS_MOBS: 3
+  legendary-item:
+      enabled: false
+      material: DIAMOND_SWORD
+      sell: 25000
+      buy: 100000
+      name: "&6Legendary Excalibur"
+      hide-flags: false
+      lore:
+        - "&7The essential pvp sword!"
+      enchants:
+        DAMAGE_ALL: 5
+        DAMAGE_UNDEAD: 5
+        KNOCKBACK: 2
+        FIRE_ASPECT: 2
+        LOOT_BONUS_MOBS: 3
+
+morningbj:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: WOOD_SWORD
+    name: "&bMorning BJ"
+    hide-flags: false
+    lore:
+      - "&7The second wood tier weapon!"
+    enchants:
+      DAMAGE_ALL: 10
+      FIRE_ASPECT: 10
+  legendary-item:
+      enabled: false
+      material: WOOD_SWORD
+      sell: 25000
+      buy: 100000
+      name: "&6Legendary Morning BJ"
+      hide-flags: false
+      lore:
+      - "&7The second wood tier weapon!"
+      enchants:
+        DAMAGE_ALL: 10
+        FIRE_ASPECT: 10
