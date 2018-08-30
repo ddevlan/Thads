@@ -60,6 +60,32 @@ excalibur:
         FIRE_ASPECT: 2
         LOOT_BONUS_MOBS: 3
 
+morningwood:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: WOOD_SWORD
+    name: "&bMorning Wood"
+    hide-flags: false
+    lore:
+      - "&7The first wood tier weapon!"
+    enchants:
+      DAMAGE_ALL: 10
+      DURABILITY: 10
+  legendary-item:
+      enabled: false
+      material: WOOD_SWORD
+      sell: 25000
+      buy: 100000
+      name: "&6Legendary Morning Wood"
+      hide-flags: false
+      lore:
+      - "&7The first wood tier weapon!"
+      enchants:
+        DAMAGE_ALL: 10
+        DURABILITY: 10
+
 morningbj:
   enabled: true
   sell: 25000
@@ -85,3 +111,32 @@ morningbj:
       enchants:
         DAMAGE_ALL: 10
         FIRE_ASPECT: 10
+
+sparringaxe:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: WOOD_AXE
+    name: "&bSparring Axe"
+    hide-flags: false
+    lore:
+      - "&7The second wood tier weapon!"
+    enchants:
+      DAMAGE_ALL: 10
+      FIRE_ASPECT: 10
+      DURABILITY: 10
+  legendary-item:
+      enabled: false
+      material: WOOD_AXE
+      sell: 25000
+      buy: 100000
+      name: "&6Legendary Sparring Axe"
+      hide-flags: false
+      lore:
+      - "&7The second wood tier weapon!"
+      enchants:
+        DAMAGE_ALL: 10
+        FIRE_ASPECT: 10
+        DURABILITY: 10
+
