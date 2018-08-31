@@ -2,16 +2,13 @@ package me.ohvalsgod.thads.baller.item.items;
 
 import me.ohvalsgod.thads.baller.BallerManager;
 import me.ohvalsgod.thads.baller.item.BallerItem;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
-public class MorningWood implements BallerItem {
+public class DateRapist implements BallerItem {
 
     private ItemStack ballerItemStack, legendaryItemStack;
     private int sellPrice, buyPrice, legendarySellPrice, legendaryBuyPrice;
@@ -19,15 +16,15 @@ public class MorningWood implements BallerItem {
     private Listener listener;
     private List<String> aliases;
 
-    public MorningWood() {
+    public DateRapist() {
+        aliases = Arrays.asList("dr", "daterape");
+        listener = null;
         BallerManager.getBallerManager().loadBallerItem(this);
-        aliases = Collections.singletonList("mw");
-        listener = new MWListener();
     }
 
     @Override
     public String getName() {
-        return "morningwood";
+        return "daterapist";
     }
 
     @Override
@@ -118,22 +115,6 @@ public class MorningWood implements BallerItem {
     @Override
     public List<String> getAliases() {
         return aliases;
-    }
-
-    public class MWListener implements Listener {
-
-        @EventHandler
-        public void onDamage(EntityDamageByEntityEvent event) {
-            if (event.getEntity() instanceof Player) {
-                if (event.getDamager() instanceof Player) {
-                    Player player = (Player) event.getDamager();
-                    if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof MorningBJ) {
-                        event.setDamage(event.getDamage() * 1.1);
-                    }
-                }
-            }
-        }
-
     }
 
 }

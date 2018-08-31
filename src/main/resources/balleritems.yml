@@ -15,9 +15,9 @@ noobsblade:
       FIRE_ASPECT: 1
   legendary-item:
       enabled: false
-      material: DIAMOND_SWORD
       sell: 25000
       buy: 100000
+      material: DIAMOND_SWORD
       name: "&6Legendary Noobsblade"
       hide-flags: false
       lore:
@@ -45,14 +45,15 @@ excalibur:
       FIRE_ASPECT: 2
       LOOT_BONUS_MOBS: 3
   legendary-item:
-      enabled: false
-      material: DIAMOND_SWORD
+      enabled: true
       sell: 25000
       buy: 100000
+      material: DIAMOND_SWORD
       name: "&6Legendary Excalibur"
       hide-flags: false
       lore:
-        - "&7The essential pvp sword!"
+        - "&8The Legendary Excalibur. It belonged to Thaddeus Peuterschmidt's grea great great"
+        - "&8great great great great great grandfather, King Thaddeus Arthur. Use it wisely."
       enchants:
         DAMAGE_ALL: 5
         DAMAGE_UNDEAD: 5
@@ -75,9 +76,9 @@ morningwood:
       DURABILITY: 10
   legendary-item:
       enabled: false
-      material: WOOD_SWORD
       sell: 25000
       buy: 100000
+      material: WOOD_SWORD
       name: "&6Legendary Morning Wood"
       hide-flags: false
       lore:
@@ -101,9 +102,9 @@ morningbj:
       FIRE_ASPECT: 10
   legendary-item:
       enabled: false
-      material: WOOD_SWORD
       sell: 25000
       buy: 100000
+      material: WOOD_SWORD
       name: "&6Legendary Morning BJ"
       hide-flags: false
       lore:
@@ -128,9 +129,9 @@ sparringaxe:
       DURABILITY: 10
   legendary-item:
       enabled: false
-      material: WOOD_AXE
       sell: 25000
       buy: 100000
+      material: WOOD_AXE
       name: "&6Legendary Sparring Axe"
       hide-flags: false
       lore:
@@ -139,4 +140,107 @@ sparringaxe:
         DAMAGE_ALL: 10
         FIRE_ASPECT: 10
         DURABILITY: 10
+
+daterapist:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: DIAMOND_SWORD
+    name: "&bDate Rapist"
+    hide-flags: false
+    lore:
+      - "&7The original top tier!"
+    enchants:
+      DAMAGE_ALL: 10
+      DAMAGE_UNDEAD: 10
+      DAMAGE_ARTHROPODS: 5
+      KNOCKBACK: 10
+      FIRE_ASPECT: 7
+      LOOT_BONUS_MOBS: 5
+  legendary-item:
+      enabled: false
+      sell: 25000
+      buy: 100000
+      material: DIAMOND_SWORD
+      name: "&6Legendary Date Rapist"
+      hide-flags: false
+      lore:
+        - "&7The original top tier!"
+      enchants:
+        DAMAGE_ALL: 10
+        DAMAGE_UNDEAD: 10
+        DAMAGE_ARTHROPODS: 5
+        KNOCKBACK: 10
+        FIRE_ASPECT: 7
+        LOOT_BONUS_MOBS: 5
+
+battleaxe:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: DIAMOND_AXE
+    name: "&bBattle Axe"
+    hide-flags: false
+    lore:
+      - "&7Shreds your enemy's armor faster than a sword!"
+    enchants:
+	  DAMAGE_ALL: 10
+	  DAMAGE_UNDEAD: 10
+	  DAMAGE_ARTHROPODS: 5
+	  LOOT_BONUS_MOBS: 5
+	  FIRE_ASPECT: 10
+  legendary-item:
+      enabled: false
+      sell: 25000
+      buy: 100000
+      material: DIAMOND_AXE
+      name: "&6Legendary Battle Axe"
+      hide-flags: false
+      lore:
+        - "&8Once upon a time, a legendary warrior who was also brave, intelligent, amazing,"
+        - "&8rich, and an incredible lover, risked his life to save a young princess who had been"
+        - "&8kidnapped by an evil ddoser. The princess's name was Brittany Snow, and she gave it up"
+        - "&8afterwards because she was so in love with her savior. Who was that warrior, you ask? He"
+        - "&8was named Thaddeus Peuterschmidt, and this was his Battle Axe."
+      enchants:
+	    DAMAGE_ALL: 10
+        DAMAGE_UNDEAD: 10
+	    DAMAGE_ARTHROPODS: 5
+	    LOOT_BONUS_MOBS: 5
+	    FIRE_ASPECT: 10
+
+wifebeater:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: DIAMOND_SWORD
+    name: "&bWife Beater"
+    hide-flags: false
+    lore:
+      - "&7Launcher I"
+      - "&7The launcher sword!"
+    enchants:
+	  DAMAGE_ALL: 10
+	  DAMAGE_UNDEAD: 10
+	  DAMAGE_ARTHROPODS: 10
+	  LOOT_BONUS_MOBS: 5
+  legendary-item:
+      enabled: false
+      sell: 25000
+      buy: 100000
+      material: DIAMOND_SWORD
+      name: "&6Legendary Wife Beater"
+      hide-flags: false
+      lore:
+        - "&7Launcher I"
+        - "&7The launcher sword!"
+      enchants:
+	    DAMAGE_ALL: 10
+        DAMAGE_UNDEAD: 10
+	    DAMAGE_ARTHROPODS: 10
+	    LOOT_BONUS_MOBS: 5
+
 

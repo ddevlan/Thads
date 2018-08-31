@@ -3,10 +3,7 @@ package me.ohvalsgod.thads.baller;
 import lombok.Getter;
 import me.ohvalsgod.thads.Thads;
 import me.ohvalsgod.thads.baller.item.BallerItem;
-import me.ohvalsgod.thads.baller.item.items.Excalibur;
-import me.ohvalsgod.thads.baller.item.items.MorningWood;
-import me.ohvalsgod.thads.baller.item.items.Noobsblade;
-import me.ohvalsgod.thads.baller.item.items.SparringAxe;
+import me.ohvalsgod.thads.baller.item.items.*;
 import me.ohvalsgod.thads.config.ConfigCursor;
 import me.ohvalsgod.thads.util.ItemBuilder;
 import org.bukkit.Material;
@@ -27,20 +24,36 @@ public class BallerManager {
     public BallerManager(Thads thads) {
         ballerItems = new HashSet<>();
         ballerCursor = new ConfigCursor(thads.getBallerItemsConfig(), "");
-        init();
+        initBallerItems();
     }
 
-    private void init() {
+    private void initBallerItems() {
+        //TODO: make a method to load all baller items from package
         ballerItems.add(new Noobsblade());
         ballerItems.add(new Excalibur());
         ballerItems.add(new MorningWood());
         ballerItems.add(new SparringAxe());
+        ballerItems.add(new DateRapist());
+        ballerItems.add(new BattleAxe());
+        ballerItems.add(new WifeBeater());
 
         for (BallerItem item : ballerItems) {
             if (item.getListener() != null) {
-                
+                Thads.getInstance().getServer().getPluginManager().registerEvents(item.getListener(), Thads.getInstance());
             }
         }
+    }
+
+    public Set<BallerItem> getLegendaryWeapons() {
+        Set<BallerItem> legendaries = new HashSet<>();
+
+        for (BallerItem item : ballerItems) {
+            if (item.isLegendaryItemEnabled()) {
+                legendaries.add(item);
+            }
+        }
+
+        return legendaries;
     }
 
     public BallerItem getByName(String string) {

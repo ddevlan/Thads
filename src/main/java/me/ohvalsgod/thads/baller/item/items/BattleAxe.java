@@ -6,12 +6,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
 import java.util.List;
 
-public class MorningWood implements BallerItem {
+public class BattleAxe implements BallerItem {
 
     private ItemStack ballerItemStack, legendaryItemStack;
     private int sellPrice, buyPrice, legendarySellPrice, legendaryBuyPrice;
@@ -19,15 +20,15 @@ public class MorningWood implements BallerItem {
     private Listener listener;
     private List<String> aliases;
 
-    public MorningWood() {
+    public BattleAxe() {
+        aliases = Collections.singletonList("baxe");
+        listener = null;
         BallerManager.getBallerManager().loadBallerItem(this);
-        aliases = Collections.singletonList("mw");
-        listener = new MWListener();
     }
 
     @Override
     public String getName() {
-        return "morningwood";
+        return "battleaxe";
     }
 
     @Override
@@ -120,18 +121,21 @@ public class MorningWood implements BallerItem {
         return aliases;
     }
 
-    public class MWListener implements Listener {
+    public class BAXEListener implements Listener {
 
         @EventHandler
-        public void onDamage(EntityDamageByEntityEvent event) {
-            if (event.getEntity() instanceof Player) {
-                if (event.getDamager() instanceof Player) {
-                    Player player = (Player) event.getDamager();
-                    if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof MorningBJ) {
-                        event.setDamage(event.getDamage() * 1.1);
+        public void onDamage(EntityDamageByEntityEvent e) {
+
+            if (e.getEntity() instanceof Player) {
+                if (e.getDamager() instanceof Player) {
+                    Player damager = (Player) e.getDamager();
+
+                    if (BallerManager.getBallerManager().getByItemStack(damager.getItemInHand()) instanceof BattleAxe) {
+                        e.setDamage(EntityDamageEvent.DamageModifier.ARMOR, e.getDamage() * 1.2);
                     }
                 }
             }
+
         }
 
     }

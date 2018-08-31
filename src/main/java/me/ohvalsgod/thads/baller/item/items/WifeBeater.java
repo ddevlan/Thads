@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Collections;
 import java.util.List;
 
-public class MorningWood implements BallerItem {
+public class WifeBeater implements BallerItem {
 
     private ItemStack ballerItemStack, legendaryItemStack;
     private int sellPrice, buyPrice, legendarySellPrice, legendaryBuyPrice;
@@ -19,15 +19,15 @@ public class MorningWood implements BallerItem {
     private Listener listener;
     private List<String> aliases;
 
-    public MorningWood() {
+    public WifeBeater() {
+        aliases = Collections.singletonList("wb");
+        listener = new WBListener();
         BallerManager.getBallerManager().loadBallerItem(this);
-        aliases = Collections.singletonList("mw");
-        listener = new MWListener();
     }
 
     @Override
     public String getName() {
-        return "morningwood";
+        return "wifebeater";
     }
 
     @Override
@@ -120,20 +120,22 @@ public class MorningWood implements BallerItem {
         return aliases;
     }
 
-    public class MWListener implements Listener {
+    public class WBListener implements Listener {
 
         @EventHandler
-        public void onDamage(EntityDamageByEntityEvent event) {
-            if (event.getEntity() instanceof Player) {
-                if (event.getDamager() instanceof Player) {
-                    Player player = (Player) event.getDamager();
-                    if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof MorningBJ) {
-                        event.setDamage(event.getDamage() * 1.1);
-                    }
+        public void onDamage(EntityDamageByEntityEvent e) {
+
+            if (e.getEntity() instanceof Player) {
+                if (e.getDamager() instanceof Player) {
+                    Player damager = (Player) e.getDamager();
+                    Player damaged = (Player) e.getEntity();
+                    //TODO: add wg api
                 }
             }
+
         }
 
     }
+
 
 }

@@ -43,7 +43,7 @@ public class SparringAxe implements BallerItem {
     }
 
     @Override
-    public boolean getLegendaryItemEnabled() {
+    public boolean isLegendaryItemEnabled() {
         return legendaryEnabled;
     }
 

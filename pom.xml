@@ -9,7 +9,6 @@
     <version>1.0-SNAPSHOT</version>
     <description>Replica of LOLPVP's plugin, but better.</description>
 
-
     <dependencies>
         <dependency>
             <groupId>me.ohvalsgod.c9spigot</groupId>

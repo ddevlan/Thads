@@ -15,7 +15,7 @@ public interface BallerItem {
 
     ItemStack getLegendaryItemStack();
 
-    boolean getLegendaryItemEnabled();
+    boolean isLegendaryItemEnabled();
 
     void setLegendaryItemStack(ItemStack itemStack);
 
