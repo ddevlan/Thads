@@ -53,7 +53,7 @@ excalibur:
       hide-flags: false
       lore:
         - "&8The Legendary Excalibur. It belonged to Thaddeus Peuterschmidt's grea great great"
-        - "&8great great great great great grandfather, King Thaddeus Arthur. Use it wisely."
+        - "&8great great great great great grandfather: King Thaddeus Arthur. Use it wisely."
       enchants:
         DAMAGE_ALL: 5
         DAMAGE_UNDEAD: 5
@@ -159,7 +159,7 @@ daterapist:
       FIRE_ASPECT: 7
       LOOT_BONUS_MOBS: 5
   legendary-item:
-      enabled: false
+      enabled: true
       sell: 25000
       buy: 100000
       material: DIAMOND_SWORD
@@ -192,18 +192,18 @@ battleaxe:
 	  LOOT_BONUS_MOBS: 5
 	  FIRE_ASPECT: 10
   legendary-item:
-      enabled: false
+      enabled: true
       sell: 25000
       buy: 100000
       material: DIAMOND_AXE
       name: "&6Legendary Battle Axe"
       hide-flags: false
       lore:
-        - "&8Once upon a time, a legendary warrior who was also brave, intelligent, amazing,"
-        - "&8rich, and an incredible lover, risked his life to save a young princess who had been"
-        - "&8kidnapped by an evil ddoser. The princess's name was Brittany Snow, and she gave it up"
-        - "&8afterwards because she was so in love with her savior. Who was that warrior, you ask? He"
-        - "&8was named Thaddeus Peuterschmidt, and this was his Battle Axe."
+        - "&8Once upon a time: a legendary warrior who was also brave: intelligent: amazing:"
+        - "&8rich: and an incredible lover: risked his life to save a young princess who had been"
+        - "&8kidnapped by an evil ddoser. The princess's name was Brittany Snow: and she gave it up"
+        - "&8afterwards because she was so in love with her savior. Who was that warrior: you ask? He"
+        - "&8was named Thaddeus Peuterschmidt: and this was his Battle Axe."
       enchants:
 	    DAMAGE_ALL: 10
         DAMAGE_UNDEAD: 10
@@ -228,7 +228,7 @@ wifebeater:
 	  DAMAGE_ARTHROPODS: 10
 	  LOOT_BONUS_MOBS: 5
   legendary-item:
-      enabled: false
+      enabled: true
       sell: 25000
       buy: 100000
       material: DIAMOND_SWORD
@@ -243,4 +243,38 @@ wifebeater:
 	    DAMAGE_ARTHROPODS: 10
 	    LOOT_BONUS_MOBS: 5
 
-
+ejacul8:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: DIAMOND_SWORD
+    name: "&bEjacul8"
+    hide-flags: false
+    lore:
+      - "&7Poison VIII"
+      - "&7The poison sword!"
+    enchants:
+	  DAMAGE_ALL: 8
+	  DAMAGE_ARTHROPODS: 8
+	  DAMAGE_UNDEAD: 8
+	  FIRE_ASPECT: 8
+	  LOOT_BONUS_MOBS: 8
+	  DURABILITY: 8
+  legendary-item:
+      enabled: true
+      sell: 25000
+      buy: 100000
+      material: DIAMOND_SWORD
+      name: "&6Legendary Ejacul8"
+      hide-flags: false
+      lore:
+        - "&7Poison VIII"
+        - "&7The poison sword!"
+      enchants:
+	    DAMAGE_ALL: 8
+	    DAMAGE_ARTHROPODS: 8
+	    DAMAGE_UNDEAD: 8
+	    FIRE_ASPECT: 8
+	    LOOT_BONUS_MOBS: 8
+	    DURABILITY: 8
