@@ -22,6 +22,7 @@ public class MorningWood implements BallerItem {
     public MorningWood() {
         BallerManager.getBallerManager().loadBallerItem(this);
         aliases = Collections.singletonList("mw");
+
         listener = new MWListener();
     }
 

@@ -22,8 +22,8 @@ public class BattleAxe implements BallerItem {
 
     public BattleAxe() {
         aliases = Collections.singletonList("baxe");
-        listener = null;
         BallerManager.getBallerManager().loadBallerItem(this);
+        listener = new BAXEListener();
     }
 
     @Override

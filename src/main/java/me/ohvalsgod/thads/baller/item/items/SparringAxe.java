@@ -19,7 +19,6 @@ public class SparringAxe implements BallerItem {
     public SparringAxe() {
         BallerManager.getBallerManager().loadBallerItem(this);
         aliases = Collections.singletonList("mw");
-        listener = null;
     }
 
     @Override

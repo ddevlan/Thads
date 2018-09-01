@@ -3,13 +3,14 @@ package me.ohvalsgod.thads.baller;
 import lombok.Getter;
 import me.ohvalsgod.thads.Thads;
 import me.ohvalsgod.thads.baller.item.BallerItem;
-import me.ohvalsgod.thads.baller.item.items.*;
 import me.ohvalsgod.thads.config.ConfigCursor;
+import me.ohvalsgod.thads.util.ClassUtil;
 import me.ohvalsgod.thads.util.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import java.util.HashSet;
 import java.util.List;
@@ -27,8 +28,14 @@ public class BallerManager {
         initBallerItems();
     }
 
+    /*
+        BALLER ITEMS START
+     */
+
     private void initBallerItems() {
         //TODO: make a method to load all baller items from package
+        loadBallerItemsFromPackage(Thads.getInstance(), "me.ohvalsgod.thads.baller.item.items");
+ /*
         ballerItems.add(new Noobsblade());
         ballerItems.add(new Excalibur());
         ballerItems.add(new MorningWood());
@@ -36,10 +43,27 @@ public class BallerManager {
         ballerItems.add(new DateRapist());
         ballerItems.add(new BattleAxe());
         ballerItems.add(new WifeBeater());
-
+        ballerItems.add(new Ejacul8());
+        ballerItems.add(new Iceblade());
+        ballerItems.add(new InvisibilityRing());
+*/
         for (BallerItem item : ballerItems) {
-            if (item.getListener() != null) {
+            if (item.getListener() != null && item.isEnabled()) {
                 Thads.getInstance().getServer().getPluginManager().registerEvents(item.getListener(), Thads.getInstance());
+            }
+        }
+    }
+
+    public void loadBallerItemsFromPackage(Plugin plugin, String packageName) {
+        for (Class<?> clazz : ClassUtil.getClassesInPackage(plugin, packageName)) {
+            for (Class<?> clazz$ : clazz.getInterfaces()) {
+                if (clazz$.equals(BallerItem.class)) {
+                    try {
+                        ballerItems.add((BallerItem) clazz.newInstance());
+                    } catch (InstantiationException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
@@ -140,6 +164,10 @@ public class BallerManager {
     public BallerItem getByPlayer(Player player) {
         return getByItemStack(player.getItemInHand());
     }
+
+    /*
+        BALLER ITEMS END
+     */
 
     public static BallerManager getBallerManager() {
         return Thads.getInstance().getBallerManager();

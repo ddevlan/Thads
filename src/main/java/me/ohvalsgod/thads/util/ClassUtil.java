@@ -24,7 +24,6 @@ public final class ClassUtil {
      * @param packageName The package to scan classes in.
      * @return The classes in the package packageName.
      */
-    //TODO: Make this not require a Plugin object.
     public static Collection<Class<?>> getClassesInPackage(Plugin plugin, String packageName) {
         Collection<Class<?>> classes = new ArrayList<>();
 

@@ -22,6 +22,7 @@ public class MorningBJ implements BallerItem {
     public MorningBJ() {
         BallerManager.getBallerManager().loadBallerItem(this);
         aliases = Arrays.asList("mbj", "morningblowjob");
+
         listener = new BJListener();
     }
 

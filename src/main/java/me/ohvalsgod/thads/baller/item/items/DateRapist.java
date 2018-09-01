@@ -18,7 +18,6 @@ public class DateRapist implements BallerItem {
 
     public DateRapist() {
         aliases = Arrays.asList("dr", "daterape");
-        listener = null;
         BallerManager.getBallerManager().loadBallerItem(this);
     }
 

@@ -2,11 +2,16 @@ package me.ohvalsgod.thads.baller.item.items;
 
 import me.ohvalsgod.thads.baller.BallerManager;
 import me.ohvalsgod.thads.baller.item.BallerItem;
+import me.ohvalsgod.thads.util.WorldGuardUtil;
+import org.bukkit.Effect;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +27,7 @@ public class Ejacul8 implements BallerItem {
     public Ejacul8() {
         BallerManager.getBallerManager().loadBallerItem(this);
         aliases = Collections.singletonList("ejac");
+
         listener = new EJACListener();
     }
 
@@ -123,16 +129,22 @@ public class Ejacul8 implements BallerItem {
     public class EJACListener implements Listener {
 
         @EventHandler
-        public void onDamage(EntityDamageByEntityEvent event) {
-            if (event.getEntity() instanceof Player) {
-                if (event.getDamager() instanceof Player) {
-                    Player damager = (Player) event.getDamager();
-                    Player damaged = (Player) event.getEntity();
+        public void onDamage(EntityDamageByEntityEvent e) {
+            if (e.getEntity() instanceof LivingEntity) {
+                if (e.getDamager() instanceof Player) {
+                    Player damager = (Player) e.getDamager();
+                    LivingEntity damaged = (LivingEntity) e.getEntity();
 
                     if (BallerManager.getBallerManager().getByItemStack(damager.getItemInHand()) instanceof Ejacul8) {
-                        //TODO: worldguard checks, invis ring checks
-                        damaged.sendMessage("debug EJACUL8");
-                        damager.sendMessage("debug EJACUL8");
+                        if (damaged instanceof Player) {
+                            if (WorldGuardUtil.isPlayerInPvP(damager) && !InvisibilityRing.isInvis(damager)) {
+                                damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 8 * 20, 1));
+                                damaged.getWorld().playEffect(damaged.getLocation(), Effect.POTION_BREAK, 4);
+                            }
+                        } else {
+                            damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 8 * 20, 1));
+                            damaged.getWorld().playEffect(damaged.getLocation(), Effect.POTION_BREAK, 4);
+                        }
                     }
                 }
             }

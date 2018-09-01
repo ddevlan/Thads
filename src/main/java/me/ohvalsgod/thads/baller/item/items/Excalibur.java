@@ -19,7 +19,6 @@ public class Excalibur implements BallerItem {
     public Excalibur() {
         BallerManager.getBallerManager().loadBallerItem(this);
         aliases = Arrays.asList("xcal", "excal");
-        listener = null;
     }
 
     @Override

@@ -3,7 +3,7 @@ package me.ohvalsgod.thads.util;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import me.ohvalsgod.thads.Basic;
+import me.ohvalsgod.thads.Thads;
 import org.bukkit.Location;
 
 @AllArgsConstructor
@@ -18,7 +18,7 @@ public class CustomLocation {
     }
 
     public Location toBukkitLocation() {
-        return new Location(Basic.getInstance().getServer().getWorlds().get(0), x, y, z, yaw, pitch);
+        return new Location(Thads.getInstance().getServer().getWorlds().get(0), x, y, z, yaw, pitch);
     }
 
     public double getGroundDistanceTo(CustomLocation location) {

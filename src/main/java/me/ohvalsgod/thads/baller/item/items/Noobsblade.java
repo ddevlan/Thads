@@ -19,7 +19,6 @@ public class Noobsblade implements BallerItem {
     public Noobsblade() {
         BallerManager.getBallerManager().loadBallerItem(this);
         aliases = Arrays.asList("noobsword", "noobssword");
-        listener = null;
     }
 
     @Override

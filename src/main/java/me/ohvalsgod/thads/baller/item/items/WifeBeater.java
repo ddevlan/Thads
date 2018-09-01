@@ -2,11 +2,15 @@ package me.ohvalsgod.thads.baller.item.items;
 
 import me.ohvalsgod.thads.baller.BallerManager;
 import me.ohvalsgod.thads.baller.item.BallerItem;
+import me.ohvalsgod.thads.util.WorldGuardUtil;
+import org.bukkit.Sound;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,8 +25,9 @@ public class WifeBeater implements BallerItem {
 
     public WifeBeater() {
         aliases = Collections.singletonList("wb");
-        listener = new WBListener();
         BallerManager.getBallerManager().loadBallerItem(this);
+
+        listener = new WBListener();
     }
 
     @Override
@@ -123,19 +128,20 @@ public class WifeBeater implements BallerItem {
     public class WBListener implements Listener {
 
         @EventHandler
-        public void onDamage(EntityDamageByEntityEvent e) {
-
-            if (e.getEntity() instanceof Player) {
-                if (e.getDamager() instanceof Player) {
-                    Player damager = (Player) e.getDamager();
-                    Player damaged = (Player) e.getEntity();
-                    //TODO: add wg api
+        public void onDamage(PlayerInteractAtEntityEvent e) {
+            Player player = e.getPlayer();
+            if (e.getRightClicked() instanceof LivingEntity) {
+                LivingEntity entity = (LivingEntity) e.getRightClicked();
+                if (WorldGuardUtil.isPlayerInPvP(player) && !InvisibilityRing.isInvis(player)) {
+                    if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof WifeBeater) {
+                        entity.setVelocity(new Vector(0, 1.3, 0));
+                        entity.getWorld().playSound(entity.getLocation(), Sound.ENDERDRAGON_WINGS, 1F, 1F);
+                    }
                 }
             }
 
         }
 
     }
-
 
 }
