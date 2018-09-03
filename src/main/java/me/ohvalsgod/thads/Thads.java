@@ -3,12 +3,13 @@ package me.ohvalsgod.thads;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import lombok.Getter;
 import me.ohvalsgod.thads.baller.BallerManager;
+import me.ohvalsgod.thads.command.CommandHandler;
 import me.ohvalsgod.thads.config.ConfigCursor;
 import me.ohvalsgod.thads.config.FileConfig;
 import me.ohvalsgod.thads.jedis.JedisSettings;
 import me.ohvalsgod.thads.jedis.ThadsJedis;
+import me.ohvalsgod.thads.reflection.BukkitReflection;
 import me.ohvalsgod.thads.uuid.UUIDCache;
-import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -22,7 +23,6 @@ public class Thads  extends JavaPlugin {
     //  Dependencies
     private WorldGuardPlugin worldGuard = null;
     private static Economy econ = null;
-    private static Chat chat = null;
 
     //  Files
     private FileConfig mainConfig, settingsConifg, ballerItemsConfig, langConfig;
@@ -38,6 +38,9 @@ public class Thads  extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+
+        CommandHandler.init();
+        CommandHandler.loadCommandsFromPackage(instance, "me.ohvalsgod.thads.command.commands");
 
         initDependencies();
         initFiles();
@@ -68,7 +71,6 @@ public class Thads  extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        setupChat();
     }
 
     private boolean setupEconomy() {
@@ -83,16 +85,10 @@ public class Thads  extends JavaPlugin {
         return econ != null;
     }
 
-    private boolean setupChat() {
-        RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
-        chat = rsp.getProvider();
-        return chat != null;
-    }
-
     private boolean setupWorldGuard() {
         Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
 
-        if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+        if (!(plugin instanceof WorldGuardPlugin)) {
             return false;
         }
         worldGuard = (WorldGuardPlugin) plugin;
@@ -102,13 +98,15 @@ public class Thads  extends JavaPlugin {
     private void initFiles() {
         mainConfig = new FileConfig(instance, "config.yml");
         settingsConifg = new FileConfig(instance, "settings.yml");
-        ballerItemsConfig = new FileConfig(instance, "balleritems.yml");
+        ballerItemsConfig = new FileConfig(instance, "baller-items.yml");
+        langConfig = new FileConfig(instance, "lang.yml");
     }
 
     private void initDataHandlers() {
         serverSettings = new ServerSettings(this);
         ballerManager = new BallerManager(this);
         uuidCache = new UUIDCache(this);
+        new BukkitReflection();
     }
 
 }

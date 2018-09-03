@@ -16,13 +16,12 @@ public class BattleAxe implements BallerItem {
 
     private ItemStack ballerItemStack, legendaryItemStack;
     private int sellPrice, buyPrice, legendarySellPrice, legendaryBuyPrice;
-    private boolean enabled, legendaryEnabled;
     private Listener listener;
+    private boolean enabled, legendaryEnabled;
     private List<String> aliases;
 
     public BattleAxe() {
         aliases = Collections.singletonList("baxe");
-        BallerManager.getBallerManager().loadBallerItem(this);
         listener = new BAXEListener();
     }
 
@@ -102,11 +101,6 @@ public class BattleAxe implements BallerItem {
     }
 
     @Override
-    public Listener getListener() {
-        return listener;
-    }
-
-    @Override
     public boolean isEnabled() {
         return enabled;
     }
@@ -119,6 +113,16 @@ public class BattleAxe implements BallerItem {
     @Override
     public List<String> getAliases() {
         return aliases;
+    }
+
+    @Override
+    public int getWeight() {
+        return 7;
+    }
+
+    @Override
+    public Listener getListener() {
+        return listener;
     }
 
     public class BAXEListener implements Listener {
@@ -137,7 +141,6 @@ public class BattleAxe implements BallerItem {
             }
 
         }
-
     }
 
 }

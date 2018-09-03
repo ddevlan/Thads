@@ -20,14 +20,12 @@ public class Ejacul8 implements BallerItem {
 
     private ItemStack ballerItemStack, legendaryItemStack;
     private int sellPrice, buyPrice, legendarySellPrice, legendaryBuyPrice;
-    private boolean enabled, legendaryEnabled;
     private Listener listener;
+    private boolean enabled, legendaryEnabled;
     private List<String> aliases;
 
     public Ejacul8() {
-        BallerManager.getBallerManager().loadBallerItem(this);
         aliases = Collections.singletonList("ejac");
-
         listener = new EJACListener();
     }
 
@@ -107,11 +105,6 @@ public class Ejacul8 implements BallerItem {
     }
 
     @Override
-    public Listener getListener() {
-        return listener;
-    }
-
-    @Override
     public boolean isEnabled() {
         return enabled;
     }
@@ -126,18 +119,27 @@ public class Ejacul8 implements BallerItem {
         return aliases;
     }
 
-    public class EJACListener implements Listener {
+    @Override
+    public int getWeight() {
+        return 9;
+    }
 
+    @Override
+    public Listener getListener() {
+        return listener;
+    }
+
+    public class EJACListener implements Listener {
         @EventHandler
         public void onDamage(EntityDamageByEntityEvent e) {
-            if (e.getEntity() instanceof LivingEntity) {
-                if (e.getDamager() instanceof Player) {
-                    Player damager = (Player) e.getDamager();
+            if (e.getDamager() instanceof Player)  {
+                Player player = (Player) e.getDamager();
+                if (e.getEntity() instanceof LivingEntity) {
                     LivingEntity damaged = (LivingEntity) e.getEntity();
 
-                    if (BallerManager.getBallerManager().getByItemStack(damager.getItemInHand()) instanceof Ejacul8) {
+                    if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof Ejacul8) {
                         if (damaged instanceof Player) {
-                            if (WorldGuardUtil.isPlayerInPvP(damager) && !InvisibilityRing.isInvis(damager)) {
+                            if (WorldGuardUtil.isPlayerInPvP(player) && !InvisibilityRing.getInvis().contains(player.getName())) {
                                 damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 8 * 20, 1));
                                 damaged.getWorld().playEffect(damaged.getLocation(), Effect.POTION_BREAK, 4);
                             }
@@ -149,8 +151,6 @@ public class Ejacul8 implements BallerItem {
                 }
             }
         }
-
     }
-
 
 }

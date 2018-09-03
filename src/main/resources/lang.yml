@@ -1,7 +1,13 @@
 lol:
+  error:
+    legendary-disabled: "&cSorry but this legendary baller item is disabled. Please try again later."
+    baller-item-disabled: "&cSorry but this baller item is disabled. Please try again later."
+  weapons:
+    gui-title: "&6Baller Items"
   help:
     - "&6&m------------------------------------------------"
-    - "&b&lLOLPVP Help &7- &eInformation on LOLPVP"
+    - "&9&lLOLPVP Help &7- &eInformation on LOLPVP"
     - "&7&m------------------------------------------------"
-    - ""
+    - "&e/lol help &7- Displays this help menu"
+    - "&e/lol weapons &7- Opens gui with custom weapons"
     - "&6&m------------------------------------------------"

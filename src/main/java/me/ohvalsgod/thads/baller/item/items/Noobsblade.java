@@ -1,6 +1,5 @@
 package me.ohvalsgod.thads.baller.item.items;
 
-import me.ohvalsgod.thads.baller.BallerManager;
 import me.ohvalsgod.thads.baller.item.BallerItem;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
@@ -13,11 +12,9 @@ public class Noobsblade implements BallerItem {
     private ItemStack ballerItemStack, legendaryItemStack;
     private int sellPrice, buyPrice, legendarySellPrice, legendaryBuyPrice;
     private boolean enabled, legendaryEnabled;
-    private Listener listener;
     private List<String> aliases;
 
     public Noobsblade() {
-        BallerManager.getBallerManager().loadBallerItem(this);
         aliases = Arrays.asList("noobsword", "noobssword");
     }
 
@@ -97,11 +94,6 @@ public class Noobsblade implements BallerItem {
     }
 
     @Override
-    public Listener getListener() {
-        return listener;
-    }
-
-    @Override
     public boolean isEnabled() {
         return enabled;
     }
@@ -114,6 +106,16 @@ public class Noobsblade implements BallerItem {
     @Override
     public List<String> getAliases() {
         return aliases;
+    }
+
+    @Override
+    public int getWeight() {
+        return 0;
+    }
+
+    @Override
+    public Listener getListener() {
+        return null;
     }
 
 }

@@ -2,6 +2,7 @@ package me.ohvalsgod.thads.reflection;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -54,6 +55,7 @@ public class BukkitReflection {
             CRAFT_ITEM_STACK_CLASS = Class.forName(CRAFT_BUKKIT_PACKAGE + "inventory.CraftItemStack");
             CRAFT_ITEM_STACK_AS_NMS_COPY_METHOD = CRAFT_ITEM_STACK_CLASS.getDeclaredMethod("asNMSCopy", ItemStack.class);
             CRAFT_ITEM_STACK_AS_NMS_COPY_METHOD.setAccessible(true);
+
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -69,6 +71,25 @@ public class BukkitReflection {
         } catch (Exception e) {
             return 1;
         }
+    }
+
+    public static ItemStack addGlow(ItemStack itemStack) {
+        //TODO: add reflection support, rn this is 1.7.10 only
+        itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, -1);
+        net.minecraft.server.v1_8_R3.ItemStack nstack = org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack.asNMSCopy(itemStack);
+        net.minecraft.server.v1_8_R3.NBTTagCompound compound = nstack.getTag();
+
+        if(compound == null){
+            compound = new net.minecraft.server.v1_8_R3.NBTTagCompound();
+            nstack.setTag(compound);
+            compound = nstack.getTag();
+        }
+
+        if(!compound.hasKey("HideFlags")) compound.setInt("HideFlags", 1);
+        nstack.setTag(compound);
+        itemStack = org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack.asCraftMirror(nstack);
+
+        return itemStack;
     }
 
     public static void setMaxPlayers(Server server, int slots) {

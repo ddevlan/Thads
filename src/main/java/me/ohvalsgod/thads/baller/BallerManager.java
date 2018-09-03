@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.ohvalsgod.thads.Thads;
 import me.ohvalsgod.thads.baller.item.BallerItem;
 import me.ohvalsgod.thads.config.ConfigCursor;
+import me.ohvalsgod.thads.menu.ButtonListener;
 import me.ohvalsgod.thads.util.ClassUtil;
 import me.ohvalsgod.thads.util.ItemBuilder;
 import org.bukkit.Material;
@@ -12,19 +13,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 public class BallerManager {
 
-    private Set<BallerItem> ballerItems;
-    private ConfigCursor ballerCursor;
+    private List<BallerItem> ballerItems;
+    private Thads thads;
 
     public BallerManager(Thads thads) {
-        ballerItems = new HashSet<>();
-        ballerCursor = new ConfigCursor(thads.getBallerItemsConfig(), "");
+        this.thads = thads;
+        ballerItems = new ArrayList<>();
+
+        thads.getServer().getPluginManager().registerEvents(new ButtonListener(), thads);
+
         initBallerItems();
     }
 
@@ -33,42 +35,41 @@ public class BallerManager {
      */
 
     private void initBallerItems() {
-        //TODO: make a method to load all baller items from package
         loadBallerItemsFromPackage(Thads.getInstance(), "me.ohvalsgod.thads.baller.item.items");
- /*
-        ballerItems.add(new Noobsblade());
-        ballerItems.add(new Excalibur());
-        ballerItems.add(new MorningWood());
-        ballerItems.add(new SparringAxe());
-        ballerItems.add(new DateRapist());
-        ballerItems.add(new BattleAxe());
-        ballerItems.add(new WifeBeater());
-        ballerItems.add(new Ejacul8());
-        ballerItems.add(new Iceblade());
-        ballerItems.add(new InvisibilityRing());
-*/
+
         for (BallerItem item : ballerItems) {
+            loadBallerItem(item);
             if (item.getListener() != null && item.isEnabled()) {
-                Thads.getInstance().getServer().getPluginManager().registerEvents(item.getListener(), Thads.getInstance());
+                thads.getServer().getPluginManager().registerEvents(item.getListener(), thads);
+                System.out.println("Listener loaded for " + item.getName() + " in class '" + item.getListener().getClass() + "'.");
             }
         }
+        System.out.println("! - ! - ! - ! - ! - ! - ! - ! - ! - ! - ! - ! - ! - ! - ! ");
+        ballerItems.sort(Comparator.comparingInt(BallerItem::getWeight));
+        ballerItems.forEach(item -> System.out.println(item.getName()));
+        System.out.println("! - ! - ! - ! - ! - ! - ! - ! - ! - ! - ! - ! - ! - ! - ! ");
     }
 
     public void loadBallerItemsFromPackage(Plugin plugin, String packageName) {
+        int i = 0;
         for (Class<?> clazz : ClassUtil.getClassesInPackage(plugin, packageName)) {
             for (Class<?> clazz$ : clazz.getInterfaces()) {
                 if (clazz$.equals(BallerItem.class)) {
                     try {
-                        ballerItems.add((BallerItem) clazz.newInstance());
+                        BallerItem item = (BallerItem) clazz.newInstance();
+                        ballerItems.add(item);
+                        System.out.println(item.getName() + " has been loaded from class " + clazz.getName());
+                        i++;
                     } catch (InstantiationException | IllegalAccessException e) {
                         e.printStackTrace();
                     }
                 }
             }
         }
+        System.out.println("There have been a total of " + i + " baller items loaded from package '" + packageName + "'.");
     }
 
-    public Set<BallerItem> getLegendaryWeapons() {
+    public Set<BallerItem> getLegendaryBallerItems() {
         Set<BallerItem> legendaries = new HashSet<>();
 
         for (BallerItem item : ballerItems) {
@@ -113,9 +114,11 @@ public class BallerManager {
     }
 
     public BallerItem getByItemStack(ItemStack itemStack) {
-        if (itemStack.hasItemMeta()) {
-            if (itemStack.getItemMeta().hasLore()) {
-                return getByLore(itemStack.getItemMeta().getLore());
+        if (itemStack != null) {
+            if (itemStack.hasItemMeta()) {
+                if (itemStack.getItemMeta().hasLore()) {
+                    return getByLore(itemStack.getItemMeta().getLore());
+                }
             }
         }
         return null;
@@ -123,9 +126,9 @@ public class BallerManager {
 
     public void loadBallerItem(BallerItem item) {
         //  Regular baller item
-        ballerCursor.setPath(item.getName() + ".baller-item");
+        final ConfigCursor ballerCursor = new ConfigCursor(thads.getBallerItemsConfig(), item.getName() + ".baller-item");
 
-        ItemBuilder builder = new ItemBuilder(Material.valueOf(ballerCursor.getString("material")));
+        ItemBuilder builder = new ItemBuilder(Material.getMaterial(ballerCursor.getString("material")));
 
         builder.name(ballerCursor.getString("name"));
         builder.lore(ballerCursor.getStringList("lore"));
@@ -135,12 +138,16 @@ public class BallerManager {
             builder.enchantment(Enchantment.getByName(string), ballerCursor.getInt(string));
         }
 
+        if (ballerCursor.getBoolean("hide-flags")) {
+            builder.hideFlags();
+        }
+
         item.setBallerItemStack(builder.build());
 
         //  Legendary baller item
         ballerCursor.setPath(item.getName() + ".legendary-item");
 
-        ItemBuilder legendary = new ItemBuilder(Material.valueOf(ballerCursor.getString("material")));
+        ItemBuilder legendary = new ItemBuilder(Material.getMaterial(ballerCursor.getString("material")));
 
         legendary.name(ballerCursor.getString("name"));
         legendary.lore(ballerCursor.getStringList("lore"));
@@ -148,6 +155,10 @@ public class BallerManager {
         ballerCursor.setPath(ballerCursor.getPath() + ".enchants");
         for (String string : ballerCursor.getKeys()) {
             legendary.enchantment(Enchantment.getByName(string), ballerCursor.getInt(string));
+        }
+
+        if (ballerCursor.getBoolean("hide-flags")) {
+            legendary.hideFlags();
         }
 
         item.setLegendaryItemStack(legendary.build());

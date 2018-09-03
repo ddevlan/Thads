@@ -37,12 +37,14 @@ public interface BallerItem {
 
     void setLegendaryBuyPrice(int i);
 
-    Listener getListener();
-
     boolean isEnabled();
 
     void setEnabled(boolean b);
 
     List<String> getAliases();
+
+    int getWeight();
+
+    Listener getListener();
 
 }

@@ -169,7 +169,7 @@ public final class CommandHandler implements Listener {
             }
         }
 
-        commands.add(new CommandData(commandAnnotation, parameterData, method, method.getParameterTypes()[0].isAssignableFrom(Player.class)));
+        commands.add(new CommandData(commandAnnotation, parameterData, method, method.getParameterTypes()[0].getClass().equals(Player.class)));
 
         Collections.sort(commands, new Comparator<CommandData>() {
             @Override

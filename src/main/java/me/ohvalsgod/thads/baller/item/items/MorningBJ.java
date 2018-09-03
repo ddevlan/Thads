@@ -15,14 +15,12 @@ public class MorningBJ implements BallerItem {
 
     private ItemStack ballerItemStack, legendaryItemStack;
     private int sellPrice, buyPrice, legendarySellPrice, legendaryBuyPrice;
-    private boolean enabled, legendaryEnabled;
     private Listener listener;
+    private boolean enabled, legendaryEnabled;
     private List<String> aliases;
 
     public MorningBJ() {
-        BallerManager.getBallerManager().loadBallerItem(this);
         aliases = Arrays.asList("mbj", "morningblowjob");
-
         listener = new BJListener();
     }
 
@@ -102,11 +100,6 @@ public class MorningBJ implements BallerItem {
     }
 
     @Override
-    public Listener getListener() {
-        return listener;
-    }
-
-    @Override
     public boolean isEnabled() {
         return enabled;
     }
@@ -121,8 +114,17 @@ public class MorningBJ implements BallerItem {
         return aliases;
     }
 
-    public class BJListener implements Listener {
+    @Override
+    public int getWeight() {
+        return 4;
+    }
 
+    @Override
+    public Listener getListener() {
+        return listener;
+    }
+
+    public class BJListener implements Listener {
         @EventHandler
         public void onDamage(EntityDamageByEntityEvent event) {
             if (event.getEntity() instanceof Player) {
@@ -134,7 +136,6 @@ public class MorningBJ implements BallerItem {
                 }
             }
         }
-
     }
 
 }

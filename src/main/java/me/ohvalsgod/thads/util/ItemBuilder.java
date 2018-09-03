@@ -5,6 +5,7 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -46,6 +47,13 @@ public class ItemBuilder implements Listener {
         }
         lore.add(name);
         meta.setLore(lore);
+        is.setItemMeta(meta);
+        return this;
+    }
+
+    public ItemBuilder hideFlags() {
+        final ItemMeta meta = is.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         is.setItemMeta(meta);
         return this;
     }

@@ -8,11 +8,7 @@ import me.ohvalsgod.thads.data.PlayerData;
 import me.ohvalsgod.thads.util.CC;
 import me.ohvalsgod.thads.util.ParticleEffect;
 import me.ohvalsgod.thads.util.WorldGuardUtil;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,17 +35,15 @@ public class Iceblade implements BallerItem {
 
     private ItemStack ballerItemStack, legendaryItemStack;
     private int sellPrice, buyPrice, legendarySellPrice, legendaryBuyPrice;
-    private boolean enabled, legendaryEnabled;
     private Listener listener;
+    private boolean enabled, legendaryEnabled;
     private List<String> aliases;
 
     public Iceblade() {
         aliases = Collections.singletonList("ib");
-        BallerManager.getBallerManager().loadBallerItem(this);
-
-        listener = new IBListener();
         frozen = new HashSet<>();
         runnable = new HashSet<>();
+        listener = new IBListener();
     }
 
     @Override
@@ -128,11 +122,6 @@ public class Iceblade implements BallerItem {
     }
 
     @Override
-    public Listener getListener() {
-        return listener;
-    }
-
-    @Override
     public boolean isEnabled() {
         return enabled;
     }
@@ -147,8 +136,17 @@ public class Iceblade implements BallerItem {
         return aliases;
     }
 
-    public class IBListener implements Listener {
+    @Override
+    public int getWeight() {
+        return 10;
+    }
 
+    @Override
+    public Listener getListener() {
+        return listener;
+    }
+
+    public class IBListener implements Listener {
         @EventHandler
         public void onVelocityChange(PlayerVelocityEvent e) {
             if (frozen.contains(e.getPlayer().getName())) {
@@ -201,12 +199,13 @@ public class Iceblade implements BallerItem {
                                     if (data.getIcebladeCooldown().hasExpired() || runnable.contains(player.getName())) {
                                         runnable.add(player.getName());
                                         if (BossBarAPI.hasBar(player)) BossBarAPI.removeAllBars(player);
-                                        BossBarAPI.addBar(player,
-                                                new TextComponent("Freeze Radius: " + Float.toString(lol.floatValue())),
-                                                BossBarAPI.Color.BLUE,
-                                                BossBarAPI.Style.NOTCHED_10,
-                                                lol.floatValue(),
-                                                BossBarAPI.Property.DARKEN_SKY);
+//                                        BossBarAPI.addBar(player,
+//                                                new TextComponent("Freeze Radius: " + Float.toString(lol.floatValue())),
+//                                                BossBarAPI.Color.BLUE,
+//                                                BossBarAPI.Style.NOTCHED_10,
+//                                                lol.floatValue(),
+//                                                BossBarAPI.Property.DARKEN_SKY);
+                                        BossBarAPI.setMessage(player, ChatColor.AQUA + "" + ChatColor.BOLD + "Freeze Radius: " + Float.toString(lol.floatValue()));
                                     } else {
                                         runnable.remove(player.getName());
                                         Long cd = data.getIcebladeCooldown().getRemaining();
@@ -240,7 +239,7 @@ public class Iceblade implements BallerItem {
                 if ((p instanceof Player)) {
                     final Player oo = (Player)p;
                     bb++;
-                    if(WorldGuardUtil.isPlayerInPvP(player) && !InvisibilityRing.isInvis(player)) {
+                    if(WorldGuardUtil.isPlayerInPvP(player) && !InvisibilityRing.getInvis().contains(player.getName())) {
                         if (!frozen.contains(oo.getName())) {
                             b = true;
                             frozen.add(oo.getName());
@@ -274,7 +273,6 @@ public class Iceblade implements BallerItem {
                 player.sendMessage(CC.RED + "You did not affect anyone.");
             }
         }
-
     }
 
 }

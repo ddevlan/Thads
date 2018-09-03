@@ -1,6 +1,6 @@
 package me.ohvalsgod.thads.util;
 
-import net.minecraft.server.v1_8_R3.MathHelper;
+import net.royawesome.jlibnoise.MathHelper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 

@@ -5,8 +5,8 @@ import me.ohvalsgod.thads.Thads;
 import me.ohvalsgod.thads.baller.BallerManager;
 import me.ohvalsgod.thads.baller.item.BallerItem;
 import me.ohvalsgod.thads.util.CC;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,17 +26,17 @@ public class InvisibilityRing implements BallerItem {
 
     private ItemStack ballerItemStack, legendaryItemStack;
     private int sellPrice, buyPrice, legendarySellPrice, legendaryBuyPrice;
-    private boolean enabled, legendaryEnabled;
     private Listener listener;
+    private boolean enabled, legendaryEnabled;
     private List<String> aliases;
 
     public InvisibilityRing() {
         aliases = Arrays.asList("ir", "invisring");
-        BallerManager.getBallerManager().loadBallerItem(this);
 
-        listener = new IRListener();
         warmup = new HashMap<>();
         invis = new HashSet<>();
+
+        listener = new IRListener();
     }
 
     public static boolean isInvis(Player player) {
@@ -119,11 +119,6 @@ public class InvisibilityRing implements BallerItem {
     }
 
     @Override
-    public Listener getListener() {
-        return listener;
-    }
-
-    @Override
     public boolean isEnabled() {
         return enabled;
     }
@@ -138,8 +133,17 @@ public class InvisibilityRing implements BallerItem {
         return aliases;
     }
 
-    public class IRListener implements Listener {
+    @Override
+    public int getWeight() {
+        return 11;
+    }
 
+    @Override
+    public Listener getListener() {
+        return listener;
+    }
+
+    public class IRListener implements Listener {
         @EventHandler
         public void onLeave(PlayerQuitEvent e) {
             invis.remove(e.getPlayer().getName());
@@ -222,18 +226,19 @@ public class InvisibilityRing implements BallerItem {
                         invis.remove(player.getName());
                         BossBarAPI.removeAllBars(player);
                         player.sendMessage(CC.RED + "You are no longer invisible.");
-                    } else if (warmup.containsKey(player.getName())) {
+                    } else if (!warmup.containsKey(player.getName())) {
                         int warm = 5;
                         player.sendMessage(CC.GRAY + "Vanishing in: " + CC.AQUA + warm + CC.GRAY + " seconds.");
                         warmup.put(player.getName(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Thads.getInstance(), new Runnable() {
                             @Override
                             public void run() {
-                                BossBarAPI.addBar(player,
-                                        new TextComponent("You are now invisible!"),
-                                        BossBarAPI.Color.RED,
-                                        BossBarAPI.Style.PROGRESS,
-                                        1f,
-                                        BossBarAPI.Property.DARKEN_SKY);
+//                                BossBarAPI.addBar(player,
+//                                        new TextComponent("You are now invisible!"),
+//                                        BossBarAPI.Color.RED,
+//                                        BossBarAPI.Style.PROGRESS,
+//                                        1f,
+//                                        BossBarAPI.Property.DARKEN_SKY);
+                                BossBarAPI.setMessage(player, ChatColor.RED + "" + ChatColor.BOLD + "You are now invisible!");
                                 player.sendMessage(CC.GREEN + "You are now invisible.");
                                 for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                                     p.hidePlayer(player);
@@ -245,12 +250,7 @@ public class InvisibilityRing implements BallerItem {
                                     @Override
                                     public void run() {
                                         if (invis.contains(player.getName())) {
-                                            BossBarAPI.addBar(player,
-                                                    new TextComponent("You are now invisible!"),
-                                                    BossBarAPI.Color.RED,
-                                                    BossBarAPI.Style.PROGRESS,
-                                                    1f,
-                                                    BossBarAPI.Property.DARKEN_SKY);
+                                            BossBarAPI.setMessage(player, ChatColor.RED + "" + ChatColor.BOLD + "You are now invisible!");
                                         } else {
                                             cancel();
                                         }

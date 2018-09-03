@@ -1,0 +1,352 @@
+noobsblade:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: "DIAMOND_SWORD"
+    name: "&bNoobsblade"
+    hide-flags: false
+    lore:
+      - "&8The sword for noobs!"
+    enchants:
+      DAMAGE_ALL: 1
+      KNOCKBACK: 1
+      DURABILITY: 1
+      FIRE_ASPECT: 1
+  legendary-item:
+    enabled: false
+    sell: 25000
+    buy: 100000
+    material: "DIAMOND_SWORD"
+    name: "&6Legendary Noobsblade"
+    hide-flags: false
+    lore:
+      - "&8The sword for noobs!"
+    enchants:
+      DAMAGE_ALL: 1
+      KNOCKBACK: 1
+      DURABILITY: 1
+      FIRE_ASPECT: 1
+
+excalibur:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: "DIAMOND_SWORD"
+    name: "&bExcalibur"
+    hide-flags: false
+    lore:
+      - "&8The essential pvp sword!"
+    enchants:
+      DAMAGE_ALL: 5
+      DAMAGE_UNDEAD: 5
+      KNOCKBACK: 2
+      FIRE_ASPECT: 2
+      LOOT_BONUS_MOBS: 3
+  legendary-item:
+    enabled: true
+    sell: 25000
+    buy: 100000
+    material: "DIAMOND_SWORD"
+    name: "&6Legendary Excalibur"
+    hide-flags: false
+    lore:
+      - "&8The Legendary Excalibur. It belonged to Thaddeus Peuterschmidt's great great great"
+      - "&8great great great great great great grandfather, King Thaddeus Arthur. Use it wisely."
+    enchants:
+      DAMAGE_ALL: 5
+      DAMAGE_UNDEAD: 5
+      KNOCKBACK: 2
+      FIRE_ASPECT: 2
+      LOOT_BONUS_MOBS: 3
+
+morningwood:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: WOOD_SWORD
+    name: "&bMorning Wood"
+    hide-flags: false
+    lore:
+      - "&8The first wood tier weapon!"
+    enchants:
+      DAMAGE_ALL: 10
+      DURABILITY: 10
+  legendary-item:
+    enabled: true
+    sell: 25000
+    buy: 100000
+    material: WOOD_SWORD
+    name: "&6Legendary Morning Wood"
+    hide-flags: false
+    lore:
+      - "&8The very first cause of morning wood in the history in time, this wood was created"
+      - "&8when Adam first woke up next to eve after an intense night of smashing. Thus, the"
+      - "&8first morning wood was created."
+    enchants:
+      DAMAGE_ALL: 10
+      DURABILITY: 10
+
+morningbj:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: WOOD_SWORD
+    name: "&bMorning BJ"
+    hide-flags: false
+    lore:
+      - "&8The second wood tier weapon!"
+    enchants:
+      DAMAGE_ALL: 10
+      FIRE_ASPECT: 10
+  legendary-item:
+    enabled: true
+    sell: 25000
+    buy: 100000
+    material: WOOD_SWORD
+    name: "&6Legendary Morning BJ"
+    hide-flags: false
+    lore:
+      - "&8The very first morning BJ, received by Adam from Eve."
+    enchants:
+      DAMAGE_ALL: 10
+      FIRE_ASPECT: 10
+
+sparringaxe:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: "WOOD_AXE"
+    name: "&bSparring Axe"
+    hide-flags: false
+    lore:
+      - "&8The second wood tier weapon!"
+    enchants:
+      DAMAGE_ALL: 10
+      FIRE_ASPECT: 10
+      DURABILITY: 10
+  legendary-item:
+    enabled: true
+    sell: 25000
+    buy: 100000
+    material: "WOOD_AXE"
+    name: "&6Legendary Sparring Axe"
+    hide-flags: false
+    lore:
+      - "&8The legendary sparring axe was used by Thaddeus Peuterschmidt to train Emma Watson for"
+      - "&8the Pussy Magnet Apocalypse. Included in the wood tier weapons set after the Morning Wood"
+      - "&8and before the Morning BJ."
+    enchants:
+      DAMAGE_ALL: 10
+      FIRE_ASPECT: 10
+      DURABILITY: 10
+
+daterapist:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: "DIAMOND_SWORD"
+    name: "&bDate Rapist"
+    hide-flags: false
+    lore:
+      - "&8The original top tier!"
+    enchants:
+      DAMAGE_ALL: 10
+      DAMAGE_UNDEAD: 10
+      DAMAGE_ARTHROPODS: 5
+      KNOCKBACK: 10
+      FIRE_ASPECT: 7
+      LOOT_BONUS_MOBS: 5
+  legendary-item:
+    enabled: true
+    sell: 25000
+    buy: 100000
+    material: "DIAMOND_SWORD"
+    name: "&6Legendary Date Rapist"
+    hide-flags: false
+    lore:
+      - "&8This sword was once the holy penis of Thaddeus Peuterschmidt. It was preserved"
+      - "&8and crafted into a sword to be used in the battle against the Legendary Beta."
+      - "&8Use with caution."
+    enchants:
+      DAMAGE_ALL: 10
+      DAMAGE_UNDEAD: 10
+      DAMAGE_ARTHROPODS: 5
+      KNOCKBACK: 10
+      FIRE_ASPECT: 7
+      LOOT_BONUS_MOBS: 5
+
+battleaxe:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: "DIAMOND_AXE"
+    name: "&bBattle Axe"
+    hide-flags: false
+    lore:
+      - "&8Shreds your enemy's armor faster than a sword!"
+    enchants:
+      DAMAGE_ALL: 10
+      DAMAGE_UNDEAD: 10
+      DAMAGE_ARTHROPODS: 5
+      LOOT_BONUS_MOBS: 5
+      FIRE_ASPECT: 10
+  legendary-item:
+    enabled: true
+    sell: 25000
+    buy: 100000
+    material: "DIAMOND_AXE"
+    name: "&6Legendary Battle Axe"
+    hide-flags: false
+    lore:
+      - "&8Once upon a time: a legendary warrior who was also brave: intelligent: amazing:"
+      - "&8rich: and an incredible lover: risked his life to save a young princess who had been"
+      - "&8kidnapped by an evil ddoser. The princess's name was Brittany Snow: and she gave it up"
+      - "&8afterwards because she was so in love with her savior. Who was that warrior: you ask? He"
+      - "&8was named Thaddeus Peuterschmidt: and this was his Battle Axe."
+    enchants:
+      DAMAGE_ALL: 10
+      DAMAGE_UNDEAD: 10
+      DAMAGE_ARTHROPODS: 5
+      LOOT_BONUS_MOBS: 5
+      FIRE_ASPECT: 10
+
+wifebeater:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: "DIAMOND_SWORD"
+    name: "&bWife Beater"
+    hide-flags: false
+    lore:
+      - "&7Launcher I"
+      - "&8The launcher sword!"
+    enchants:
+      DAMAGE_ALL: 10
+      DAMAGE_UNDEAD: 10
+      DAMAGE_ARTHROPODS: 10
+      LOOT_BONUS_MOBS: 5
+  legendary-item:
+    enabled: true
+    sell: 25000
+    buy: 100000
+    material: "DIAMOND_SWORD"
+    name: "&6Legendary Wife Beater"
+    hide-flags: false
+    lore:
+      - "&7Launcher I"
+      - "&8The very first Wife Beater in existance. This beater dates back to the time Adam"
+      - "&8first slapped Eve for trying to change the channel while he was watching Entourage."
+    enchants:
+      DAMAGE_ALL: 10
+      DAMAGE_UNDEAD: 10
+      DAMAGE_ARTHROPODS: 10
+      LOOT_BONUS_MOBS: 5
+
+ejacul8:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: "DIAMOND_SWORD"
+    name: "&bEjacul8"
+    hide-flags: false
+    lore:
+      - "&7Poison VIII"
+      - "&8The poison sword!"
+    enchants:
+      DAMAGE_ALL: 8
+      DAMAGE_ARTHROPODS: 8
+      DAMAGE_UNDEAD: 8
+      FIRE_ASPECT: 8
+      LOOT_BONUS_MOBS: 8
+      DURABILITY: 8
+  legendary-item:
+    enabled: true
+    sell: 25000
+    buy: 100000
+    material: "DIAMOND_SWORD"
+    name: "&6Legendary Ejacul8"
+    hide-flags: false
+    lore:
+      - "&7Poison VIII"
+      - "&8In 3000 B.C. Thaddeus Peuterschmidt I defeated the Holy Penis and sent it back to"
+      - "&8the depths of hell. Before he died, he froze his ejacul8  to project future generations"
+      - "&8from the penis if it ever returned. This is that ejacul8."
+    enchants:
+      DAMAGE_ALL: 8
+      DAMAGE_ARTHROPODS: 8
+      DAMAGE_UNDEAD: 8
+      FIRE_ASPECT: 8
+      LOOT_BONUS_MOBS: 8
+      DURABILITY: 8
+
+iceblade:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: "DIAMOND_SWORD"
+    name: "&bIceblade"
+    hide-flags: false
+    lore:
+      - "&7Freeze I"
+      - "&8Hold shift to freeze enemies!"
+    enchants:
+      DAMAGE_ALL: 10
+      DAMAGE_UNDEAD: 10
+      DURABILITY: 10
+      DAMAGE_ARTHROPODS: 5
+      LOOT_BONUS_MOBS: 5
+  legendary-item:
+    enabled: true
+    sell: 25000
+    buy: 100000
+    material: "DIAMOND_SWORD"
+    name: "&6Legendary Iceblade"
+    hide-flags: false
+    lore:
+      - "&7Freeze I"
+      - "&8Hold shift to freeze enemies!"
+      - "&8It is the year 3000. King Peuterschmidt's body has been frozen in ice for almost a"
+      - "&8thousand years. A young adventurer ventured into a cave in the arctic in search of alien"
+      - "&8remains, and instead stumbled upon the king's body. In his hands, was this weapon."
+    enchants:
+      DAMAGE_ALL: 10
+      DAMAGE_UNDEAD: 10
+      DURABILITY: 10
+      DAMAGE_ARTHROPODS: 5
+      LOOT_BONUS_MOBS: 5
+
+invisibilityring:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: "DOUBLE_PLANT"
+    name: "&bInvisibility Ring"
+    hide-flags: true
+    lore:
+      - "&7Invisibility I"
+      - "&8Right click to activate!"
+    enchants:
+      DURABILITY: 1
+  legendary-item:
+    enabled: true
+    sell: 25000
+    buy: 100000
+    material: "DOUBLE_PLANT"
+    name: "&6Legendary Invisibility Ring"
+    hide-flags: true
+    lore:
+      - "&7Invisibility I"
+      - "&8Right click to activate!"
+    enchants:
+      DURABILITY: 1

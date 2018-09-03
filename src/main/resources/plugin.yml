@@ -3,3 +3,4 @@ version: ${project.version}
 author: ohvals
 description: ${project.description}
 main: me.ohvalsgod.thads.Thads
+depends: [Vault, Basic]
