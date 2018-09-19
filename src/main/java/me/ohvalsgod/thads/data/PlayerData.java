@@ -1,6 +1,7 @@
 package me.ohvalsgod.thads.data;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.ohvalsgod.thads.Thads;
 import me.ohvalsgod.thads.cooldown.Cooldown;
 import org.bukkit.Bukkit;
@@ -11,16 +12,19 @@ import java.util.Map;
 import java.util.UUID;
 
 @Getter
+@Setter
 public class PlayerData extends PlayerInfo {
 
     @Getter private static Map<UUID, PlayerData> cached = new HashMap<>();
 
-    private Cooldown icebladeCooldown;
+    private Cooldown icebladeCooldown, pianoKeyCooldown;
+    private boolean debugMode;
 
     public PlayerData(UUID uuid) {
         super(uuid, null);
-
+        debugMode = false;
         icebladeCooldown = new Cooldown(0);
+        pianoKeyCooldown = new Cooldown(0);
 
         cached.put(uuid, this);
     }

@@ -3,11 +3,12 @@ package me.ohvalsgod.thads.baller.gui.weapons;
 import lombok.AllArgsConstructor;
 import me.ohvalsgod.thads.Thads;
 import me.ohvalsgod.thads.baller.BallerManager;
-import me.ohvalsgod.thads.baller.item.BallerItem;
+import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
 import me.ohvalsgod.thads.menu.Button;
 import me.ohvalsgod.thads.menu.pagination.PaginatedMenu;
 import me.ohvalsgod.thads.util.CC;
 import me.ohvalsgod.thads.util.ItemBuilder;
+import me.ohvalsgod.thads.util.NumberUtil;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -37,7 +38,7 @@ public class LOLWeaponsMenu extends PaginatedMenu {
     public Map<Integer, Button> getAllPagesButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
 
-        for (BallerItem item : BallerManager.getBallerManager().getBallerItems()) {
+        for (AbstractBallerItem item : BallerManager.getBallerManager().getBallerItems()) {
             buttons.put(buttons.size(), new BallerItemDisplayButton(item));
         }
 
@@ -47,7 +48,7 @@ public class LOLWeaponsMenu extends PaginatedMenu {
     @AllArgsConstructor
     public static class BallerItemDisplayButton extends Button {
 
-        private BallerItem item;
+        private AbstractBallerItem item;
 
         @Override
         public ItemStack getButtonItem(Player player) {
@@ -56,10 +57,11 @@ public class LOLWeaponsMenu extends PaginatedMenu {
             builder.hideFlags();
             builder.name(CC.AQUA + item.getBallerItemStack().getItemMeta().getDisplayName());
             builder.lore(CC.SCOREBOARD_SEPERATOR_EXTRA);
-            builder.lore(CC.YELLOW + "Enabled? " + CC.AQUA + WordUtils.capitalizeFully(Boolean.toString(item.isEnabled())));
-            builder.lore(CC.YELLOW + "Legendary Enabled? " + CC.AQUA + WordUtils.capitalizeFully(Boolean.toString(item.isLegendaryItemEnabled())));
-            builder.lore(CC.YELLOW + "Shop Price: " + CC.AQUA + item.getBuyPrice());
-            builder.lore(CC.YELLOW + "Sell Price: " + CC.AQUA + item.getSellPrice());
+            builder.lore(CC.GOLD + "Enabled? " + CC.YELLOW + WordUtils.capitalizeFully(Boolean.toString(item.isEnabled())));
+            builder.lore(CC.GOLD + "Legendary Enabled? " + CC.YELLOW + WordUtils.capitalizeFully(Boolean.toString(item.isLegendaryEnabled())));
+            builder.lore(CC.GOLD + "Shop Price: " + CC.YELLOW + "$" + NumberUtil.formatNumber(item.getBuyPrice()));
+            builder.lore(CC.GOLD + "Sell Price: " + CC.YELLOW + "$" + NumberUtil.formatNumber(item.getSellPrice()));
+            builder.lore(CC.GRAY + "*DEV* " + CC.GOLD + "Weight: " + CC.YELLOW + item.getWeight());
             builder.lore(CC.SCOREBOARD_SEPERATOR_EXTRA);
             builder.lore(CC.GRAY + CC.ITALIC + "Left-click for regular, right-click for legendary.");
 
@@ -69,7 +71,7 @@ public class LOLWeaponsMenu extends PaginatedMenu {
         @Override
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
             if (clickType.isRightClick()) {
-                if (item.isLegendaryItemEnabled() && item.isEnabled()) {
+                if (item.isLegendaryEnabled() && item.isEnabled()) {
                     if (player.getInventory().firstEmpty() > -1) {
                         player.getInventory().addItem(item.getLegendaryItemStack());
                     }
@@ -85,7 +87,7 @@ public class LOLWeaponsMenu extends PaginatedMenu {
                     player.sendMessage(CC.translate(Thads.getInstance().getLangConfig().getConfig().getString("lol.error.baller-item-disabled")));
                 }
             }
-            //TODO: possibly implement edit system by pressing a number on keyboard while hovering over item
+            //TODO: implement edit system by pressing a number on keyboard while hovering over item
         }
     }
 

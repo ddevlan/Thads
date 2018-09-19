@@ -15,8 +15,12 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Random;
+
 @Getter
-public class Thads  extends JavaPlugin {
+public class Thads extends JavaPlugin {
+
+    public static Random RANDOM = new Random();
 
     @Getter private static Thads instance;
 
@@ -25,7 +29,7 @@ public class Thads  extends JavaPlugin {
     private static Economy econ = null;
 
     //  Files
-    private FileConfig mainConfig, settingsConifg, ballerItemsConfig, langConfig;
+    private FileConfig mainConfig, settingsConifg, ballerItemsConfig, ballerArmorConfig, langConfig;
 
     //  Database
     private ThadsJedis thadsJedis;
@@ -99,6 +103,7 @@ public class Thads  extends JavaPlugin {
         mainConfig = new FileConfig(instance, "config.yml");
         settingsConifg = new FileConfig(instance, "settings.yml");
         ballerItemsConfig = new FileConfig(instance, "baller-items.yml");
+        ballerArmorConfig = new FileConfig(instance, "baller-armor.yml");
         langConfig = new FileConfig(instance, "lang.yml");
     }
 

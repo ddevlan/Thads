@@ -1,7 +1,7 @@
 package me.ohvalsgod.thads.command.commands;
 
 import me.ohvalsgod.thads.Thads;
-import me.ohvalsgod.thads.baller.gui.weapons.LOLWeaponsMenu;
+import me.ohvalsgod.thads.baller.BallerManager;
 import me.ohvalsgod.thads.command.Command;
 import me.ohvalsgod.thads.config.ConfigCursor;
 import me.ohvalsgod.thads.util.CC;
@@ -29,8 +29,10 @@ public class LOLCommands {
     public static void weapons(Player player) {
         long start = System.currentTimeMillis();
         player.sendMessage(CC.GREEN + "Loading baller items...");
-        new LOLWeaponsMenu().openMenu(player);
-        player.sendMessage(CC.GREEN + "Loaded baller items in " + Long.toString(System.currentTimeMillis() - start) + "ms.");
+        BallerManager.getBallerManager().getWeaponsMenu().openMenu(player);
+        if (System.currentTimeMillis() - start > 5) {
+            player.sendMessage(CC.GREEN + "Loaded baller items in " + Long.toString(System.currentTimeMillis() - start) + "ms.");
+        }
     }
 
 }

@@ -2,6 +2,9 @@ package me.ohvalsgod.thads.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
+
+import java.util.ArrayList;
 
 public class LocationUtil {
 
@@ -12,6 +15,19 @@ public class LocationUtil {
         faces[2] = new Location(start.getWorld(), start.getX(), start.getY() + 1, start.getZ());
         faces[3] = new Location(start.getWorld(), start.getX(), start.getY() - 1, start.getZ());
         return faces;
+    }
+
+    public static ArrayList<Location> getCircle(Location center, double radius, int amount) {
+        World world = center.getWorld();
+        double increment = (2*Math.PI)/amount;
+        ArrayList<Location> locations = new ArrayList<Location>();
+        for(int i = 0;i < amount; i++){
+            double angle = i*increment;
+            double x = center.getX() + (radius * Math.cos(angle));
+            double z = center.getZ() + (radius * Math.sin(angle));
+            locations.add(new Location(world, x, center.getY() + 1, z));
+        }
+        return locations;
     }
 
     public static String serialize(final Location location) {

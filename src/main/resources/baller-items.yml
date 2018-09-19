@@ -1,3 +1,4 @@
+#   Defaults
 noobsblade:
   enabled: true
   sell: 25000
@@ -21,7 +22,7 @@ noobsblade:
     name: "&6Legendary Noobsblade"
     hide-flags: false
     lore:
-      - "&8The sword for noobs!"
+      - "&cBy default disabled, if you'd like to change the lore go to 'settings.yml'"
     enchants:
       DAMAGE_ALL: 1
       KNOCKBACK: 1
@@ -250,6 +251,39 @@ wifebeater:
       DAMAGE_ARTHROPODS: 10
       LOOT_BONUS_MOBS: 5
 
+aebow:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: "BOW"
+    name: "&bAE Bow"
+    hide-flags: false
+    lore:
+      - "&7Poison VIII"
+      - "&8The poison sword!"
+    enchants:
+      ARROW_INFINITE: 1
+      DURABILITY: 1
+      ARROW_FIRE: 1
+      ARROW_DAMAGE: 5
+      ARROW_KNOCKBACK: 5
+  legendary-item:
+    enabled: true
+    sell: 25000
+    buy: 100000
+    material: "BOW"
+    name: "&6Legendary AE Bow"
+    hide-flags: false
+    lore:
+      - "&cBy default disabled, if you'd like to change the lore go to 'settings.yml'"
+    enchants:
+      ARROW_INFINITE: 1
+      DURABILITY: 1
+      ARROW_FIRE: 1
+      ARROW_DAMAGE: 5
+      ARROW_KNOCKBACK: 5
+
 ejacul8:
   enabled: true
   sell: 25000
@@ -325,6 +359,98 @@ iceblade:
       DAMAGE_ARTHROPODS: 5
       LOOT_BONUS_MOBS: 5
 
+magicsperm:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: "DIAMOND_SWORD"
+    name: "&bMagic Sperm"
+    hide-flags: true
+    lore:
+      - "&7Invisibility I"
+      - "&8Hit enemies to become invisible!"
+    enchants:
+      DAMAGE_ALL: 10
+      DAMAGE_UNDEAD: 10
+      DURABILITY: 10
+  legendary-item:
+    enabled: true
+    sell: 25000
+    buy: 100000
+    material: "DIAMOND_SWORD"
+    name: "&6Legendary Magic Sperm"
+    hide-flags: true
+    lore:
+      - "&7Invisibility I"
+      - "&8Hit enemies to become invisible!"
+      - "&8The rarest legendary weapon. This blade is forged from the sperm that was released"
+      - "&8from the Holy Penis of Thaddeus Peuterschmidt himself, during the epic Battle of The VFL"
+      - "&8in 10000BC. Having had the sperm frozen in time for over 3000 years, this sword's"
+      - "&8estimated value is over 100 million dollars."
+    enchants:
+      DAMAGE_ALL: 10
+      DAMAGE_UNDEAD: 10
+      DURABILITY: 10
+
+
+
+#   Summer event items
+magicfeather:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: "FEATHER"
+    name: "&bMagic Feather"
+    hide-flags: true
+    lore:
+      - "&7Flight I"
+      - "&8Hold to fly. Only works in safezones."
+    enchants:
+      DURABILITY: 1
+  legendary-item:
+    enabled: true
+    sell: 25000
+    buy: 100000
+    material: "FEATHER"
+    name: "&6Legendary Magic Feather"
+    hide-flags: true
+    lore:
+      - "&7Flight I"
+      - "&8Hold to fly. Only works in safezones. TEMP LUL"
+    enchants:
+      DURABILITY: 1
+
+pianokey:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: "DIAMOND_SWORD"
+    name: "&bPiano Key"
+    hide-flags: true
+    lore:
+      - "&7Music I"
+      - "&8Hold shift to play music."
+      - "&8Shift and right-click in safe-zone to change song."
+      - "&8Selected Song: 2257"
+    enchants:
+      DURABILITY: 1
+  legendary-item:
+    enabled: false
+    sell: 25000
+    buy: 100000
+    material: "DIAMOND_SWORD"
+    name: "&6Legendary Piano Key"
+    hide-flags: true
+    lore:
+      - "&cBy default disabled, if you'd like to change the lore go to 'settings.yml'"
+    enchants:
+      DURABILITY: 1
+
+
+#   Avengers event items
 invisibilityring:
   enabled: true
   sell: 25000
@@ -348,5 +474,110 @@ invisibilityring:
     lore:
       - "&7Invisibility I"
       - "&8Right click to activate!"
+    enchants:
+      DURABILITY: 1
+
+mjolnir:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: "STONE_AXE"
+    name: "&bMjolnir"
+    hide-flags: false
+    lore:
+      - "&7Lightning I"
+      - "&8Thor's Hammer: Right click to strike!"
+      - "&8Avengers: Age of Ultron Collectible Item."
+    enchants:
+      DAMAGE_ALL: 10
+      DURABILITY: 10
+  legendary-item:
+    enabled: true
+    sell: 25000
+    buy: 100000
+    material: "STONE_AXE"
+    name: "&6Legendary Mjolnir"
+    hide-flags: false
+    lore:
+      - "&7Lightning I"
+      - "&8Thor's Hammer: Right click to strike!"
+      - "&8Avengers: Age of Ultron Collectible Item."
+    enchants:
+      DAMAGE_ALL: 10
+      DURABILITY: 10
+
+spidermanbow:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: "BOW"
+    name: "&bSpider-Man Bow"
+    hide-flags: false
+    lore:
+      - "&7Web Shooter I"
+      - "&8Hit an enemy with an arrow to trap them in a web!"
+    enchants:
+      ARROW_DAMAGE: 10
+  legendary-item:
+    enabled: false
+    sell: 25000
+    buy: 100000
+    material: "BOW"
+    name: "&6Legendary Spider-Man Bow"
+    hide-flags: false
+    lore:
+      - "&cBy default disabled, if you'd like to change the lore go to 'settings.yml'"
+    enchants:
+      ARROW_DAMAGE: 10
+
+hulksmash:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: "SLIME_BALL"
+    name: "&bHulk Smash"
+    hide-flags: true
+    lore:
+      - "&8Right click to smash!"
+      - "&8Avengers: Age of Ultron Collectible Item."
+    enchants:
+      DURABILITY: 1
+  legendary-item:
+    enabled: false
+    sell: 25000
+    buy: 100000
+    material: "SLIME_BALL"
+    name: "&6Legendary Hulk Smash"
+    hide-flags: true
+    lore:
+      - "&cBy default disabled, if you'd like to change the lore go to 'settings.yml'"
+    enchants:
+      DURABILITY: 1
+
+vibranium:
+  enabled: true
+  sell: 25000
+  buy: 100000
+  baller-item:
+    material: "STONE_SWORD"
+    name: "&bCaptain America's Vibranium Sword"
+    hide-flags: true
+    lore:
+      - "&7Boomerang I"
+      - "&8Avengers: Age of Ultron Collectible Item."
+    enchants:
+      DURABILITY: 1
+  legendary-item:
+    enabled: false
+    sell: 25000
+    buy: 100000
+    material: "STONE_SWORD"
+    name: "&6Legendary Captain America's Vibranium Sword"
+    hide-flags: true
+    lore:
+      - "&cBy default disabled, if you'd like to change the lore go to 'settings.yml'"
     enchants:
       DURABILITY: 1

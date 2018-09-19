@@ -1,13 +1,18 @@
-package me.ohvalsgod.thads.baller.item.items;
+package me.ohvalsgod.thads.baller.item.items.christmas;
 
 import lombok.Getter;
+import me.confuser.barapi.BarAPI;
+import me.ohvalsgod.thads.ServerSettings;
 import me.ohvalsgod.thads.Thads;
 import me.ohvalsgod.thads.baller.BallerManager;
-import me.ohvalsgod.thads.baller.item.BallerItem;
+import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
+import me.ohvalsgod.thads.baller.item.items.avengers.InvisibilityRing;
+import me.ohvalsgod.thads.cooldown.Cooldown;
 import me.ohvalsgod.thads.data.PlayerData;
 import me.ohvalsgod.thads.util.CC;
 import me.ohvalsgod.thads.util.ParticleEffect;
 import me.ohvalsgod.thads.util.WorldGuardUtil;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -18,132 +23,23 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.event.player.PlayerVelocityEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.inventivetalent.bossbar.BossBarAPI;
 
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-public class Iceblade implements BallerItem {
+public class Iceblade extends AbstractBallerItem {
 
     @Getter private static Set<String> frozen;
     @Getter private static Set<String> runnable;
 
-
-    private ItemStack ballerItemStack, legendaryItemStack;
-    private int sellPrice, buyPrice, legendarySellPrice, legendaryBuyPrice;
-    private Listener listener;
-    private boolean enabled, legendaryEnabled;
-    private List<String> aliases;
-
     public Iceblade() {
-        aliases = Collections.singletonList("ib");
+        super("iceblade");
+        getAliases().add("ib");
+        setWeight(5.5);
         frozen = new HashSet<>();
         runnable = new HashSet<>();
         listener = new IBListener();
-    }
-
-    @Override
-    public String getName() {
-        return "iceblade";
-    }
-
-    @Override
-    public ItemStack getBallerItemStack() {
-        return ballerItemStack;
-    }
-
-    @Override
-    public void setBallerItemStack(ItemStack itemStack) {
-        this.ballerItemStack = itemStack;
-    }
-
-    @Override
-    public ItemStack getLegendaryItemStack() {
-        return legendaryItemStack;
-    }
-
-    @Override
-    public boolean isLegendaryItemEnabled() {
-        return legendaryEnabled;
-    }
-
-    @Override
-    public void setLegendaryItemStack(ItemStack itemStack) {
-        this.legendaryItemStack = itemStack;
-    }
-
-    @Override
-    public void setLegendaryEnabled(boolean b) {
-        this.legendaryEnabled = b;
-    }
-
-    @Override
-    public int getSellPrice() {
-        return sellPrice;
-    }
-
-    @Override
-    public void setSellPrice(int i) {
-        this.sellPrice = i;
-    }
-
-    @Override
-    public int getBuyPrice() {
-        return buyPrice;
-    }
-
-    @Override
-    public void setBuyPrice(int i) {
-        this.buyPrice = i;
-    }
-
-    @Override
-    public int getLegendarySellPrice() {
-        return legendarySellPrice;
-    }
-
-    @Override
-    public void setLegendarySellPrice(int i) {
-        this.legendarySellPrice = i;
-    }
-
-    @Override
-    public int getLegendaryBuyPrice() {
-        return legendaryBuyPrice;
-    }
-
-    @Override
-    public void setLegendaryBuyPrice(int i) {
-        this.legendaryBuyPrice = i;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    @Override
-    public void setEnabled(boolean b) {
-        this.enabled = b;
-    }
-
-    @Override
-    public List<String> getAliases() {
-        return aliases;
-    }
-
-    @Override
-    public int getWeight() {
-        return 10;
-    }
-
-    @Override
-    public Listener getListener() {
-        return listener;
     }
 
     public class IBListener implements Listener {
@@ -157,9 +53,10 @@ public class Iceblade implements BallerItem {
         @EventHandler
         public void onMove(PlayerMoveEvent e) {
             Player player = e.getPlayer();
-            if (BossBarAPI.hasBar(player) && BossBarAPI.getMessage(player).equalsIgnoreCase("Ender Dragon")) {
-                BossBarAPI.removeBar(player);
+            if (BarAPI.hasBar(player) && BarAPI.getMessage(player).equalsIgnoreCase("Ender Dragon")) {
+                BarAPI.removeBar(player);
             }
+
             if (frozen.contains(player.getName()) && e.getFrom().getY() < e.getTo().getY()) {
                 e.setTo(new Location(player.getWorld(), e.getFrom().getX(), e.getFrom().getY(), e.getFrom().getZ(), e.getFrom().getYaw(), e.getFrom().getPitch()));
             }
@@ -190,36 +87,30 @@ public class Iceblade implements BallerItem {
             if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof Iceblade) {
                 if (!runnable.contains(player.getName())) {
                     new BukkitRunnable() {
-                        Integer lol = Integer.valueOf(0);
+                        Double radius = 0d;
 
                         @Override
                         public void run() {
                             if (player.isSneaking()) {
-                                if (this.lol <= 10) {
+                                if (this.radius <= 10) {
                                     if (data.getIcebladeCooldown().hasExpired() || runnable.contains(player.getName())) {
                                         runnable.add(player.getName());
-                                        if (BossBarAPI.hasBar(player)) BossBarAPI.removeAllBars(player);
-//                                        BossBarAPI.addBar(player,
-//                                                new TextComponent("Freeze Radius: " + Float.toString(lol.floatValue())),
-//                                                BossBarAPI.Color.BLUE,
-//                                                BossBarAPI.Style.NOTCHED_10,
-//                                                lol.floatValue(),
-//                                                BossBarAPI.Property.DARKEN_SKY);
-                                        BossBarAPI.setMessage(player, ChatColor.AQUA + "" + ChatColor.BOLD + "Freeze Radius: " + Float.toString(lol.floatValue()));
+                                        BarAPI.setMessage(player, ChatColor.AQUA + "" + ChatColor.BOLD + "Freeze Radius: " + Float.toString(radius.floatValue()));
+                                        radius = radius + 1;
                                     } else {
                                         runnable.remove(player.getName());
                                         Long cd = data.getIcebladeCooldown().getRemaining();
                                         int cdf = cd.intValue() / 1000;
-                                        player.sendMessage(CC.AQUA + getName() + CC.RED + " is on cooldown for " + Integer.toString(cdf));
+                                        player.sendMessage(ServerSettings.COOLDOWN.replace("{ITEM}", WordUtils.capitalizeFully(getName())).replace("{AMOUNT}", PlayerData.getByUuid(player.getUniqueId()).getIcebladeCooldown().getTimeLeft()));
                                         cancel();
                                     }
                                 } else {
-                                    activate(player, this.lol);
+                                    activate(player, radius);
                                     cancel();
                                 }
                             } else {
-                                if (this.lol > 0) {
-                                    activate(player, lol);
+                                if (this.radius > 0) {
+                                    activate(player, radius);
                                     cancel();
                                 }
                             }
@@ -229,10 +120,12 @@ public class Iceblade implements BallerItem {
             }
         }
 
-        public void activate(final Player player, int radius) {
+        public void activate(final Player player, Double radius) {
+            BarAPI.removeBar(player);
+            final PlayerData data = PlayerData.getByUuid(player.getUniqueId());
+            data.setIcebladeCooldown(new Cooldown(4000));
             boolean b = false;
             runnable.remove(player.getName());
-            BossBarAPI.removeAllBars(player);
             int bb = 0;
             StringBuilder playersAffected = new StringBuilder();
             for (Entity p : player.getNearbyEntities(radius, radius, radius)) {
@@ -247,7 +140,7 @@ public class Iceblade implements BallerItem {
                             ParticleEffect.CLOUD.display(player.getLocation(), 1.0F, 1.0F, 1.0F, 1.0F, 30);
                             int ii = 3;
                             oo.setWalkSpeed(1.0E-004F);
-                            BossBarAPI.setMessage(oo, CC.AQUA + "" + CC.BOLD + "You have been frozen by " + player.getName(), ii);
+                            BarAPI.setMessage(oo, CC.AQUA + "" + CC.BOLD + "You have been frozen by " + player.getName(), ii);
                             oo.sendMessage(CC.GRAY + "You have been frozen by " + CC.AQUA + player.getName());
                             playersAffected.append(CC.AQUA + oo.getName() + CC.GRAY + ", ");
                             ParticleEffect.CLOUD.display(oo.getLocation(), 1.0F, 1.0F, 1.0F, 1.0F, 40);
@@ -255,7 +148,7 @@ public class Iceblade implements BallerItem {
                             oo.getWorld().playEffect(oo.getLocation(), Effect.STEP_SOUND, 79);
                             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Thads.getInstance(), () -> {
                                 frozen.remove(oo.getName());
-                                BossBarAPI.removeBar(oo);
+                                BarAPI.removeBar(oo);
                                 oo.setWalkSpeed(0.2F);
                             }, ii * 20L);
                         }
@@ -268,8 +161,7 @@ public class Iceblade implements BallerItem {
             }
             if(playersAffected.length() > 0) {
                 player.sendMessage(CC.GRAY + "You have frozen: " + playersAffected.toString());
-            }
-            if ((bb == 0) && (!b)) {
+            } else {
                 player.sendMessage(CC.RED + "You did not affect anyone.");
             }
         }
