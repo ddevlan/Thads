@@ -4,7 +4,11 @@ import net.royawesome.jlibnoise.MathHelper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import java.util.Random;
+
 public class MathUtil {
+
+    public static final Random RANDOM = new Random();
 
     public static CustomLocation getLocationInFrontOfPlayer(Player player, double distance) {
         return new CustomLocation(player.getLocation().getX() + distance, player.getLocation().getY(), player.getLocation().getZ() + distance, player.getLocation().getYaw(), player.getLocation().getPitch());

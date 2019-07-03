@@ -9,10 +9,10 @@ import java.util.List;
 public abstract class AbstractBallerArmor implements IBallerArmor {
 
     public String name;
-    public ItemStack[] ballerItemStack, legendaryItemStack;
-    public int sellPrice, buyPrice, legendarySellPrice, legendaryBuyPrice;
+    public ItemStack[] ballerItemStack;
+    public int sellPrice, buyPrice;
     public Listener listener;
-    public boolean enabled, legendaryEnabled;
+    public boolean enabled;
     public List<String> aliases;
     public double weight;
 
@@ -32,23 +32,13 @@ public abstract class AbstractBallerArmor implements IBallerArmor {
     }
 
     @Override
-    public ItemStack[] getArmorArray() {
+    public ItemStack[] getArmor() {
         return ballerItemStack;
     }
 
     @Override
-    public void setArmorArray(ItemStack[] items) {
+    public void setArmor(ItemStack[] items) {
         ballerItemStack = items;
-    }
-
-    @Override
-    public ItemStack[] getLegendaryArmorArray() {
-        return legendaryItemStack;
-    }
-
-    @Override
-    public void setLegendaryItemStack(ItemStack[] items) {
-        legendaryItemStack = items;
     }
 
     @Override
@@ -79,16 +69,6 @@ public abstract class AbstractBallerArmor implements IBallerArmor {
     @Override
     public void setEnabled(boolean b) {
         enabled = b;
-    }
-
-    @Override
-    public Boolean isLegendaryEnabled() {
-        return legendaryEnabled;
-    }
-
-    @Override
-    public void setLegendaryEnabled(boolean b) {
-        legendaryEnabled = b;
     }
 
     @Override

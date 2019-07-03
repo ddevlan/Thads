@@ -25,20 +25,22 @@ public class Ejacul8 extends AbstractBallerItem {
     public class EJACListener implements Listener {
         @EventHandler
         public void onDamage(EntityDamageByEntityEvent e) {
-            if (e.getDamager() instanceof Player)  {
-                Player player = (Player) e.getDamager();
-                if (e.getEntity() instanceof LivingEntity) {
-                    LivingEntity damaged = (LivingEntity) e.getEntity();
+            if (isEnabled()) {
+                if (e.getDamager() instanceof Player)  {
+                    Player player = (Player) e.getDamager();
+                    if (e.getEntity() instanceof LivingEntity) {
+                        LivingEntity damaged = (LivingEntity) e.getEntity();
 
-                    if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof Ejacul8) {
-                        if (damaged instanceof Player) {
-                            if (WorldGuardUtil.isPlayerInPvP(player) && !InvisibilityRing.getInvis().contains(player.getName())) {
+                        if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof Ejacul8) {
+                            if (damaged instanceof Player) {
+                                if (WorldGuardUtil.isPlayerInPvP(player) && !InvisibilityRing.getInvis().contains(player.getName())) {
+                                    damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 8 * 20, 1));
+                                    damaged.getWorld().playEffect(damaged.getLocation(), Effect.POTION_BREAK, 4);
+                                }
+                            } else {
                                 damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 8 * 20, 1));
                                 damaged.getWorld().playEffect(damaged.getLocation(), Effect.POTION_BREAK, 4);
                             }
-                        } else {
-                            damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 8 * 20, 1));
-                            damaged.getWorld().playEffect(damaged.getLocation(), Effect.POTION_BREAK, 4);
                         }
                     }
                 }

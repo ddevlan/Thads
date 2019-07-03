@@ -2,12 +2,10 @@ package me.ohvalsgod.thads.baller.item.items.christmas;
 
 import lombok.Getter;
 import me.confuser.barapi.BarAPI;
-import me.ohvalsgod.thads.ServerSettings;
 import me.ohvalsgod.thads.Thads;
 import me.ohvalsgod.thads.baller.BallerManager;
 import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
 import me.ohvalsgod.thads.baller.item.items.avengers.InvisibilityRing;
-import me.ohvalsgod.thads.cooldown.Cooldown;
 import me.ohvalsgod.thads.data.PlayerData;
 import me.ohvalsgod.thads.util.CC;
 import me.ohvalsgod.thads.util.ParticleEffect;
@@ -82,48 +80,48 @@ public class Iceblade extends AbstractBallerItem {
 
         @EventHandler
         public void onSneak(PlayerToggleSneakEvent e) {
-            final Player player = e.getPlayer();
-            final PlayerData data = PlayerData.getByUuid(player.getUniqueId());
-            if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof Iceblade) {
-                if (!runnable.contains(player.getName())) {
-                    new BukkitRunnable() {
-                        Double radius = 0d;
+            if (isEnabled()) {
+                final Player player = e.getPlayer();
+                final PlayerData data = Thads.getInstance().getPlayerDataHandler().getPlayerData(player.getUniqueId());
+                if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof Iceblade) {
+                    if (!runnable.contains(player.getName())) {
+                        new BukkitRunnable() {
+                            Double radius = 0d;
 
-                        @Override
-                        public void run() {
-                            if (player.isSneaking()) {
-                                if (this.radius <= 10) {
-                                    if (data.getIcebladeCooldown().hasExpired() || runnable.contains(player.getName())) {
-                                        runnable.add(player.getName());
-                                        BarAPI.setMessage(player, ChatColor.AQUA + "" + ChatColor.BOLD + "Freeze Radius: " + Float.toString(radius.floatValue()));
-                                        radius = radius + 1;
+                            @Override
+                            public void run() {
+                                if (player.isSneaking()) {
+                                    if (this.radius <= 10) {
+                                        if (expired(player) || runnable.contains(player.getName())) {
+                                            runnable.add(player.getName());
+                                            BarAPI.setMessage(player, ChatColor.AQUA + "" + ChatColor.BOLD + "Freeze Radius: " + Float.toString(radius.floatValue()));
+                                            radius = radius + 1;
+                                        } else {
+                                            runnable.remove(player.getName());
+                                            double cdf = remaining(player);
+                                            player.sendMessage(LANG.getString("lol.error.cooldown").replace("{ITEM}", WordUtils.capitalizeFully(getName())).replace("{AMOUNT}", String.valueOf(cdf/1000)));
+                                            cancel();
+                                        }
                                     } else {
-                                        runnable.remove(player.getName());
-                                        Long cd = data.getIcebladeCooldown().getRemaining();
-                                        int cdf = cd.intValue() / 1000;
-                                        player.sendMessage(ServerSettings.COOLDOWN.replace("{ITEM}", WordUtils.capitalizeFully(getName())).replace("{AMOUNT}", PlayerData.getByUuid(player.getUniqueId()).getIcebladeCooldown().getTimeLeft()));
+                                        activate(player, radius);
                                         cancel();
                                     }
                                 } else {
-                                    activate(player, radius);
-                                    cancel();
-                                }
-                            } else {
-                                if (this.radius > 0) {
-                                    activate(player, radius);
-                                    cancel();
+                                    if (this.radius > 0) {
+                                        activate(player, radius);
+                                        cancel();
+                                    }
                                 }
                             }
-                        }
-                    }.runTaskTimer(Thads.getInstance(), 0L, 20L);
+                        }.runTaskTimer(Thads.getInstance(), 0L, 20L);
+                    }
                 }
             }
         }
 
         public void activate(final Player player, Double radius) {
             BarAPI.removeBar(player);
-            final PlayerData data = PlayerData.getByUuid(player.getUniqueId());
-            data.setIcebladeCooldown(new Cooldown(4000));
+            cool(player);
             boolean b = false;
             runnable.remove(player.getName());
             int bb = 0;

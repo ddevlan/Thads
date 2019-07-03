@@ -3,6 +3,7 @@ package me.ohvalsgod.thads.config;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import me.ohvalsgod.thads.util.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
@@ -34,7 +35,7 @@ public class ConfigCursor {
     }
 
     public String getString(String path) {
-        return this.fileConfig.getConfig().getString((this.path == null ? "" : this.path + ".") + path);
+        return CC.translate(this.fileConfig.getConfig().getString((this.path == null ? "" : this.path + ".") + path));
     }
 
     public boolean getBoolean(String path) {

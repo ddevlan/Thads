@@ -29,28 +29,30 @@ public class MagicSperm extends AbstractBallerItem {
     public class MSListener implements Listener {
         @EventHandler
         public void onHit(EntityDamageByEntityEvent event) {
-            if (event.getEntity() instanceof Player) {
-                Player target = (Player) event.getEntity();
-                if (event.getDamager() instanceof Player) {
-                    Player player = (Player) event.getDamager();
-                    if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof MagicSperm) {
-                        int i = 2;
-                        if (!invis.containsKey(player.getName())) {
-                            target.hidePlayer(player);
-                            BarAPI.setMessage(player, CC.AQUA + CC.BOLD + "You are invisible.", i);
-                            invis.put(player.getName(), i + 1);
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    if (invis.containsKey(player.getName())) {
-                                        invis.put(player.getName(), invis.get(player.getName()) - 1);
-                                        if (invis.get(player.getName()) <= 0) {
-                                            target.showPlayer(player);
-                                            cancel();
+            if (isEnabled()) {
+                if (event.getEntity() instanceof Player) {
+                    Player target = (Player) event.getEntity();
+                    if (event.getDamager() instanceof Player) {
+                        Player player = (Player) event.getDamager();
+                        if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof MagicSperm) {
+                            int i = 2;
+                            if (!invis.containsKey(player.getName())) {
+                                target.hidePlayer(player);
+                                BarAPI.setMessage(player, CC.AQUA + CC.BOLD + "You are invisible.", i);
+                                invis.put(player.getName(), i + 1);
+                                new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        if (invis.containsKey(player.getName())) {
+                                            invis.put(player.getName(), invis.get(player.getName()) - 1);
+                                            if (invis.get(player.getName()) <= 0) {
+                                                target.showPlayer(player);
+                                                cancel();
+                                            }
                                         }
                                     }
-                                }
-                            }.runTaskTimer(Thads.getInstance(), 0L, 20L);
+                                }.runTaskTimer(Thads.getInstance(), 0L, 20L);
+                            }
                         }
                     }
                 }

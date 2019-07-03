@@ -3,17 +3,21 @@ package me.ohvalsgod.thads;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import lombok.Getter;
 import me.ohvalsgod.thads.baller.BallerManager;
+import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
 import me.ohvalsgod.thads.command.CommandHandler;
 import me.ohvalsgod.thads.config.ConfigCursor;
 import me.ohvalsgod.thads.config.FileConfig;
-import me.ohvalsgod.thads.jedis.JedisSettings;
-import me.ohvalsgod.thads.jedis.ThadsJedis;
+import me.ohvalsgod.thads.data.PlayerDataHandler;
+import me.ohvalsgod.thads.listener.ListenerHandler;
+import me.ohvalsgod.thads.mysterychest.MysteryChest;
+import me.ohvalsgod.thads.mysterychest.MysteryChestManager;
 import me.ohvalsgod.thads.reflection.BukkitReflection;
-import me.ohvalsgod.thads.uuid.UUIDCache;
-import net.milkbowl.vault.economy.Economy;
+import me.ohvalsgod.thads.util.CC;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
 
@@ -26,18 +30,15 @@ public class Thads extends JavaPlugin {
 
     //  Dependencies
     private WorldGuardPlugin worldGuard = null;
-    private static Economy econ = null;
 
     //  Files
     private FileConfig mainConfig, settingsConifg, ballerItemsConfig, ballerArmorConfig, langConfig;
-
-    //  Database
-    private ThadsJedis thadsJedis;
+    private ConfigCursor lang;
 
     //  Data handlers
-    private ServerSettings serverSettings;
     private BallerManager ballerManager;
-    private UUIDCache uuidCache;
+    private MysteryChestManager mysteryChestManager;
+    private PlayerDataHandler playerDataHandler;
 
     @Override
     public void onEnable() {
@@ -45,22 +46,50 @@ public class Thads extends JavaPlugin {
 
         CommandHandler.init();
         CommandHandler.loadCommandsFromPackage(instance, "me.ohvalsgod.thads.command.commands");
+        ListenerHandler.loadListenersFromPackage(instance, "me.ohvalsgod.thads.listener.listeners");
+        ListenerHandler.loadListenersFromPackage(instance, "me.ohvalsgod.thads.menu");
 
         initDependencies();
         initFiles();
-        initDatabases();
         initDataHandlers();
+
+        startAutoSaves();
     }
 
-    private void initDatabases() {
-        final ConfigCursor cursor = new ConfigCursor(mainConfig, "database");
+    private void startAutoSaves() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                int i = 0;
+                for (AbstractBallerItem item : ballerManager.getBallerItems()) {
+                    ballerManager.saveBallerItem(item);
+                    i++;
+                }
 
-        final JedisSettings settings = new JedisSettings(
-                cursor.getString("redis.host"),
-                cursor.getInt("redis.port"),
-                cursor.getString("redis.password")
-        );
-        thadsJedis = new ThadsJedis(settings);
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (player.hasPermission("lolpvp.autosave.notify.balleritems")) {
+                        player.sendMessage(CC.GRAY + "[Auto-Save] " + CC.AQUA + "There have been " + i + " baller item(s) saved.");
+                    }
+                }
+            }
+        }.runTaskTimer(instance, 20 * 60 * 2, 20 * 60 * 5);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                int i = 0;
+                for (MysteryChest chest : mysteryChestManager.getMysteryChests()) {
+                    mysteryChestManager.saveMysteryChest(chest);
+                    i++;
+                }
+
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (player.hasPermission("lolpvp.autosave.notify.pvpchests")) {
+                        player.sendMessage(CC.GRAY + "[Auto-Save] " + CC.AQUA + "There have been " + i + " mystery chest(s) saved.");
+                    }
+                }
+            }
+        }.runTaskTimer(instance, 20 * 60 * 2, 20 * 60 * 5);
     }
 
     private void initDependencies() {
@@ -69,24 +98,6 @@ public class Thads extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
-
-        if (!setupEconomy()) {
-            getLogger().severe("[WARNING] This plugin heavily depends on Vault! Please install it and then restart the server!");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-    }
-
-    private boolean setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            return false;
-        }
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            return false;
-        }
-        econ = rsp.getProvider();
-        return econ != null;
     }
 
     private boolean setupWorldGuard() {
@@ -105,12 +116,14 @@ public class Thads extends JavaPlugin {
         ballerItemsConfig = new FileConfig(instance, "baller-items.yml");
         ballerArmorConfig = new FileConfig(instance, "baller-armor.yml");
         langConfig = new FileConfig(instance, "lang.yml");
+
+        lang = new ConfigCursor(langConfig, "");
     }
 
     private void initDataHandlers() {
-        serverSettings = new ServerSettings(this);
-        ballerManager = new BallerManager(this);
-        uuidCache = new UUIDCache(this);
+        mysteryChestManager = new MysteryChestManager(instance);
+        ballerManager = new BallerManager(instance);
+        playerDataHandler = new PlayerDataHandler(instance);
         new BukkitReflection();
     }
 

@@ -1,6 +1,6 @@
 package me.ohvalsgod.thads.util;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;

@@ -6,34 +6,36 @@ import me.ohvalsgod.thads.baller.armor.AbstractBallerArmor;
 import me.ohvalsgod.thads.baller.gui.weapons.LOLWeaponsMenu;
 import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
 import me.ohvalsgod.thads.config.ConfigCursor;
-import me.ohvalsgod.thads.menu.ButtonListener;
 import me.ohvalsgod.thads.util.ArmorBuilder;
 import me.ohvalsgod.thads.util.ClassUtil;
 import me.ohvalsgod.thads.util.ItemBuilder;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
-@Getter
 public class BallerManager {
 
-    private List<AbstractBallerItem> ballerItems;
-    private List<AbstractBallerArmor> ballerArmors;
-    private LOLWeaponsMenu menu;
-    private Thads thads;
+    private final Thads thads;
+
+    @Getter private List<AbstractBallerItem> ballerItems;
+    @Getter private List<AbstractBallerArmor> ballerArmors;
+    @Getter private LOLWeaponsMenu menu;
 
     public BallerManager(Thads thads) {
         this.thads = thads;
+
         ballerItems = new ArrayList<>();
         ballerArmors = new ArrayList<>();
 
-        thads.getServer().getPluginManager().registerEvents(new ButtonListener(), thads);
-
         init();
+
         this.menu = new LOLWeaponsMenu();
     }
 
@@ -44,11 +46,12 @@ public class BallerManager {
         loadBallerItemsFromPackage(Thads.getInstance(), "me.ohvalsgod.thads.baller.item.items.christmas");
 
         loadBallerArmorFromPackage(Thads.getInstance(), "me.ohvalsgod.thads.baller.armor.armors.defaults");
+        loadBallerArmorFromPackage(Thads.getInstance(), "me.ohvalsgod.thads.baller.armor.armors.avengers");
 
         for (AbstractBallerItem item : ballerItems) {
             loadBallerItem(item);
-            if (item.getListener() != null && item.isEnabled()) {
-                thads.getServer().getPluginManager().registerEvents(item.getListener(), thads);
+            if (item.getListener() != null) {
+                item.register();
             }
         }
         ballerItems.sort(Comparator.comparingDouble(AbstractBallerItem::getWeight));
@@ -64,9 +67,9 @@ public class BallerManager {
     public void loadBallerArmorFromPackage(Plugin plugin, String packageName) {
         int i = 0;
         for (Class<?> clazz : ClassUtil.getClassesInPackage(plugin, packageName)) {
-            if (clazz.getSuperclass().equals(AbstractBallerArmor.class)) {
+            if (clazz.getSuperclass().equals(me.ohvalsgod.thads.baller.armor.AbstractBallerArmor.class)) {
                 try {
-                    AbstractBallerArmor item = (AbstractBallerArmor) clazz.newInstance();
+                    me.ohvalsgod.thads.baller.armor.AbstractBallerArmor item = (me.ohvalsgod.thads.baller.armor.AbstractBallerArmor) clazz.newInstance();
                     ballerArmors.add(item);
                     i++;
                 } catch (InstantiationException | IllegalAccessException e) {
@@ -77,12 +80,11 @@ public class BallerManager {
         System.out.println("[Thads] [INIT] There have been a total of " + i + " baller armor sets loaded from package '" + packageName + "'.");
     }
 
-    public void loadBallerArmor(AbstractBallerArmor armor) {
-        //  Regular baller item
-        final ConfigCursor cursor = new ConfigCursor(thads.getBallerItemsConfig(), armor.getName() + ".baller-armor");
+    public void loadBallerArmor(me.ohvalsgod.thads.baller.armor.AbstractBallerArmor armor) {
+        final ConfigCursor cursor = new ConfigCursor(thads.getBallerArmorConfig(), armor.getName() + ".baller-armor");
 
-        //  Legendary baller item
-        ArmorBuilder builder = new ArmorBuilder(cursor.getString("type"));
+        //  Regular baller armor
+        ArmorBuilder builder = new ArmorBuilder(cursor.getString("chests"));
 
         builder.name(cursor.getString("name"));
         builder.lore(cursor.getStringList("lore"));
@@ -95,14 +97,6 @@ public class BallerManager {
         if (cursor.getBoolean("hide-flags")) {
             builder.hideFlags();
         }
-
-        //  Setup values
-        cursor.setPath(armor.getName());
-
-        armor.setEnabled(cursor.getBoolean("enabled"));
-        armor.setBuyPrice(cursor.getInt("buy"));
-        armor.setSellPrice(cursor.getInt("sell"));
-        armor.setLegendaryEnabled(cursor.getBoolean("legendary-item.enabled"));
     }
     /*
         BALLER ARMOR END
@@ -146,15 +140,7 @@ public class BallerManager {
     }
 
     public Set<AbstractBallerItem> getLegendaryBallerItems() {
-        Set<AbstractBallerItem> legendaries = new HashSet<>();
-
-        for (AbstractBallerItem item : ballerItems) {
-            if (item.isLegendaryEnabled()) {
-                legendaries.add(item);
-            }
-        }
-
-        return legendaries;
+        return ballerItems.stream().filter(AbstractBallerItem::isLegendaryEnabled).collect(Collectors.toSet());
     }
 
     public AbstractBallerItem getByName(String string) {
@@ -198,6 +184,21 @@ public class BallerManager {
             }
         }
         return null;
+    }
+
+    public void saveBallerItem(AbstractBallerItem item) {
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(Thads.getInstance().getBallerItemsConfig().getFile());
+
+        config.set(item.getName() + ".enabled", item.isEnabled());
+        config.set(item.getName() + ".sell", item.getSellPrice());
+        config.set(item.getName() + ".buy", item.getBuyPrice());
+        config.set(item.getName() + ".legendary-item.enabled", item.isLegendaryEnabled());
+
+        try {
+            config.save(Thads.getInstance().getBallerItemsConfig().getFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void loadBallerItem(AbstractBallerItem item) {

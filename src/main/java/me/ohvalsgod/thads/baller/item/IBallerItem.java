@@ -41,4 +41,8 @@ public interface IBallerItem {
 
     Listener getListener();
 
+    void unregister();
+
+    void register();
+
 }

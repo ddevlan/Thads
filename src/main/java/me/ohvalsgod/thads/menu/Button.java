@@ -8,7 +8,44 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.Map;
+
 public abstract class Button {
+
+    public static void outline(Map<Integer, Button> buttons, Button filler, boolean top, boolean paginated) {
+
+        if (!paginated) {
+            buttons.put(0, filler);
+            buttons.put(8, filler);
+        }
+
+        if (top) {
+            for (int i = 1; i < 8; i++) {
+                buttons.put(i, filler);
+            }
+        }
+        buttons.put(9, filler);
+        buttons.put(17, filler);
+        buttons.put(18, filler);
+        buttons.put(26, filler);
+        buttons.put(27, filler);
+        buttons.put(35, filler);
+        buttons.put(36, filler);
+        buttons.put(44, filler);
+
+        for (int i = 45; i < 54; i++) {
+            buttons.put(i, filler);
+        }
+    }
+
+    public static Button placeholder(final Material material) {
+        return new Button() {
+            @Override
+            public ItemStack getButtonItem(Player player) {
+                return new ItemStack(material);
+            }
+        };
+    }
 
     public static Button placeholder(final Material material, final byte data, String... title) {
         return (new Button() {

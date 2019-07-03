@@ -3,9 +3,10 @@ noobsblade:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: "DIAMOND_SWORD"
-    name: "&bNoobsblade"
+    name: "&bNoob's Blade"
     hide-flags: false
     lore:
       - "&8The sword for noobs!"
@@ -16,13 +17,11 @@ noobsblade:
       FIRE_ASPECT: 1
   legendary-item:
     enabled: false
-    sell: 25000
-    buy: 100000
     material: "DIAMOND_SWORD"
     name: "&6Legendary Noobsblade"
     hide-flags: false
     lore:
-      - "&cBy default disabled, if you'd like to change the lore go to 'settings.yml'"
+      - "&cBy default disabled, if you'd like to change the lore go to 'baller-items.yml'"
     enchants:
       DAMAGE_ALL: 1
       KNOCKBACK: 1
@@ -33,6 +32,7 @@ excalibur:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: "DIAMOND_SWORD"
     name: "&bExcalibur"
@@ -47,8 +47,6 @@ excalibur:
       LOOT_BONUS_MOBS: 3
   legendary-item:
     enabled: true
-    sell: 25000
-    buy: 100000
     material: "DIAMOND_SWORD"
     name: "&6Legendary Excalibur"
     hide-flags: false
@@ -66,6 +64,7 @@ morningwood:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: WOOD_SWORD
     name: "&bMorning Wood"
@@ -77,8 +76,6 @@ morningwood:
       DURABILITY: 10
   legendary-item:
     enabled: true
-    sell: 25000
-    buy: 100000
     material: WOOD_SWORD
     name: "&6Legendary Morning Wood"
     hide-flags: false
@@ -94,6 +91,7 @@ morningbj:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: WOOD_SWORD
     name: "&bMorning BJ"
@@ -105,8 +103,6 @@ morningbj:
       FIRE_ASPECT: 10
   legendary-item:
     enabled: true
-    sell: 25000
-    buy: 100000
     material: WOOD_SWORD
     name: "&6Legendary Morning BJ"
     hide-flags: false
@@ -120,6 +116,7 @@ sparringaxe:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: "WOOD_AXE"
     name: "&bSparring Axe"
@@ -132,8 +129,6 @@ sparringaxe:
       DURABILITY: 10
   legendary-item:
     enabled: true
-    sell: 25000
-    buy: 100000
     material: "WOOD_AXE"
     name: "&6Legendary Sparring Axe"
     hide-flags: false
@@ -150,6 +145,7 @@ daterapist:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: "DIAMOND_SWORD"
     name: "&bDate Rapist"
@@ -165,8 +161,6 @@ daterapist:
       LOOT_BONUS_MOBS: 5
   legendary-item:
     enabled: true
-    sell: 25000
-    buy: 100000
     material: "DIAMOND_SWORD"
     name: "&6Legendary Date Rapist"
     hide-flags: false
@@ -186,6 +180,7 @@ battleaxe:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: "DIAMOND_AXE"
     name: "&bBattle Axe"
@@ -200,8 +195,6 @@ battleaxe:
       FIRE_ASPECT: 10
   legendary-item:
     enabled: true
-    sell: 25000
-    buy: 100000
     material: "DIAMOND_AXE"
     name: "&6Legendary Battle Axe"
     hide-flags: false
@@ -222,6 +215,7 @@ wifebeater:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: "DIAMOND_SWORD"
     name: "&bWife Beater"
@@ -236,8 +230,6 @@ wifebeater:
       LOOT_BONUS_MOBS: 5
   legendary-item:
     enabled: true
-    sell: 25000
-    buy: 100000
     material: "DIAMOND_SWORD"
     name: "&6Legendary Wife Beater"
     hide-flags: false
@@ -255,6 +247,7 @@ aebow:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: "BOW"
     name: "&bAE Bow"
@@ -270,13 +263,11 @@ aebow:
       ARROW_KNOCKBACK: 5
   legendary-item:
     enabled: true
-    sell: 25000
-    buy: 100000
     material: "BOW"
     name: "&6Legendary AE Bow"
     hide-flags: false
     lore:
-      - "&cBy default disabled, if you'd like to change the lore go to 'settings.yml'"
+      - "&cBy default disabled, if you'd like to change the lore go to 'baller-items.yml'"
     enchants:
       ARROW_INFINITE: 1
       DURABILITY: 1
@@ -288,6 +279,7 @@ ejacul8:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: "DIAMOND_SWORD"
     name: "&bEjacul8"
@@ -304,8 +296,6 @@ ejacul8:
       DURABILITY: 8
   legendary-item:
     enabled: true
-    sell: 25000
-    buy: 100000
     material: "DIAMOND_SWORD"
     name: "&6Legendary Ejacul8"
     hide-flags: false
@@ -326,6 +316,7 @@ iceblade:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: "DIAMOND_SWORD"
     name: "&bIceblade"
@@ -341,8 +332,6 @@ iceblade:
       LOOT_BONUS_MOBS: 5
   legendary-item:
     enabled: true
-    sell: 25000
-    buy: 100000
     material: "DIAMOND_SWORD"
     name: "&6Legendary Iceblade"
     hide-flags: false
@@ -363,6 +352,7 @@ magicsperm:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: "DIAMOND_SWORD"
     name: "&bMagic Sperm"
@@ -376,8 +366,6 @@ magicsperm:
       DURABILITY: 10
   legendary-item:
     enabled: true
-    sell: 25000
-    buy: 100000
     material: "DIAMOND_SWORD"
     name: "&6Legendary Magic Sperm"
     hide-flags: true
@@ -400,6 +388,7 @@ magicfeather:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: "FEATHER"
     name: "&bMagic Feather"
@@ -411,8 +400,6 @@ magicfeather:
       DURABILITY: 1
   legendary-item:
     enabled: true
-    sell: 25000
-    buy: 100000
     material: "FEATHER"
     name: "&6Legendary Magic Feather"
     hide-flags: true
@@ -426,6 +413,7 @@ pianokey:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: "DIAMOND_SWORD"
     name: "&bPiano Key"
@@ -439,13 +427,11 @@ pianokey:
       DURABILITY: 1
   legendary-item:
     enabled: false
-    sell: 25000
-    buy: 100000
     material: "DIAMOND_SWORD"
     name: "&6Legendary Piano Key"
     hide-flags: true
     lore:
-      - "&cBy default disabled, if you'd like to change the lore go to 'settings.yml'"
+      - "&cBy default disabled, if you'd like to change the lore go to 'baller-items.yml'"
     enchants:
       DURABILITY: 1
 
@@ -455,6 +441,7 @@ invisibilityring:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: "DOUBLE_PLANT"
     name: "&bInvisibility Ring"
@@ -466,8 +453,6 @@ invisibilityring:
       DURABILITY: 1
   legendary-item:
     enabled: true
-    sell: 25000
-    buy: 100000
     material: "DOUBLE_PLANT"
     name: "&6Legendary Invisibility Ring"
     hide-flags: true
@@ -481,6 +466,7 @@ mjolnir:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: "STONE_AXE"
     name: "&bMjolnir"
@@ -494,8 +480,6 @@ mjolnir:
       DURABILITY: 10
   legendary-item:
     enabled: true
-    sell: 25000
-    buy: 100000
     material: "STONE_AXE"
     name: "&6Legendary Mjolnir"
     hide-flags: false
@@ -511,6 +495,7 @@ spidermanbow:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: "BOW"
     name: "&bSpider-Man Bow"
@@ -522,13 +507,11 @@ spidermanbow:
       ARROW_DAMAGE: 10
   legendary-item:
     enabled: false
-    sell: 25000
-    buy: 100000
     material: "BOW"
     name: "&6Legendary Spider-Man Bow"
     hide-flags: false
     lore:
-      - "&cBy default disabled, if you'd like to change the lore go to 'settings.yml'"
+      - "&cBy default disabled, if you'd like to change the lore go to 'baller-items.yml'"
     enchants:
       ARROW_DAMAGE: 10
 
@@ -536,6 +519,7 @@ hulksmash:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: "SLIME_BALL"
     name: "&bHulk Smash"
@@ -547,20 +531,19 @@ hulksmash:
       DURABILITY: 1
   legendary-item:
     enabled: false
-    sell: 25000
-    buy: 100000
     material: "SLIME_BALL"
     name: "&6Legendary Hulk Smash"
     hide-flags: true
     lore:
-      - "&cBy default disabled, if you'd like to change the lore go to 'settings.yml'"
+      - "&cBy default disabled, if you'd like to change the lore go to 'baller-items.yml'"
     enchants:
       DURABILITY: 1
 
-vibranium:
+captainamericasvibrainumsword:
   enabled: true
   sell: 25000
   buy: 100000
+  cooldown: 0.0
   baller-item:
     material: "STONE_SWORD"
     name: "&bCaptain America's Vibranium Sword"
@@ -572,12 +555,10 @@ vibranium:
       DURABILITY: 1
   legendary-item:
     enabled: false
-    sell: 25000
-    buy: 100000
     material: "STONE_SWORD"
     name: "&6Legendary Captain America's Vibranium Sword"
     hide-flags: true
     lore:
-      - "&cBy default disabled, if you'd like to change the lore go to 'settings.yml'"
+      - "&cBy default disabled, if you'd like to change the lore go to 'baller-items.yml'"
     enchants:
       DURABILITY: 1

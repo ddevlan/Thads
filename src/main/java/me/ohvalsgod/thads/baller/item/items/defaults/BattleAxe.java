@@ -21,17 +21,17 @@ public class BattleAxe extends AbstractBallerItem {
 
         @EventHandler
         public void onDamage(EntityDamageByEntityEvent e) {
+            if (isEnabled()) {
+                if (e.getEntity() instanceof Player) {
+                    if (e.getDamager() instanceof Player) {
+                        Player damager = (Player) e.getDamager();
 
-            if (e.getEntity() instanceof Player) {
-                if (e.getDamager() instanceof Player) {
-                    Player damager = (Player) e.getDamager();
-
-                    if (BallerManager.getBallerManager().getByItemStack(damager.getItemInHand()) instanceof BattleAxe) {
-                        e.setDamage(EntityDamageEvent.DamageModifier.ARMOR, e.getDamage() * 1.2);
+                        if (BallerManager.getBallerManager().getByItemStack(damager.getItemInHand()) instanceof BattleAxe) {
+                            e.setDamage(EntityDamageEvent.DamageModifier.ARMOR, e.getDamage() * 1.2);
+                        }
                     }
                 }
             }
-
         }
     }
 

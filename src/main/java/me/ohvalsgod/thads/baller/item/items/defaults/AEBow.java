@@ -65,12 +65,14 @@ public class AEBow extends AbstractBallerItem {
 
     @EventHandler
     public void onBowShot(EntityShootBowEvent event) {
-        if (event.getProjectile() instanceof Arrow) {
-            Arrow arrow = (Arrow) event.getProjectile();
-            ItemStack bow = event.getBow();
+        if (isEnabled()) {
+            if (event.getProjectile() instanceof Arrow) {
+                Arrow arrow = (Arrow) event.getProjectile();
+                ItemStack bow = event.getBow();
 
-            if (BallerManager.getBallerManager().getByItemStack(bow) instanceof AEBow) {
-                arrows.add(arrow);
+                if (BallerManager.getBallerManager().getByItemStack(bow) instanceof AEBow) {
+                    arrows.add(arrow);
+                }
             }
         }
     }

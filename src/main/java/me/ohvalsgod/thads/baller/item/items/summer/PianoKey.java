@@ -2,13 +2,10 @@ package me.ohvalsgod.thads.baller.item.items.summer;
 
 import lombok.Getter;
 import me.confuser.barapi.BarAPI;
-import me.ohvalsgod.thads.ServerSettings;
 import me.ohvalsgod.thads.Thads;
 import me.ohvalsgod.thads.baller.BallerManager;
 import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
 import me.ohvalsgod.thads.baller.item.items.avengers.InvisibilityRing;
-import me.ohvalsgod.thads.cooldown.Cooldown;
-import me.ohvalsgod.thads.data.PlayerData;
 import me.ohvalsgod.thads.util.CC;
 import me.ohvalsgod.thads.util.LocationUtil;
 import me.ohvalsgod.thads.util.WorldGuardUtil;
@@ -60,8 +57,7 @@ public class PianoKey extends AbstractBallerItem {
 
         private void activate(Player player, Double radius) {
             World world = player.getWorld();
-            PlayerData data = PlayerData.getByUuid(player.getUniqueId());
-            data.setPianoKeyCooldown(new Cooldown(4000));
+            //TODO: cooldown
             BarAPI.removeBar(player);
             if (WorldGuardUtil.isPlayerInPvP(player)) {
                 if (!InvisibilityRing.getInvis().contains(player.getName())) {
@@ -99,19 +95,18 @@ public class PianoKey extends AbstractBallerItem {
                         player.sendMessage(CC.RED + "You did not affect anyone.");
                     }
                 } else {
-                    player.sendMessage(ServerSettings.ERROR_INVIS_RING);
+                    player.sendMessage(LANG.getString("lol.error.non-invis-ring"));
                 }
             } else {
-                player.sendMessage(ServerSettings.ERROR_NOT_PVP);
+                player.sendMessage(LANG.getString("lol.error.non-pvp-area"));
             }
         }
 
         @EventHandler
         public void onSneak(PlayerToggleSneakEvent event) {
             Player player = event.getPlayer();
-            PlayerData data = PlayerData.getByUuid(player.getUniqueId());
             if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof PianoKey) {
-                if (PlayerData.getByUuid(player.getUniqueId()).getPianoKeyCooldown().hasExpired()) {
+                if (expired(player)) {
                     new BukkitRunnable() {
                         Double radius = 0d;
 
@@ -119,15 +114,14 @@ public class PianoKey extends AbstractBallerItem {
                         public void run() {
                             if (player.isSneaking()) {
                                 if (this.radius <= 10) {
-                                    if (data.getPianoKeyCooldown().hasExpired() || runnable.contains(player.getName())) {
+                                    if (expired(player) || runnable.contains(player.getName())) {
                                         runnable.add(player.getName());
                                         BarAPI.setMessage(player, ChatColor.AQUA + "" + ChatColor.BOLD + "Music Radius: " + Float.toString(radius.floatValue()));
                                         radius = radius + 1;
                                     } else {
                                         runnable.remove(player.getName());
-                                        Long cd = data.getPianoKeyCooldown().getRemaining();
-                                        int cdf = cd.intValue() / 1000;
-                                        player.sendMessage(ServerSettings.COOLDOWN.replace("{ITEM}", "Piano Key").replace("{AMOUNT}", PlayerData.getByUuid(player.getUniqueId()).getIcebladeCooldown().getTimeLeft()));
+                                        double cd = remaining(player)/1000;
+                                        player.sendMessage(LANG.getString("lol.error.cooldown").replace("{ITEM}", "Piano Key").replace("{AMOUNT}", String.valueOf(cd)));
                                         cancel();
                                     }
                                 } else {
@@ -143,7 +137,7 @@ public class PianoKey extends AbstractBallerItem {
                         }
                     }.runTaskTimer(Thads.getInstance(), 0L, 20L);
                 } else {
-                    player.sendMessage(ServerSettings.COOLDOWN.replace("{ITEM}", WordUtils.capitalizeFully(getName())).replace("{AMOUNT}", PlayerData.getByUuid(player.getUniqueId()).getPianoKeyCooldown().getTimeLeft()));
+                    player.sendMessage(LANG.getString("lol.error.cooldown").replace("{ITEM}", WordUtils.capitalizeFully(getName())).replace("{AMOUNT}", String.valueOf(remaining(player)/1000)));
                 }
             }
         }

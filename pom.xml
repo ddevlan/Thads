@@ -31,6 +31,11 @@
         </repository>
 
         <repository>
+            <id>ess-repo</id>
+            <url>http://repo.ess3.net/content/groups/essentials</url>
+        </repository>
+
+        <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
@@ -52,54 +57,49 @@
     </repositories>
 
     <dependencies>
+        <!--Spigot API-->
         <dependency>
-            <groupId>gg.ragemc.ragespigot</groupId>
-            <artifactId>RageSpigot</artifactId>
-            <version>1.2-SNAPSHOT</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <!--Bukkit API-->
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>craftbukkit</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--Worldguard-->
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-legacy</artifactId>
             <version>6.1.2-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>net.milkbowl.vault</groupId>
-            <artifactId>VaultAPI</artifactId>
-            <version>1.6</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.confuser</groupId>
-            <artifactId>BarAPI</artifactId>
-            <version>3.0</version>
-            <scope>provided</scope>
-        </dependency>
+        <!--Lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.0</version>
+            <version>1.18.4</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>2.9.0</version>
-            <scope>compile</scope>
-        </dependency>
+        <!--Gson-->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>LATEST</version>
             <scope>compile</scope>
         </dependency>
+        <!--BarAPI-->
         <dependency>
-            <groupId>com.stirante</groupId>
-            <artifactId>MoreProjectiles</artifactId>
-            <version>1.2-SNAPSHOT</version>
-            <scope>compile</scope>
+            <groupId>me.confuser</groupId>
+            <artifactId>BarAPI</artifactId>
+            <version>3.0</version>
+            <scope>provided</scope>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -156,8 +156,6 @@
                         <relocation>
                             <pattern>mkremins.fanciful</pattern>
                             <shadedPattern>me.ohvalsgod.thads.fanciful</shadedPattern>
-                            <pattern>com.stirante.MoreProjectiles</pattern>
-                            <shadedPattern>me.ohvalsgod.thads.moreprojectiles</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

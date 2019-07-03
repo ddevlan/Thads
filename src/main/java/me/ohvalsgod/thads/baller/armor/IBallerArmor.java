@@ -11,13 +11,9 @@ public interface IBallerArmor {
 
     List<String> getAliases();
 
-    ItemStack[] getArmorArray();
+    ItemStack[] getArmor();
 
-    void setArmorArray(ItemStack[] item);
-
-    ItemStack[] getLegendaryArmorArray();
-
-    void setLegendaryItemStack(ItemStack[] item);
+    void setArmor(ItemStack[] item);
 
     Integer getSellPrice();
 
@@ -30,10 +26,6 @@ public interface IBallerArmor {
     Boolean isEnabled();
 
     void setEnabled(boolean b);
-
-    Boolean isLegendaryEnabled();
-
-    void setLegendaryEnabled(boolean b);
 
     Double getWeight();
 

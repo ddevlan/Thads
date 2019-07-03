@@ -5,9 +5,7 @@ import me.confuser.barapi.BarAPI;
 import me.ohvalsgod.thads.Thads;
 import me.ohvalsgod.thads.baller.BallerManager;
 import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
-import me.ohvalsgod.thads.util.CC;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -76,7 +74,7 @@ public class InvisibilityRing extends AbstractBallerItem {
                             invis.remove(player.getName());
                             BarAPI.removeBar(player);
                         }
-                        player.sendMessage(CC.RED + "You are no longer invisible.");
+                        player.sendMessage(LANG_ITEM.getString("no-longer-invisible"));
                     }
                 }
             }
@@ -102,50 +100,52 @@ public class InvisibilityRing extends AbstractBallerItem {
                 if (warmup.containsKey(damaged.getName())) {
                     Bukkit.getServer().getScheduler().cancelTask(warmup.get(damager.getName()));
                     warmup.remove(damaged.getName());
-                    damaged.sendMessage(CC.RED + "You cannot vanish now. You were hit.");
+                    damaged.sendMessage(LANG_ITEM.getString("hit-on-vanish"));
                 }
             }
         }
 
         @EventHandler
         public void onInteract(PlayerInteractEvent e) {
-            if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                Player player = e.getPlayer();
-                if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof InvisibilityRing) {
-                    e.setCancelled(true);
-                    if (invis.contains(player.getName())) {
-                        for (Player other : Bukkit.getServer().getOnlinePlayers()) {
-                            other.showPlayer(player);
-                        }
-                        invis.remove(player.getName());
-                        BarAPI.removeBar(player);
-                        player.sendMessage(CC.RED + "You are no longer invisible.");
-                    } else if (!warmup.containsKey(player.getName())) {
-                        int warm = 5;
-                        player.sendMessage(CC.GRAY + "Vanishing in: " + CC.AQUA + warm + CC.GRAY + " seconds.");
-                        warmup.put(player.getName(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Thads.getInstance(), new Runnable() {
-                            @Override
-                            public void run() {
-                                BarAPI.setMessage(player, ChatColor.RED + "" + ChatColor.BOLD + "You are now invisible!");
-                                player.sendMessage(CC.GREEN + "You are now invisible.");
-                                for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                                    p.hidePlayer(player);
-                                }
-                                invis.add(player.getName());
-                                warmup.remove(player.getName());
-
-                                new BukkitRunnable() {
-                                    @Override
-                                    public void run() {
-                                        if (invis.contains(player.getName())) {
-                                            BarAPI.setMessage(player, ChatColor.RED + "" + ChatColor.BOLD + "You are now invisible!");
-                                        } else {
-                                            cancel();
-                                        }
-                                    }
-                                }.runTaskTimer(Thads.getInstance(), 0L, 400L);
+            if (isEnabled()) {
+                if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    Player player = e.getPlayer();
+                    if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof InvisibilityRing) {
+                        e.setCancelled(true);
+                        if (invis.contains(player.getName())) {
+                            for (Player other : Bukkit.getServer().getOnlinePlayers()) {
+                                other.showPlayer(player);
                             }
-                        }, warm * 20L));
+                            invis.remove(player.getName());
+                            BarAPI.removeBar(player);
+                            player.sendMessage(LANG_ITEM.getString("no-longer-invisible"));
+                        } else if (!warmup.containsKey(player.getName())) {
+                            int warmup = 5;
+                            player.sendMessage(LANG_ITEM.getString("vanishing-in").replace("%time%", String.valueOf(warmup)));
+                            InvisibilityRing.this.warmup.put(player.getName(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Thads.getInstance(), new Runnable() {
+                                @Override
+                                public void run() {
+                                    BarAPI.setMessage(LANG_ITEM.getString("now-invisible.bar"));
+                                    player.sendMessage(LANG_ITEM.getString("now-invisible.chat"));
+                                    for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+                                        p.hidePlayer(player);
+                                    }
+                                    invis.add(player.getName());
+                                    InvisibilityRing.this.warmup.remove(player.getName());
+
+                                    new BukkitRunnable() {
+                                        @Override
+                                        public void run() {
+                                            if (invis.contains(player.getName())) {
+                                                BarAPI.setMessage(player, LANG_ITEM.getString("now-invisible.bar"));
+                                            } else {
+                                                cancel();
+                                            }
+                                        }
+                                    }.runTaskTimer(Thads.getInstance(), 0L, 400L);
+                                }
+                            }, warmup * 20L));
+                        }
                     }
                 }
             }

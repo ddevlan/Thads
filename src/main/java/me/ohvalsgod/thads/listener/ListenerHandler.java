@@ -9,7 +9,7 @@ public class ListenerHandler {
 
     public ListenerHandler(Thads thads) {
         loadListenersFromPackage(thads, "me.ohvalsgod.thads.listener.listeners");
-        loadListenersFromPackage(thads, "me.ohvalsgod.thads.menu");
+        loadListenersFromPackage(thads, "me.ohvalsgod.thads.gui");
     }
 
     /**
@@ -43,7 +43,6 @@ public class ListenerHandler {
                 return true;
             }
         }
-
         return false;
     }
 

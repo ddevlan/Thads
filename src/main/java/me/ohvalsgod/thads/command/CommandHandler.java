@@ -8,7 +8,6 @@ import me.ohvalsgod.thads.command.param.Parameter;
 import me.ohvalsgod.thads.command.param.ParameterData;
 import me.ohvalsgod.thads.command.param.ParameterType;
 import me.ohvalsgod.thads.command.param.defaults.*;
-import me.ohvalsgod.thads.data.PlayerInfo;
 import me.ohvalsgod.thads.util.ClassUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,14 +21,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.server.ServerCommandEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.*;
 
 public final class CommandHandler implements Listener {
@@ -71,12 +68,6 @@ public final class CommandHandler implements Listener {
                     Field knownCommandsField = SimpleCommandMap.class.getDeclaredField("knownCommands");
                     knownCommandsField.setAccessible(true);
 
-                    // The knownCommands field is final,
-                    // so to be able to set it in the new command map we have to remove it.
-                    Field modifiersField = Field.class.getDeclaredField("modifiers");
-                    modifiersField.setAccessible(true);
-                    modifiersField.setInt(knownCommandsField, knownCommandsField.getModifiers() & ~Modifier.FINAL);
-
                     knownCommandsField.set(newCommandMap, knownCommandsField.get(oldCommandMap));
                     // End copying the knownCommands field over
 
@@ -100,8 +91,6 @@ public final class CommandHandler implements Listener {
         registerParameterType(int.class, new IntegerParameterType());
         registerParameterType(Player.class, new PlayerParameterType());
         registerParameterType(World.class, new WorldParameterType());
-        registerParameterType(ItemStack.class, new ItemStackParameterType());
-        registerParameterType(PlayerInfo.class, new PlayerInfoParameterType());
         registerParameterType(GameMode.class, new GameModeParameterType());
     }
 
@@ -121,7 +110,7 @@ public final class CommandHandler implements Listener {
     /**
      * Register a custom parameter adapter.
      *
-     * @param transforms    The class this parameter type will return (IE KOTH.class, Player.class, etc.)
+     * @param transforms    The class this parameter chests will return (IE KOTH.class, Player.class, etc.)
      * @param parameterType The ParameterType object which will perform the transformation.
      */
     public static void registerParameterType(Class<?> transforms, ParameterType parameterType) {
@@ -289,7 +278,7 @@ public final class CommandHandler implements Listener {
         }
 
         // This will throw a NullPointerException if there's no registered
-        // parameter type, but that's fine -- as that's what we'd do anyway.
+        // parameter chests, but that's fine -- as that's what we'd do anyway.
         return (parameterTypes.get(transformTo).transform(sender, parameter));
     }
 

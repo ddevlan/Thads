@@ -3,3 +3,6 @@ database:
     host: "192.99.70.236"
     port: 6379
     password: "letsgetthefuckinjuice"
+
+
+general:

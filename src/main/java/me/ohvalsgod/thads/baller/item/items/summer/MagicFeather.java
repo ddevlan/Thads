@@ -3,8 +3,6 @@ package me.ohvalsgod.thads.baller.item.items.summer;
 import lombok.Getter;
 import me.ohvalsgod.thads.baller.BallerManager;
 import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
-import me.ohvalsgod.thads.data.PlayerData;
-import me.ohvalsgod.thads.util.CC;
 import me.ohvalsgod.thads.util.WoolUtil;
 import me.ohvalsgod.thads.util.WorldGuardUtil;
 import org.bukkit.Effect;
@@ -38,54 +36,54 @@ public class MagicFeather extends AbstractBallerItem {
     public class MFListener implements Listener {
         @EventHandler
         public void onMove(PlayerMoveEvent event) {
-            Player player = event.getPlayer();
-            if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof MagicFeather) {
-                if (!WorldGuardUtil.isPlayerInPvP(player)) {
-                    if (!flying.contains(player.getUniqueId())) {
-                        flying.add(player.getUniqueId());
-                    }
-                    player.setAllowFlight(true);
-                    player.setFlying(true);
-                    if (BallerManager.getBallerManager().getFromLegendary(player.getItemInHand()) instanceof MagicFeather) {
-                        if (!color.containsKey(player.getUniqueId())) {
-                            color.put(player.getUniqueId(), 0);
+            if (isEnabled()) {
+                Player player = event.getPlayer();
+                if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof MagicFeather) {
+                    if (!WorldGuardUtil.isPlayerInPvP(player)) {
+                        if (!flying.contains(player.getUniqueId())) {
+                            flying.add(player.getUniqueId());
                         }
-                        if (PlayerData.getByUuid(player.getUniqueId()).isDebugMode()) {
-                            player.sendMessage(WoolUtil.rainbowColors.get(color.get(player.getUniqueId())) + WoolUtil.rainbowColors.get(color.get(player.getUniqueId())).name() + CC.RESET + " - " + color.get(player.getUniqueId()));
-                        }
-                        player.getWorld().playSound(player.getLocation(), Sound.STEP_WOOL, 0.85f, 0.85f);
+                        player.setAllowFlight(true);
+                        player.setFlying(true);
+                        if (BallerManager.getBallerManager().getFromLegendary(player.getItemInHand()) instanceof MagicFeather) {
+                            if (!color.containsKey(player.getUniqueId())) {
+                                color.put(player.getUniqueId(), 0);
+                            }
 
-                        for (float i = 0; i < .45; i = i + 0.1f) {
-                            for (float i2 = 0; i2 < .45; i2 = i2 + 0.1f) {
-                                for (float i3 = 0; i3 < .45; i3 = i3 + 0.1f) {
-                                    player.getWorld().spigot().playEffect(player.getLocation(), Effect.TILE_BREAK, Material.WOOL.getId(), WoolUtil.convertChatColorToWoolDate(WoolUtil.rainbowColors.get(color.get(player.getUniqueId()))), i, i2, i3, 1, 1, 30);
+                            player.getWorld().playSound(player.getLocation(), Sound.STEP_WOOL, 0.85f, 0.85f);
+
+                            for (float i = 0; i < .45; i = i + 0.1f) {
+                                for (float i2 = 0; i2 < .45; i2 = i2 + 0.1f) {
+                                    for (float i3 = 0; i3 < .45; i3 = i3 + 0.1f) {
+                                        player.getWorld().spigot().playEffect(player.getLocation(), Effect.TILE_BREAK, Material.WOOL.getId(), WoolUtil.convertChatColorToWoolDate(WoolUtil.rainbowColors.get(color.get(player.getUniqueId()))), i, i2, i3, 1, 1, 30);
+                                    }
                                 }
                             }
-                        }
 
-                        if (color.get(player.getUniqueId()) + 1 < WoolUtil.rainbowColors.size()) {
-                            color.put(player.getUniqueId(), color.get(player.getUniqueId()) + 1);
+                            if (color.get(player.getUniqueId()) + 1 < WoolUtil.rainbowColors.size()) {
+                                color.put(player.getUniqueId(), color.get(player.getUniqueId()) + 1);
+                            } else {
+                                color.put(player.getUniqueId(), 0);
+                            }
                         } else {
-                            color.put(player.getUniqueId(), 0);
-                        }
-                    } else {
-                        player.getWorld().playSound(player.getLocation(), Sound.STEP_WOOL, 0.85f, 0.85f);
-                        for (float i = 0; i < .45; i = i + 0.1f) {
-                            for (float i2 = 0; i2 < .45; i2 = i2 + 0.1f) {
-                                for (float i3 = 0; i3 < .45; i3 = i3 + 0.1f) {
-                                    player.getWorld().spigot().playEffect(player.getLocation(), Effect.TILE_BREAK, Material.WOOL.getId(), 0, i, i2, i3, 1, 1, 30);
+                            player.getWorld().playSound(player.getLocation(), Sound.STEP_WOOL, 0.85f, 0.85f);
+                            for (float i = 0; i < .45; i = i + 0.1f) {
+                                for (float i2 = 0; i2 < .45; i2 = i2 + 0.1f) {
+                                    for (float i3 = 0; i3 < .45; i3 = i3 + 0.1f) {
+                                        player.getWorld().spigot().playEffect(player.getLocation(), Effect.TILE_BREAK, Material.WOOL.getId(), 0, i, i2, i3, 1, 1, 30);
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
 
-            if (flying.contains(player.getUniqueId())) {
-                if (WorldGuardUtil.isPlayerInPvP(player) || !(BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof MagicFeather)) {
-                    player.setFlying(false);
-                    player.setAllowFlight(false);
-                    flying.remove(player.getUniqueId());
+                if (flying.contains(player.getUniqueId())) {
+                    if (WorldGuardUtil.isPlayerInPvP(player) || !(BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof MagicFeather)) {
+                        player.setFlying(false);
+                        player.setAllowFlight(false);
+                        flying.remove(player.getUniqueId());
+                    }
                 }
             }
         }

@@ -20,11 +20,13 @@ public class MorningBJ extends AbstractBallerItem {
     public class BJListener implements Listener {
         @EventHandler
         public void onDamage(EntityDamageByEntityEvent event) {
-            if (event.getEntity() instanceof Player) {
-                if (event.getDamager() instanceof Player) {
-                    Player player = (Player) event.getDamager();
-                    if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof MorningBJ) {
-                        event.setDamage(event.getDamage() * 1.1);
+            if (isEnabled()) {
+                if (event.getEntity() instanceof Player) {
+                    if (event.getDamager() instanceof Player) {
+                        Player player = (Player) event.getDamager();
+                        if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof MorningBJ) {
+                            event.setDamage(event.getDamage() * 1.1);
+                        }
                     }
                 }
             }

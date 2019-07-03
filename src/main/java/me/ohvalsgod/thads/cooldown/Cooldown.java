@@ -29,4 +29,9 @@ public class Cooldown {
         return TimeUtil.formatSeconds(this.getRemaining());
     }
 
+    public void newCooldown(long duration) {
+        start = System.currentTimeMillis();
+        expire = start + duration;
+    }
+
 }
