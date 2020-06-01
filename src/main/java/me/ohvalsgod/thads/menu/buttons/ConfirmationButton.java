@@ -3,7 +3,7 @@ package me.ohvalsgod.thads.menu.buttons;
 import lombok.AllArgsConstructor;
 import me.ohvalsgod.thads.menu.Button;
 import me.ohvalsgod.thads.util.CC;
-import me.ohvalsgod.thads.util.TypeCallback;
+import me.ohvalsgod.thads.util.callback.TypeCallback;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;

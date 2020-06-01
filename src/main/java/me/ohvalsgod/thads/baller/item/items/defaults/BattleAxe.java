@@ -17,6 +17,8 @@ public class BattleAxe extends AbstractBallerItem {
         listener = new BAXEListener();
     }
 
+
+
     public class BAXEListener implements Listener {
 
         @EventHandler
@@ -26,7 +28,7 @@ public class BattleAxe extends AbstractBallerItem {
                     if (e.getDamager() instanceof Player) {
                         Player damager = (Player) e.getDamager();
 
-                        if (BallerManager.getBallerManager().getByItemStack(damager.getItemInHand()) instanceof BattleAxe) {
+                        if (BallerManager.getBallerManager().getItemByStack(damager.getItemInHand()) instanceof BattleAxe) {
                             e.setDamage(EntityDamageEvent.DamageModifier.ARMOR, e.getDamage() * 1.2);
                         }
                     }

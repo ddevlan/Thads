@@ -38,6 +38,15 @@ public abstract class Button {
         }
     }
 
+    public static Button placeholder(final ItemStack itemStack) {
+        return new Button() {
+            @Override
+            public ItemStack getButtonItem(Player player) {
+                return itemStack;
+            }
+        };
+    }
+
     public static Button placeholder(final Material material) {
         return new Button() {
             @Override
@@ -63,13 +72,17 @@ public abstract class Button {
 
     public abstract ItemStack getButtonItem(Player player);
 
+    public void clicked(Player player, ClickType clickType) {
+
+    }
+
     public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {}
 
     public boolean shouldCancel(Player player, int slot, ClickType clickType) {
         return (true);
     }
 
-    public boolean shouldUpdate(Player player, int slot, ClickType clickType) {
+    public boolean shouldUpdate(Player player, ClickType clickType) {
         return (false);
     }
 

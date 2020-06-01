@@ -16,6 +16,8 @@ public class MorningWood extends AbstractBallerItem {
         listener = new MWListener();
     }
 
+
+
     public class MWListener implements Listener {
         @EventHandler
         public void onDamage(EntityDamageByEntityEvent event) {
@@ -23,7 +25,7 @@ public class MorningWood extends AbstractBallerItem {
                 if (event.getEntity() instanceof Player) {
                     if (event.getDamager() instanceof Player) {
                         Player player = (Player) event.getDamager();
-                        if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof MorningBJ) {
+                        if (BallerManager.getBallerManager().getItemByStack(player.getItemInHand()) instanceof MorningBJ) {
                             event.setDamage(event.getDamage() * 1.1);
                         }
                     }

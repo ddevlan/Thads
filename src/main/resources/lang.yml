@@ -5,6 +5,12 @@ lol:
         sell: "&6Please chests the sell price you wish to change to:"
         buy: "&6Please chests the buy price you wish to change to:"
   menu:
+    global:
+      info:
+        material: "PAPER"
+        name: "&6Baller Items Information"
+        lore:
+          - "&eA total of %amount% baller items loaded with filters."
     armor:
       edit:
         information:
@@ -41,7 +47,7 @@ lol:
           - "&7&oLeft-click for regular, right-click for legendary."
           - "&7&oMiddle-click to edit settings. &7*CREATIVE-ONLY*"
 
-    weapons:
+    objects:
       edit:
         information:
           name: "&eInformation on '%item%'"
@@ -78,7 +84,7 @@ lol:
           - "%separator%"
           - "&7&oLeft-click for regular, right-click for legendary."
           - "&7&oMiddle-click to edit settings. &7*CREATIVE-ONLY*"
-  weapons:
+  objects:
     edit:
       price:
         sell: "&7The sell price of %item% &7has been changed to &b%amount%&7."
@@ -110,6 +116,31 @@ lol:
     - "&e/lol help &7- Displays this help gui"
     - "&e/lol weapons &7- Opens gui with custom weapons"
     - "&6&m------------------------------------------------"
+
+kits:
+  create: "&7Creation of kit '&b%kit%&7' initiated:"
+  cancelled: "&cCreation of kit '&b%kit%&c' cancelled."
+  removed: "&7You have &cremoved &7the &b'%kit%' &7kit."
+  list:
+    title: "&7*** Kits (%owned%/%total%) ***"
+    format: "&7[%kits%&7]"
+    display-color: "&a"
+    seperator: "&7,"
+  applied: "&eKit &b%kit% &ehas been applied."
+  cooldown: "&cYou cannot use the '%kit%' kit for %cooldown%."
+  menu:
+    title: "&9Kit Selector"
+    icon:
+      name: "&a%kit%"
+      lore:
+        - "&7%cooldown%"
+        - "&6Remaining: &e%remaining%"
+      not-owned: "&cYou do not own this kit!"
+  help:
+    - "&b*** Kit Help ***"
+    - "&7/kit gui - Opens the kit gui."
+    - "&7/kit list - List all current kits."
+    - "&7/kit <kitName> - Applies a kit."
 
 mystery-chests:
   given: "&aYou have been given a %chest%!"

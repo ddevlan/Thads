@@ -18,7 +18,7 @@ public class CustomLocation {
     }
 
     public Location toBukkitLocation() {
-        return new Location(Thads.getInstance().getServer().getWorlds().get(0), x, y, z, yaw, pitch);
+        return new Location(Thads.get().getServer().getWorlds().get(0), x, y, z, yaw, pitch);
     }
 
     public double getGroundDistanceTo(CustomLocation location) {

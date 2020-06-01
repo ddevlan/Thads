@@ -26,7 +26,7 @@ public class MysteryChestManager implements Listener {
     public MysteryChestManager(JavaPlugin plugin) {
         mysteryChests = new HashSet<>();
 
-        mysteryChestsFile = new File(Thads.getInstance().getDataFolder(), "/mysterychests/");
+        mysteryChestsFile = new File(Thads.get().getDataFolder(), "/mysterychests/");
 
         if (!mysteryChestsFile.exists()) {
             mysteryChestsFile.mkdirs();

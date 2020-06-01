@@ -32,6 +32,8 @@ public class AEBow extends AbstractBallerItem {
         arrows = new ArrayList<>();
     }
 
+
+
     public class AEBOWListener implements Listener {
         @EventHandler
         public void onDamage(EntityDamageByEntityEvent event) {
@@ -53,7 +55,7 @@ public class AEBow extends AbstractBallerItem {
         @EventHandler
         public void onHit(ProjectileHitEvent event) {
             if (arrows.contains(event.getEntity())) {
-                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Thads.getInstance(), new Runnable() {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Thads.get(), new Runnable() {
                     @Override
                     public void run() {
                         arrows.remove(event.getEntity());
@@ -70,7 +72,7 @@ public class AEBow extends AbstractBallerItem {
                 Arrow arrow = (Arrow) event.getProjectile();
                 ItemStack bow = event.getBow();
 
-                if (BallerManager.getBallerManager().getByItemStack(bow) instanceof AEBow) {
+                if (BallerManager.getBallerManager().getItemByStack(bow) instanceof AEBow) {
                     arrows.add(arrow);
                 }
             }

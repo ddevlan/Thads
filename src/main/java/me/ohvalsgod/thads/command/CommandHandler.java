@@ -8,6 +8,7 @@ import me.ohvalsgod.thads.command.param.Parameter;
 import me.ohvalsgod.thads.command.param.ParameterData;
 import me.ohvalsgod.thads.command.param.ParameterType;
 import me.ohvalsgod.thads.command.param.defaults.*;
+import me.ohvalsgod.thads.kits.Kit;
 import me.ohvalsgod.thads.util.ClassUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -49,7 +50,7 @@ public final class CommandHandler implements Listener {
         Preconditions.checkState(!initiated);
         initiated = true;
 
-        Thads.getInstance().getServer().getPluginManager().registerEvents(new CommandHandler(), Thads.getInstance());
+        Thads.get().getServer().getPluginManager().registerEvents(new CommandHandler(), Thads.get());
 
         // Run this on a delay so everything is registered.
         // Not really needed, but it's nice to play it safe.
@@ -57,11 +58,11 @@ public final class CommandHandler implements Listener {
             public void run() {
                 try {
                     // Command map field (we have to use reflection to get this)
-                    Field commandMapField = Thads.getInstance().getServer().getClass().getDeclaredField("commandMap");
+                    Field commandMapField = Thads.get().getServer().getClass().getDeclaredField("commandMap");
                     commandMapField.setAccessible(true);
 
-                    Object oldCommandMap = commandMapField.get(Thads.getInstance().getServer());
-                    CommandMap newCommandMap = new CommandMap(Thads.getInstance().getServer());
+                    Object oldCommandMap = commandMapField.get(Thads.get().getServer());
+                    CommandMap newCommandMap = new CommandMap(Thads.get().getServer());
 
                     // Start copying the knownCommands field over
                     // (so any commands registered before we hook in are kept)
@@ -71,14 +72,14 @@ public final class CommandHandler implements Listener {
                     knownCommandsField.set(newCommandMap, knownCommandsField.get(oldCommandMap));
                     // End copying the knownCommands field over
 
-                    commandMapField.set(Thads.getInstance().getServer(), newCommandMap);
+                    commandMapField.set(Thads.get().getServer(), newCommandMap);
                 } catch (Exception e) {
                     // Shouldn't happen, so we can just
                     // printout the exception (and do nothing else)
                     e.printStackTrace();
                 }
             }
-        }.runTaskLater(Thads.getInstance(), 5L);
+        }.runTaskLater(Thads.get(), 5L);
 
         // Register our default parameter types.
         // boolean.class is the same as Boolean.TYPE,
@@ -92,6 +93,7 @@ public final class CommandHandler implements Listener {
         registerParameterType(Player.class, new PlayerParameterType());
         registerParameterType(World.class, new WorldParameterType());
         registerParameterType(GameMode.class, new GameModeParameterType());
+        registerParameterType(Kit.class, new KitParameterType());
     }
 
     /**
@@ -103,7 +105,7 @@ public final class CommandHandler implements Listener {
      */
     public static void loadCommandsFromPackage(Plugin plugin, String packageName) {
         for (Class<?> clazz : ClassUtil.getClassesInPackage(plugin, packageName)) {
-            registerClass(clazz);
+            register(clazz);
         }
     }
 
@@ -122,12 +124,58 @@ public final class CommandHandler implements Listener {
      *
      * @param registeredClass The class to scan/register.
      */
-    protected static void registerClass(Class<?> registeredClass) {
+    public static void register(Class<?> registeredClass) {
         for (Method method : registeredClass.getMethods()) {
             if (method.getAnnotation(Command.class) != null) {
                 registerMethod(method);
             }
         }
+    }
+
+    /**
+     * Registers a single class with the command handler.
+     *
+     * @param registeredClass The class to scan/register.
+     */
+    public static void unregister(Class<?> registeredClass) {
+        for (Method method : registeredClass.getMethods()) {
+            if (method.getAnnotation(Command.class) != null) {
+                unregisterMethod(method);
+            }
+        }
+    }
+
+    protected static void unregisterMethod(Method method) {
+        Command commandAnnotation = method.getAnnotation(Command.class);
+        List<ParameterData> parameterData = new ArrayList<>();
+
+        // Offset of 1 here for the sender parameter.
+        for (int parameterIndex = 1; parameterIndex < method.getParameterTypes().length; parameterIndex++) {
+            Parameter parameterAnnotation = null;
+
+            for (Annotation annotation : method.getParameterAnnotations()[parameterIndex]) {
+                if (annotation instanceof Parameter) {
+                    parameterAnnotation = (Parameter) annotation;
+                    break;
+                }
+            }
+
+            if (parameterAnnotation != null) {
+                parameterData.add(new ParameterData(parameterAnnotation, method.getParameterTypes()[parameterIndex]));
+            } else {
+                Thads.get().getLogger().warning("Method '" + method.getName() + "' has a parameter without a @Parameter annotation.");
+                return;
+            }
+        }
+
+        commands.remove(new CommandData(commandAnnotation, parameterData, method, method.getParameterTypes()[0].getClass().equals(Player.class)));
+
+        commands.sort(new Comparator<CommandData>() {
+            @Override
+            public int compare(CommandData o1, CommandData o2) {
+                return (o2.getName().length() - o1.getName().length());
+            }
+        });
     }
 
     /**
@@ -153,14 +201,14 @@ public final class CommandHandler implements Listener {
             if (parameterAnnotation != null) {
                 parameterData.add(new ParameterData(parameterAnnotation, method.getParameterTypes()[parameterIndex]));
             } else {
-                Thads.getInstance().getLogger().warning("Method '" + method.getName() + "' has a parameter without a @Parameter annotation.");
+                Thads.get().getLogger().warning("Method '" + method.getName() + "' has a parameter without a @Parameter annotation.");
                 return;
             }
         }
 
         commands.add(new CommandData(commandAnnotation, parameterData, method, method.getParameterTypes()[0].getClass().equals(Player.class)));
 
-        Collections.sort(commands, new Comparator<CommandData>() {
+        commands.sort(new Comparator<CommandData>() {
             @Override
             public int compare(CommandData o1, CommandData o2) {
                 return (o2.getName().length() - o1.getName().length());
@@ -255,7 +303,7 @@ public final class CommandHandler implements Listener {
                 public void run() {
                     foundClone.execute(sender, argsClone);
                 }
-            }.runTaskAsynchronously(Thads.getInstance());
+            }.runTaskAsynchronously(Thads.get());
         } else {
             found.execute(sender, args);
         }

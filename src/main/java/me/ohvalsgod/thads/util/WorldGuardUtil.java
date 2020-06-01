@@ -45,7 +45,7 @@ public class WorldGuardUtil {
     }
 
     public static WorldGuardPlugin getWorldGuard() {
-        return Thads.getInstance().getWorldGuard();
+        return Thads.get().getWorldGuard();
     }
 
 }

@@ -15,7 +15,7 @@ import java.util.Set;
 public class WorldParameterType implements ParameterType<World> {
 
     public World transform(CommandSender sender, String source) {
-        World world = Thads.getInstance().getServer().getWorld(source);
+        World world = Thads.get().getServer().getWorld(source);
 
         if (world == null) {
             sender.sendMessage(ChatColor.RED + "No world with the name " + source + " found.");
@@ -28,7 +28,7 @@ public class WorldParameterType implements ParameterType<World> {
     public List<String> tabComplete(Player sender, Set<String> flags, String source) {
         List<String> completions = new ArrayList<>();
 
-        for (World world : Thads.getInstance().getServer().getWorlds()) {
+        for (World world : Thads.get().getServer().getWorlds()) {
             if (StringUtils.startsWithIgnoreCase(world.getName(), source)) {
                 completions.add(world.getName());
             }

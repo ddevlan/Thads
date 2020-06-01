@@ -1,7 +1,6 @@
 package me.ohvalsgod.thads.baller.item.items.avengers;
 
 import lombok.Getter;
-import me.confuser.barapi.BarAPI;
 import me.ohvalsgod.thads.Thads;
 import me.ohvalsgod.thads.baller.BallerManager;
 import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
@@ -14,6 +13,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.inventivetalent.bossbar.BossBarAPI;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,6 +35,8 @@ public class InvisibilityRing extends AbstractBallerItem {
 
         listener = new IRListener();
     }
+
+
 
     public class IRListener implements Listener {
         @EventHandler
@@ -62,7 +64,7 @@ public class InvisibilityRing extends AbstractBallerItem {
                 boolean hasInvisRing = false;
                 if (invis.contains(player.getName())) {
                     for (ItemStack i : player.getInventory().getContents()) {
-                        if (BallerManager.getBallerManager().getByItemStack(i) instanceof InvisibilityRing) {
+                        if (BallerManager.getBallerManager().getItemByStack(i) instanceof InvisibilityRing) {
                             hasInvisRing = true;
                             break;
                         }
@@ -72,7 +74,7 @@ public class InvisibilityRing extends AbstractBallerItem {
                         for (Player other : Bukkit.getServer().getOnlinePlayers()) {
                             other.showPlayer(player);
                             invis.remove(player.getName());
-                            BarAPI.removeBar(player);
+                            BossBarAPI.removeBar(player);
                         }
                         player.sendMessage(LANG_ITEM.getString("no-longer-invisible"));
                     }
@@ -110,22 +112,22 @@ public class InvisibilityRing extends AbstractBallerItem {
             if (isEnabled()) {
                 if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     Player player = e.getPlayer();
-                    if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof InvisibilityRing) {
+                    if (BallerManager.getBallerManager().getItemByStack(player.getItemInHand()) instanceof InvisibilityRing) {
                         e.setCancelled(true);
                         if (invis.contains(player.getName())) {
                             for (Player other : Bukkit.getServer().getOnlinePlayers()) {
                                 other.showPlayer(player);
                             }
                             invis.remove(player.getName());
-                            BarAPI.removeBar(player);
+                            BossBarAPI.removeBar(player);
                             player.sendMessage(LANG_ITEM.getString("no-longer-invisible"));
                         } else if (!warmup.containsKey(player.getName())) {
                             int warmup = 5;
                             player.sendMessage(LANG_ITEM.getString("vanishing-in").replace("%time%", String.valueOf(warmup)));
-                            InvisibilityRing.this.warmup.put(player.getName(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Thads.getInstance(), new Runnable() {
+                            InvisibilityRing.this.warmup.put(player.getName(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Thads.get(), new Runnable() {
                                 @Override
                                 public void run() {
-                                    BarAPI.setMessage(LANG_ITEM.getString("now-invisible.bar"));
+                                    BossBarAPI.setMessage(player, LANG_ITEM.getString("now-invisible.bar"));
                                     player.sendMessage(LANG_ITEM.getString("now-invisible.chat"));
                                     for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                                         p.hidePlayer(player);
@@ -137,12 +139,12 @@ public class InvisibilityRing extends AbstractBallerItem {
                                         @Override
                                         public void run() {
                                             if (invis.contains(player.getName())) {
-                                                BarAPI.setMessage(player, LANG_ITEM.getString("now-invisible.bar"));
+                                                BossBarAPI.setMessage(player, LANG_ITEM.getString("now-invisible.bar"));
                                             } else {
                                                 cancel();
                                             }
                                         }
-                                    }.runTaskTimer(Thads.getInstance(), 0L, 400L);
+                                    }.runTaskTimer(Thads.get(), 0L, 400L);
                                 }
                             }, warmup * 20L));
                         }

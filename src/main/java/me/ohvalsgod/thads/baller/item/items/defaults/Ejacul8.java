@@ -22,6 +22,8 @@ public class Ejacul8 extends AbstractBallerItem {
         listener = new EJACListener();
     }
 
+
+
     public class EJACListener implements Listener {
         @EventHandler
         public void onDamage(EntityDamageByEntityEvent e) {
@@ -31,7 +33,7 @@ public class Ejacul8 extends AbstractBallerItem {
                     if (e.getEntity() instanceof LivingEntity) {
                         LivingEntity damaged = (LivingEntity) e.getEntity();
 
-                        if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof Ejacul8) {
+                        if (BallerManager.getBallerManager().getItemByStack(player.getItemInHand()) instanceof Ejacul8) {
                             if (damaged instanceof Player) {
                                 if (WorldGuardUtil.isPlayerInPvP(player) && !InvisibilityRing.getInvis().contains(player.getName())) {
                                     damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 8 * 20, 1));

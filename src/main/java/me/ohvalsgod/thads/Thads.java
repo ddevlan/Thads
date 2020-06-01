@@ -26,13 +26,13 @@ public class Thads extends JavaPlugin {
 
     public static Random RANDOM = new Random();
 
-    @Getter private static Thads instance;
+    private static Thads get;
 
     //  Dependencies
     private WorldGuardPlugin worldGuard = null;
 
     //  Files
-    private FileConfig mainConfig, settingsConifg, ballerItemsConfig, ballerArmorConfig, langConfig;
+    private FileConfig mainConfig, settingsConifg, ballerObjectConfig, langConfig;
     private ConfigCursor lang;
 
     //  Data handlers
@@ -42,12 +42,12 @@ public class Thads extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        instance = this;
+        get = this;
 
         CommandHandler.init();
-        CommandHandler.loadCommandsFromPackage(instance, "me.ohvalsgod.thads.command.commands");
-        ListenerHandler.loadListenersFromPackage(instance, "me.ohvalsgod.thads.listener.listeners");
-        ListenerHandler.loadListenersFromPackage(instance, "me.ohvalsgod.thads.menu");
+        CommandHandler.loadCommandsFromPackage(get, "me.ohvalsgod.thads.command.commands");
+        ListenerHandler.loadListenersFromPackage(get, "me.ohvalsgod.thads.listener.listeners");
+        ListenerHandler.loadListenersFromPackage(get, "me.ohvalsgod.thads.menu");
 
         initDependencies();
         initFiles();
@@ -72,7 +72,7 @@ public class Thads extends JavaPlugin {
                     }
                 }
             }
-        }.runTaskTimer(instance, 20 * 60 * 2, 20 * 60 * 5);
+        }.runTaskTimer(get, 20 * 60 * 2, 20 * 60 * 5);
 
         new BukkitRunnable() {
             @Override
@@ -89,7 +89,7 @@ public class Thads extends JavaPlugin {
                     }
                 }
             }
-        }.runTaskTimer(instance, 20 * 60 * 2, 20 * 60 * 5);
+        }.runTaskTimer(get, 20 * 60 * 2, 20 * 60 * 5);
     }
 
     private void initDependencies() {
@@ -99,6 +99,10 @@ public class Thads extends JavaPlugin {
             return;
         }
     }
+
+    /*
+        XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+     */
 
     private boolean setupWorldGuard() {
         Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
@@ -111,20 +115,23 @@ public class Thads extends JavaPlugin {
     }
 
     private void initFiles() {
-        mainConfig = new FileConfig(instance, "config.yml");
-        settingsConifg = new FileConfig(instance, "settings.yml");
-        ballerItemsConfig = new FileConfig(instance, "baller-items.yml");
-        ballerArmorConfig = new FileConfig(instance, "baller-armor.yml");
-        langConfig = new FileConfig(instance, "lang.yml");
+        mainConfig = new FileConfig(get, "config.yml");
+        settingsConifg = new FileConfig(get, "settings.yml");
+        ballerObjectConfig = new FileConfig(get, "baller-objects.yml");
+        langConfig = new FileConfig(get, "lang.yml");
 
         lang = new ConfigCursor(langConfig, "");
     }
 
     private void initDataHandlers() {
-        mysteryChestManager = new MysteryChestManager(instance);
-        ballerManager = new BallerManager(instance);
-        playerDataHandler = new PlayerDataHandler(instance);
+        mysteryChestManager = new MysteryChestManager(get);
+        ballerManager = new BallerManager(get);
+        playerDataHandler = new PlayerDataHandler(get);
         new BukkitReflection();
+    }
+
+    public static Thads get() {
+        return get;
     }
 
 }

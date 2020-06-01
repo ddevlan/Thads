@@ -1,13 +1,23 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="Thads">
-    <output-path>D:/Desktop/test server/plugins</output-path>
+    <output-path>$PROJECT_DIR$/../../gettinguap/serv/plugins</output-path>
     <root id="archive" name="Thads.jar">
-      <element id="module-output" name="Thads" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/me/ohvalsgod/bossbar/BossBarAPI/1.0/BossBarAPI-1.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/redis/clients/jedis/2.9.0/jedis-2.9.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-pool2/2.4.2/commons-pool2-2.4.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/stirante/MoreProjectiles/1.2-SNAPSHOT/MoreProjectiles-1.2-20141217.140717-4.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.5/gson-2.8.5.jar" path-in-jar="/" />
+      <element id="module-output" name="LOLPVP" />
+      <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.6" />
+      <element id="library" level="project" name="Maven: com.google.guava:guava:17.0" />
+      <element id="library" level="project" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" />
+      <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.6" />
+      <element id="library" level="project" name="Maven: javax.persistence:persistence-api:1.0" />
+      <element id="library" level="project" name="Maven: junit:junit:4.10" />
+      <element id="library" level="project" name="Maven: org.avaje:ebean:2.8.1" />
+      <element id="library" level="project" name="Maven: org.bukkit:bukkit:1.9.4-R0.1-SNAPSHOT" />
+      <element id="library" level="project" name="Maven: org.hamcrest:hamcrest-core:1.1" />
+      <element id="library" level="project" name="Maven: org.inventivetalent:bossbarapi:2.4.1" />
+      <element id="library" level="project" name="Maven: org.mcstats.bukkit:metrics-lite:R8-SNAPSHOT" />
+      <element id="library" level="project" name="Maven: org.yaml:snakeyaml:1.15" />
     </root>
   </artifact>
 </component>

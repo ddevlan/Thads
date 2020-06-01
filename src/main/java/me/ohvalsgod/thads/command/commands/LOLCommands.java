@@ -1,7 +1,7 @@
 package me.ohvalsgod.thads.command.commands;
 
 import me.ohvalsgod.thads.Thads;
-import me.ohvalsgod.thads.baller.BallerManager;
+import me.ohvalsgod.thads.baller.gui.object.LOLObjectsMenu;
 import me.ohvalsgod.thads.command.Command;
 import me.ohvalsgod.thads.command.param.Parameter;
 import me.ohvalsgod.thads.data.PlayerData;
@@ -18,7 +18,7 @@ public class LOLCommands {
             permissionNode = "lolpvp.help"
     )
     public static void help(CommandSender sender) {
-        for (String string : Thads.getInstance().getLang().getStringList("lol.help")) {
+        for (String string : Thads.get().getLang().getStringList("lol.help")) {
             sender.sendMessage(CC.translate(string));
         }
     }
@@ -29,7 +29,7 @@ public class LOLCommands {
     )
     public static void weapons(Player player) {
         long start = System.currentTimeMillis();
-        BallerManager.getBallerManager().getWeaponsMenu().openMenu(player);
+        new LOLObjectsMenu().openMenu(player);
         if (System.currentTimeMillis() - start > 10) {
             player.sendMessage(CC.GRAY + "Loaded baller items in " + (System.currentTimeMillis() - start) + "ms.");
         }
@@ -40,14 +40,14 @@ public class LOLCommands {
             permissionNode = "lolpvp.donator.tag"
     )
     public static void tag(Player player, @Parameter(name = "tag") String tag) {
-        PlayerData data = Thads.getInstance().getPlayerDataHandler().getPlayerData(player.getUniqueId());
+        PlayerData data = Thads.get().getPlayerDataHandler().getPlayerData(player.getUniqueId());
 
         if (System.currentTimeMillis() > data.getLastLolTag() + 60 * 1000) {
             if (StringUtils.isAlphanumeric(tag)) {
                 if (tag.length() <= 5) {
                     data.setLastLolTag(System.currentTimeMillis());
                     data.setLolTag(tag);
-                    player.sendMessage(CC.GREEN + "Your tag has been set to: " + CC.translate(Thads.getInstance().getLang().getString("lol.tag")).replace("%tag%", data.getLolTag()));
+                    player.sendMessage(CC.GREEN + "Your tag has been set to: " + CC.translate(Thads.get().getLang().getString("lol.tag")).replace("%tag%", data.getLolTag()));
                 } else {
                     player.sendMessage(CC.RED + "Your tag must be less than 5 characters long.");
                 }

@@ -52,20 +52,20 @@ public class ButtonListener implements Listener {
                     Menu newMenu = Menu.currentlyOpenedMenus.get(player.getName());
 
                     if (newMenu == openMenu) {
-                        boolean buttonUpdate = button.shouldUpdate(player, event.getSlot(), event.getClick());
+                        boolean buttonUpdate = button.shouldUpdate(player, event.getClick());
 
                         if ((newMenu.isUpdateAfterClick() && buttonUpdate) || buttonUpdate) {
                             openMenu.setClosedByMenu(true);
                             newMenu.openMenu(player);
                         }
                     }
-                } else if (button.shouldUpdate(player, event.getSlot(), event.getClick())) {
+                } else if (button.shouldUpdate(player, event.getClick())) {
                     openMenu.setClosedByMenu(true);
                     openMenu.openMenu(player);
                 }
 
                 if (event.isCancelled()) {
-                    Bukkit.getScheduler().runTaskLater(Thads.getInstance(), () -> player.updateInventory(), 1L);
+                    Bukkit.getScheduler().runTaskLater(Thads.get(), () -> player.updateInventory(), 1L);
                 }
             } else {
                 if ((event.getClick() == ClickType.SHIFT_LEFT || event.getClick() == ClickType.SHIFT_RIGHT)) {
@@ -90,7 +90,7 @@ public class ButtonListener implements Listener {
             }
         }
 
-        player.setMetadata("scanglitch", new FixedMetadataValue(Thads.getInstance(), true));
+        player.setMetadata("scanglitch", new FixedMetadataValue(Thads.get(), true));
     }
 
     @EventHandler
@@ -98,7 +98,7 @@ public class ButtonListener implements Listener {
         Player player = event.getPlayer();
 
         if (player.hasMetadata("scanglitch")) {
-            player.removeMetadata("scanglitch", Thads.getInstance());
+            player.removeMetadata("scanglitch", Thads.get());
 
             for (ItemStack it : player.getInventory().getContents()) {
                 if (it != null) {

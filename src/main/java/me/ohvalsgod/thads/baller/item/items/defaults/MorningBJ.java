@@ -17,6 +17,8 @@ public class MorningBJ extends AbstractBallerItem {
         listener = new BJListener();
     }
 
+
+
     public class BJListener implements Listener {
         @EventHandler
         public void onDamage(EntityDamageByEntityEvent event) {
@@ -24,7 +26,7 @@ public class MorningBJ extends AbstractBallerItem {
                 if (event.getEntity() instanceof Player) {
                     if (event.getDamager() instanceof Player) {
                         Player player = (Player) event.getDamager();
-                        if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof MorningBJ) {
+                        if (BallerManager.getBallerManager().getItemByStack(player.getItemInHand()) instanceof MorningBJ) {
                             event.setDamage(event.getDamage() * 1.1);
                         }
                     }

@@ -31,7 +31,7 @@ public class UUIDParameterType implements ParameterType<UUID> {
     public List<String> tabComplete(Player sender, Set<String> flags, String source) {
         List<String> completions = new ArrayList<>();
 
-        for (Player player : Thads.getInstance().getServer().getOnlinePlayers()) {
+        for (Player player : Thads.get().getServer().getOnlinePlayers()) {
             if (StringUtils.startsWithIgnoreCase(player.getName(), source)) {
                 completions.add(player.getName());
             }

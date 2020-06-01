@@ -1,7 +1,6 @@
 package me.ohvalsgod.thads.baller.item.items.summer;
 
 import lombok.Getter;
-import me.confuser.barapi.BarAPI;
 import me.ohvalsgod.thads.Thads;
 import me.ohvalsgod.thads.baller.BallerManager;
 import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
@@ -24,6 +23,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.inventivetalent.bossbar.BossBarAPI;
 
 import java.util.HashSet;
 import java.util.List;
@@ -45,6 +45,8 @@ public class PianoKey extends AbstractBallerItem {
         listener = new PKListener();
     }
 
+
+
     public class PKListener implements Listener {
 
         private void playRecord(Player player, Location location, Integer record) {
@@ -58,7 +60,7 @@ public class PianoKey extends AbstractBallerItem {
         private void activate(Player player, Double radius) {
             World world = player.getWorld();
             //TODO: cooldown
-            BarAPI.removeBar(player);
+            BossBarAPI.removeBar(player);
             if (WorldGuardUtil.isPlayerInPvP(player)) {
                 if (!InvisibilityRing.getInvis().contains(player.getName())) {
                     for (Location location : LocationUtil.getCircle(player.getLocation(), radius, radius.intValue() * 3)) {
@@ -83,7 +85,7 @@ public class PianoKey extends AbstractBallerItem {
                                         }
                                         pitch++;
                                     }
-                                }.runTaskTimer(Thads.getInstance(), 0L, 2L);
+                                }.runTaskTimer(Thads.get(), 0L, 2L);
 
                                 d.setHealth(d.getHealth() > 4 ? d.getHealth() - 4:0);
                                 d.playEffect(EntityEffect.HURT);
@@ -105,7 +107,7 @@ public class PianoKey extends AbstractBallerItem {
         @EventHandler
         public void onSneak(PlayerToggleSneakEvent event) {
             Player player = event.getPlayer();
-            if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof PianoKey) {
+            if (BallerManager.getBallerManager().getItemByStack(player.getItemInHand()) instanceof PianoKey) {
                 if (expired(player)) {
                     new BukkitRunnable() {
                         Double radius = 0d;
@@ -116,7 +118,7 @@ public class PianoKey extends AbstractBallerItem {
                                 if (this.radius <= 10) {
                                     if (expired(player) || runnable.contains(player.getName())) {
                                         runnable.add(player.getName());
-                                        BarAPI.setMessage(player, ChatColor.AQUA + "" + ChatColor.BOLD + "Music Radius: " + Float.toString(radius.floatValue()));
+                                        BossBarAPI.setMessage(player, ChatColor.AQUA + "" + ChatColor.BOLD + "Music Radius: " + Float.toString(radius.floatValue()));
                                         radius = radius + 1;
                                     } else {
                                         runnable.remove(player.getName());
@@ -135,7 +137,7 @@ public class PianoKey extends AbstractBallerItem {
                                 }
                             }
                         }
-                    }.runTaskTimer(Thads.getInstance(), 0L, 20L);
+                    }.runTaskTimer(Thads.get(), 0L, 20L);
                 } else {
                     player.sendMessage(LANG.getString("lol.error.cooldown").replace("{ITEM}", WordUtils.capitalizeFully(getName())).replace("{AMOUNT}", String.valueOf(remaining(player)/1000)));
                 }
@@ -147,7 +149,7 @@ public class PianoKey extends AbstractBallerItem {
             if (event.getDamager() instanceof Player) {
                 Player player = (Player) event.getDamager();
 
-                if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof PianoKey) {
+                if (BallerManager.getBallerManager().getItemByStack(player.getItemInHand()) instanceof PianoKey) {
                     player.getWorld().playEffect(player.getLocation().add(new Vector(0,1,0)), Effect.NOTE, 2);
                     player.getWorld().playEffect(player.getLocation().add(new Vector(0,1,1)), Effect.NOTE, 2);
                     player.getWorld().playEffect(player.getLocation().add(new Vector(1,1,0)), Effect.NOTE, 2);
@@ -161,12 +163,12 @@ public class PianoKey extends AbstractBallerItem {
             if (player.getKiller() != null) {
                 if (player.getKiller() instanceof Player) {
                     Player killer = player.getKiller();
-                    if (BallerManager.getBallerManager().getByItemStack(killer.getItemInHand()) instanceof PianoKey) {
+                    if (BallerManager.getBallerManager().getItemByStack(killer.getItemInHand()) instanceof PianoKey) {
                         String id = player.getItemInHand().getItemMeta().getLore().get(3).split(":")[1].substring(1);
                         for (Player other : Bukkit.getServer().getOnlinePlayers()) {
                             final Location location = other.getLocation().clone();
                             playRecord(player, location, Integer.parseInt(CC.strip(id)));
-                            Thads.getInstance().getServer().getScheduler().runTaskLater(Thads.getInstance(), new Runnable() {
+                            Thads.get().getServer().getScheduler().runTaskLater(Thads.get(), new Runnable() {
                                 @Override
                                 public void run() {
                                     stopRecord(other, location);

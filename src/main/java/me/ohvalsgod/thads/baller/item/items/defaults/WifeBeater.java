@@ -21,6 +21,8 @@ public class WifeBeater extends AbstractBallerItem {
         listener = new WBListener();
     }
 
+
+
     public class WBListener implements Listener {
         @EventHandler
         public void onDamage(PlayerInteractEntityEvent e) {
@@ -29,7 +31,7 @@ public class WifeBeater extends AbstractBallerItem {
                 if (e.getRightClicked() instanceof LivingEntity) {
                     LivingEntity entity = (LivingEntity) e.getRightClicked();
                     if (WorldGuardUtil.isPlayerInPvP(player) && !InvisibilityRing.getInvis().contains(player.getName())) {
-                        if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof WifeBeater) {
+                        if (BallerManager.getBallerManager().getItemByStack(player.getItemInHand()) instanceof WifeBeater) {
                             entity.setVelocity(new Vector(0, 1.3, 0));
                             entity.getWorld().playSound(entity.getLocation(), Sound.ENDERDRAGON_WINGS, 1F, 1F);
                             entity.getWorld().playSound(entity.getLocation(), Sound.ENDERDRAGON_WINGS, 1f, 1f);

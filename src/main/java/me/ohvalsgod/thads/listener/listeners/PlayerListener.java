@@ -1,9 +1,11 @@
 package me.ohvalsgod.thads.listener.listeners;
 
 import me.ohvalsgod.thads.Thads;
-import me.ohvalsgod.thads.baller.gui.buttons.weapons.BallerItemEditBuyPriceButton;
-import me.ohvalsgod.thads.baller.gui.buttons.weapons.BallerItemEditSellPriceButton;
+import me.ohvalsgod.thads.baller.armor.AbstractBallerArmor;
+import me.ohvalsgod.thads.baller.gui.buttons.object.BallerObjectEditBuyPriceButton;
+import me.ohvalsgod.thads.baller.gui.buttons.object.BallerObjectEditSellPriceButton;
 import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
+import me.ohvalsgod.thads.baller.object.AbstractBallerObject;
 import me.ohvalsgod.thads.util.CC;
 import me.ohvalsgod.thads.util.NumberUtil;
 import org.bukkit.entity.Player;
@@ -20,47 +22,47 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         String message = event.getMessage().replace("$", "").replace(",", "");
 
-        if (BallerItemEditSellPriceButton.getInEdit().containsKey(player.getUniqueId())
-                || BallerItemEditBuyPriceButton.getInEdit().containsKey(player.getUniqueId())) {
+        if (BallerObjectEditSellPriceButton.getInEdit().containsKey(player.getUniqueId())
+                || BallerObjectEditBuyPriceButton.getInEdit().containsKey(player.getUniqueId())) {
             event.setCancelled(true);
             if (message.equalsIgnoreCase("cancel")) {
-                if (BallerItemEditBuyPriceButton.getInEdit().containsKey(player.getUniqueId())) {
-                    BallerItemEditBuyPriceButton.getInEdit().remove(player.getUniqueId());
-                    player.sendMessage(Thads.getInstance().getLang().getString("lol.error.edit-cancelled"));
-                } else if (BallerItemEditSellPriceButton.getInEdit().containsKey(player.getUniqueId())) {
-                    BallerItemEditSellPriceButton.getInEdit().remove(player.getUniqueId());
-                    player.sendMessage(Thads.getInstance().getLang().getString("lol.error.edit-cancelled"));
+                if (BallerObjectEditBuyPriceButton.getInEdit().containsKey(player.getUniqueId())) {
+                    BallerObjectEditBuyPriceButton.getInEdit().remove(player.getUniqueId());
+                    player.sendMessage(Thads.get().getLang().getString("lol.error.edit-cancelled"));
+                } else if (BallerObjectEditSellPriceButton.getInEdit().containsKey(player.getUniqueId())) {
+                    BallerObjectEditSellPriceButton.getInEdit().remove(player.getUniqueId());
+                    player.sendMessage(Thads.get().getLang().getString("lol.error.edit-cancelled"));
                     return;
                 }
             } else {
                 message = message.replace(" ", "");
 
                 if (!NumberUtil.isInteger(message)) {
-                    player.sendMessage(Thads.getInstance().getLang().getString("lol.error.not-a-number"));
+                    player.sendMessage(Thads.get().getLang().getString("lol.error.not-a-number"));
                     player.sendMessage(" ");
                     player.sendMessage(CC.GRAY + "Please enter your value again:");
                     return;
                 }
                 int price = Integer.valueOf(message);
 
-                AbstractBallerItem item;
+                AbstractBallerObject item;
 
-                if (BallerItemEditBuyPriceButton.getInEdit().containsKey(player.getUniqueId())) {
-                    item = BallerItemEditBuyPriceButton.getInEdit().get(player.getUniqueId());
+                if (BallerObjectEditBuyPriceButton.getInEdit().containsKey(player.getUniqueId())) {
+                    item = BallerObjectEditBuyPriceButton.getInEdit().get(player.getUniqueId());
 
                     item.setBuyPrice(price);
-                    player.sendMessage(Thads.getInstance().getLang().getString("lol.weapons.edit.price.buy")
-                            .replace("%item%", item.getBallerItemStack().getItemMeta().getDisplayName())
+                    player.sendMessage(Thads.get().getLang().getString("lol.weapons.edit.price.buy")
+                            .replace("%item%", (item instanceof AbstractBallerItem ? ((AbstractBallerItem) item).getBallerItemStack().getItemMeta().getDisplayName():((AbstractBallerArmor)item).getBallerArmor()[1].getItemMeta().getDisplayName()))
                             .replace("%amount%", NumberFormat.getCurrencyInstance().format(item.getBuyPrice())));
-                    BallerItemEditBuyPriceButton.getInEdit().remove(player.getUniqueId());
-                } else if (BallerItemEditSellPriceButton.getInEdit().containsKey(player.getUniqueId())) {
-                    item = BallerItemEditSellPriceButton.getInEdit().get(player.getUniqueId());
+                    BallerObjectEditBuyPriceButton.getInEdit().remove(player.getUniqueId());
+                } else if (BallerObjectEditSellPriceButton.getInEdit().containsKey(player.getUniqueId())) {
+                    item = BallerObjectEditSellPriceButton.getInEdit().get(player.getUniqueId());
 
                     item.setSellPrice(price);
-                    player.sendMessage(Thads.getInstance().getLang().getString("lol.weapons.edit.price.sell")
-                            .replace("%item%", item.getBallerItemStack().getItemMeta().getDisplayName())
+                    player.sendMessage(Thads.get().getLang().getString("lol.weapons.edit.price.sell")
+                            .replace("%item%", (item instanceof AbstractBallerItem ? ((AbstractBallerItem) item).getBallerItemStack().getItemMeta().getDisplayName():((AbstractBallerArmor)item).getBallerArmor()[1].getItemMeta().getDisplayName()))
                             .replace("%amount%", NumberFormat.getCurrencyInstance().format(item.getSellPrice())));
-                    BallerItemEditSellPriceButton.getInEdit().remove(player.getUniqueId());
+                    BallerObjectEditSellPriceButton.getInEdit().remove(player.getUniqueId());
                 }
             }
         }

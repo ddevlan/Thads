@@ -19,7 +19,7 @@ public class PlayerParameterType implements ParameterType<Player> {
             return ((Player) sender);
         }
 
-        Player player = Thads.getInstance().getServer().getPlayer(source);
+        Player player = Thads.get().getServer().getPlayer(source);
 
         if (player == null) {
             sender.sendMessage(ChatColor.RED + "No player with the name " + source + " found.");

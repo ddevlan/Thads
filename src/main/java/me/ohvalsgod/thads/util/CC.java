@@ -49,7 +49,7 @@ public final class CC {
 	public static final String SCOREBOARD_SEPERATOR_EXTRA = CC.GRAY + CC.S + "--------------------------------";
 	public static final String HORIZONTAL_SEPARATOR = CC.GRAY + CC.S + "------------------------------------------------";
 	public static final String VERTICAL_SEPARATOR = CC.GRAY + StringEscapeUtils.unescapeJava("\u2503");
-
+	public static final String MENU_BAR = ChatColor.GRAY.toString() + ChatColor.STRIKETHROUGH.toString() + "------------------------";
 	public static final String ARROW_LEFT = StringEscapeUtils.unescapeJava("\u25C0");
 	public static final String ARROW_RIGHT = StringEscapeUtils.unescapeJava("\u25B6");
 	public static final String ARROWS_LEFT = StringEscapeUtils.unescapeJava("\u00AB");

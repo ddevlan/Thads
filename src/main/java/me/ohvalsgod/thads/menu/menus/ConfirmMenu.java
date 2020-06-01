@@ -3,7 +3,7 @@ package me.ohvalsgod.thads.menu.menus;
 import me.ohvalsgod.thads.menu.Button;
 import me.ohvalsgod.thads.menu.Menu;
 import me.ohvalsgod.thads.menu.buttons.ConfirmationButton;
-import me.ohvalsgod.thads.util.TypeCallback;
+import me.ohvalsgod.thads.util.callback.TypeCallback;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

@@ -1,7 +1,6 @@
 package me.ohvalsgod.thads.baller.item.items.christmas;
 
 import lombok.Getter;
-import me.confuser.barapi.BarAPI;
 import me.ohvalsgod.thads.Thads;
 import me.ohvalsgod.thads.baller.BallerManager;
 import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
@@ -22,6 +21,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.event.player.PlayerVelocityEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.inventivetalent.bossbar.BossBarAPI;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -51,8 +51,8 @@ public class Iceblade extends AbstractBallerItem {
         @EventHandler
         public void onMove(PlayerMoveEvent e) {
             Player player = e.getPlayer();
-            if (BarAPI.hasBar(player) && BarAPI.getMessage(player).equalsIgnoreCase("Ender Dragon")) {
-                BarAPI.removeBar(player);
+            if (BossBarAPI.hasBar(player) && !BossBarAPI.getMessage(player).equalsIgnoreCase("Ender Dragon")) {
+                BossBarAPI.removeBar(player);
             }
 
             if (frozen.contains(player.getName()) && e.getFrom().getY() < e.getTo().getY()) {
@@ -82,8 +82,8 @@ public class Iceblade extends AbstractBallerItem {
         public void onSneak(PlayerToggleSneakEvent e) {
             if (isEnabled()) {
                 final Player player = e.getPlayer();
-                final PlayerData data = Thads.getInstance().getPlayerDataHandler().getPlayerData(player.getUniqueId());
-                if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof Iceblade) {
+                final PlayerData data = Thads.get().getPlayerDataHandler().getPlayerData(player.getUniqueId());
+                if (BallerManager.getBallerManager().getItemByStack(player.getItemInHand()) instanceof Iceblade) {
                     if (!runnable.contains(player.getName())) {
                         new BukkitRunnable() {
                             Double radius = 0d;
@@ -94,7 +94,7 @@ public class Iceblade extends AbstractBallerItem {
                                     if (this.radius <= 10) {
                                         if (expired(player) || runnable.contains(player.getName())) {
                                             runnable.add(player.getName());
-                                            BarAPI.setMessage(player, ChatColor.AQUA + "" + ChatColor.BOLD + "Freeze Radius: " + Float.toString(radius.floatValue()));
+                                            BossBarAPI.setMessage(player, ChatColor.AQUA + "" + ChatColor.BOLD + "Freeze Radius: " + Float.toString(radius.floatValue()));
                                             radius = radius + 1;
                                         } else {
                                             runnable.remove(player.getName());
@@ -113,14 +113,14 @@ public class Iceblade extends AbstractBallerItem {
                                     }
                                 }
                             }
-                        }.runTaskTimer(Thads.getInstance(), 0L, 20L);
+                        }.runTaskTimer(Thads.get(), 0L, 20L);
                     }
                 }
             }
         }
 
         public void activate(final Player player, Double radius) {
-            BarAPI.removeBar(player);
+            BossBarAPI.removeBar(player);
             cool(player);
             boolean b = false;
             runnable.remove(player.getName());
@@ -138,15 +138,15 @@ public class Iceblade extends AbstractBallerItem {
                             ParticleEffect.CLOUD.display(player.getLocation(), 1.0F, 1.0F, 1.0F, 1.0F, 30);
                             int ii = 3;
                             oo.setWalkSpeed(1.0E-004F);
-                            BarAPI.setMessage(oo, CC.AQUA + "" + CC.BOLD + "You have been frozen by " + player.getName(), ii);
+                            BossBarAPI.setMessage(oo, CC.AQUA + "" + CC.BOLD + "You have been frozen by " + player.getName(), ii);
                             oo.sendMessage(CC.GRAY + "You have been frozen by " + CC.AQUA + player.getName());
                             playersAffected.append(CC.AQUA + oo.getName() + CC.GRAY + ", ");
                             ParticleEffect.CLOUD.display(oo.getLocation(), 1.0F, 1.0F, 1.0F, 1.0F, 40);
                             ParticleEffect.CLOUD.display(oo.getLocation(), 1.0F, 1.0F, 1.0F, 1.0F, 40);
                             oo.getWorld().playEffect(oo.getLocation(), Effect.STEP_SOUND, 79);
-                            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Thads.getInstance(), () -> {
+                            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Thads.get(), () -> {
                                 frozen.remove(oo.getName());
-                                BarAPI.removeBar(oo);
+                                BossBarAPI.removeBar(oo);
                                 oo.setWalkSpeed(0.2F);
                             }, ii * 20L);
                         }
@@ -164,5 +164,4 @@ public class Iceblade extends AbstractBallerItem {
             }
         }
     }
-
 }

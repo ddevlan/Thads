@@ -1,11 +1,9 @@
-package me.ohvalsgod.thads.baller.gui.buttons.weapons;
+package me.ohvalsgod.thads.baller.gui.buttons.object;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.ohvalsgod.thads.Thads;
-import me.ohvalsgod.thads.baller.gui.buttons.armor.BallerArmorEditBuyPriceButton;
-import me.ohvalsgod.thads.baller.gui.buttons.armor.BallerArmorEditSellPriceButton;
-import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
+import me.ohvalsgod.thads.baller.object.AbstractBallerObject;
 import me.ohvalsgod.thads.menu.Button;
 import me.ohvalsgod.thads.util.ItemBuilder;
 import org.bukkit.Bukkit;
@@ -20,29 +18,27 @@ import java.util.Map;
 import java.util.UUID;
 
 @AllArgsConstructor
-public class BallerItemEditBuyPriceButton extends Button {
+public class BallerObjectEditBuyPriceButton extends Button {
 
-    @Getter private static Map<UUID, AbstractBallerItem> inEdit = new HashMap();
+    @Getter private static Map<UUID, AbstractBallerObject> inEdit = new HashMap();
 
-    private AbstractBallerItem item;
+    private AbstractBallerObject item;
 
     @Override
     public ItemStack getButtonItem(Player player) {
         ItemBuilder builder = new ItemBuilder(Material.MAP);
-        builder.name(Thads.getInstance().getLang().getString("lol.menu.weapons.edit.price.buy"));
-        builder.lore(Thads.getInstance().getLang().getString("lol.menu.weapons.edit.price.edit"));
+        builder.name(Thads.get().getLang().getString("lol.menu.objects.edit.price.buy"));
+        builder.lore(Thads.get().getLang().getString("lol.menu.objects.edit.price.edit"));
         return builder.build();
     }
 
     @Override
     public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-        if (!BallerItemEditSellPriceButton.getInEdit().containsKey(player.getUniqueId())
-                && !BallerArmorEditSellPriceButton.getInEdit().containsKey(player.getUniqueId())
-                && !BallerArmorEditBuyPriceButton.getInEdit().containsKey(player.getUniqueId())
+        if (!BallerObjectEditSellPriceButton.getInEdit().containsKey(player.getUniqueId())
                 && !inEdit.containsKey(player.getUniqueId())) {
             player.closeInventory();
             inEdit.put(player.getUniqueId(), item);
-            player.sendMessage(Thads.getInstance().getLang().getString("lol.economy.price.edit.buy"));
+            player.sendMessage(Thads.get().getLang().getString("lol.economy.price.edit.buy"));
 
             final UUID uuid = player.getUniqueId();
             new BukkitRunnable() {
@@ -52,13 +48,13 @@ public class BallerItemEditBuyPriceButton extends Button {
                         inEdit.remove(player.getUniqueId());
 
                         if (Bukkit.getPlayer(uuid) != null) {
-                            player.sendMessage(Thads.getInstance().getLang().getString("lol.error.edit-expired"));
+                            player.sendMessage(Thads.get().getLang().getString("lol.error.edit-expired"));
                         }
                     }
                 }
-            }.runTaskLater(Thads.getInstance(), 20 * 30);
+            }.runTaskLater(Thads.get(), 20 * 30);
         } else {
-            player.sendMessage(Thads.getInstance().getLang().getString("lol.error.edit-already-running"));
+            player.sendMessage(Thads.get().getLang().getString("lol.error.edit-already-running"));
         }
     }
 

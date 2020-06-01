@@ -1,7 +1,6 @@
 package me.ohvalsgod.thads.baller.item.items.defaults;
 
 import lombok.Getter;
-import me.confuser.barapi.BarAPI;
 import me.ohvalsgod.thads.Thads;
 import me.ohvalsgod.thads.baller.BallerManager;
 import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
@@ -11,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.inventivetalent.bossbar.BossBarAPI;
 
 import java.util.HashMap;
 
@@ -26,6 +26,8 @@ public class MagicSperm extends AbstractBallerItem {
         listener = new MSListener();
     }
 
+
+
     public class MSListener implements Listener {
         @EventHandler
         public void onHit(EntityDamageByEntityEvent event) {
@@ -34,11 +36,11 @@ public class MagicSperm extends AbstractBallerItem {
                     Player target = (Player) event.getEntity();
                     if (event.getDamager() instanceof Player) {
                         Player player = (Player) event.getDamager();
-                        if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof MagicSperm) {
+                        if (BallerManager.getBallerManager().getItemByStack(player.getItemInHand()) instanceof MagicSperm) {
                             int i = 2;
                             if (!invis.containsKey(player.getName())) {
                                 target.hidePlayer(player);
-                                BarAPI.setMessage(player, CC.AQUA + CC.BOLD + "You are invisible.", i);
+                                BossBarAPI.setMessage(player, CC.AQUA + CC.BOLD + "You are invisible.", i);
                                 invis.put(player.getName(), i + 1);
                                 new BukkitRunnable() {
                                     @Override
@@ -51,7 +53,7 @@ public class MagicSperm extends AbstractBallerItem {
                                             }
                                         }
                                     }
-                                }.runTaskTimer(Thads.getInstance(), 0L, 20L);
+                                }.runTaskTimer(Thads.get(), 0L, 20L);
                             }
                         }
                     }

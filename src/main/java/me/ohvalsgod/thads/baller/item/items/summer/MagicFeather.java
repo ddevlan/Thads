@@ -33,12 +33,14 @@ public class MagicFeather extends AbstractBallerItem {
         listener = new MFListener();
     }
 
+
+
     public class MFListener implements Listener {
         @EventHandler
         public void onMove(PlayerMoveEvent event) {
             if (isEnabled()) {
                 Player player = event.getPlayer();
-                if (BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof MagicFeather) {
+                if (BallerManager.getBallerManager().getItemByStack(player.getItemInHand()) instanceof MagicFeather) {
                     if (!WorldGuardUtil.isPlayerInPvP(player)) {
                         if (!flying.contains(player.getUniqueId())) {
                             flying.add(player.getUniqueId());
@@ -79,7 +81,7 @@ public class MagicFeather extends AbstractBallerItem {
                 }
 
                 if (flying.contains(player.getUniqueId())) {
-                    if (WorldGuardUtil.isPlayerInPvP(player) || !(BallerManager.getBallerManager().getByItemStack(player.getItemInHand()) instanceof MagicFeather)) {
+                    if (WorldGuardUtil.isPlayerInPvP(player) || !(BallerManager.getBallerManager().getItemByStack(player.getItemInHand()) instanceof MagicFeather)) {
                         player.setFlying(false);
                         player.setAllowFlight(false);
                         flying.remove(player.getUniqueId());
@@ -91,7 +93,7 @@ public class MagicFeather extends AbstractBallerItem {
 
     @EventHandler
     public void onToggleFlight(PlayerToggleFlightEvent event) {
-        if (flying.contains(event.getPlayer().getUniqueId()) || (BallerManager.getBallerManager().getByItemStack(event.getPlayer().getItemInHand()) instanceof MagicFeather)) {
+        if (flying.contains(event.getPlayer().getUniqueId()) || (BallerManager.getBallerManager().getItemByStack(event.getPlayer().getItemInHand()) instanceof MagicFeather)) {
             event.setCancelled(true);
         }
     }

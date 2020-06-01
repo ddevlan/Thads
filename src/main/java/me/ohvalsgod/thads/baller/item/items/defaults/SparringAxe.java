@@ -9,4 +9,7 @@ public class SparringAxe extends AbstractBallerItem {
         getAliases().add("saxe");
         setWeight(3);
     }
+
+
+
 }
