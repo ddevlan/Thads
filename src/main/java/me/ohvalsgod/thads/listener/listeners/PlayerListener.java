@@ -51,7 +51,8 @@ public class PlayerListener implements Listener {
                     item = BallerObjectEditBuyPriceButton.getInEdit().get(player.getUniqueId());
 
                     item.setBuyPrice(price);
-                    player.sendMessage(Thads.get().getLang().getString("lol.weapons.edit.price.buy")
+                    Thads.change();
+                    player.sendMessage(Thads.get().getLang().getString("lol.objects.edit.price.buy")
                             .replace("%item%", (item instanceof AbstractBallerItem ? ((AbstractBallerItem) item).getBallerItemStack().getItemMeta().getDisplayName():((AbstractBallerArmor)item).getBallerArmor()[1].getItemMeta().getDisplayName()))
                             .replace("%amount%", NumberFormat.getCurrencyInstance().format(item.getBuyPrice())));
                     BallerObjectEditBuyPriceButton.getInEdit().remove(player.getUniqueId());
@@ -59,7 +60,8 @@ public class PlayerListener implements Listener {
                     item = BallerObjectEditSellPriceButton.getInEdit().get(player.getUniqueId());
 
                     item.setSellPrice(price);
-                    player.sendMessage(Thads.get().getLang().getString("lol.weapons.edit.price.sell")
+                    Thads.change();
+                    player.sendMessage(Thads.get().getLang().getString("lol.objects.edit.price.sell")
                             .replace("%item%", (item instanceof AbstractBallerItem ? ((AbstractBallerItem) item).getBallerItemStack().getItemMeta().getDisplayName():((AbstractBallerArmor)item).getBallerArmor()[1].getItemMeta().getDisplayName()))
                             .replace("%amount%", NumberFormat.getCurrencyInstance().format(item.getSellPrice())));
                     BallerObjectEditSellPriceButton.getInEdit().remove(player.getUniqueId());

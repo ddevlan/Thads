@@ -27,11 +27,11 @@ public class LOLObjectEditMenu extends Menu {
     @Override
     public String getTitle(Player player) {
         if (item instanceof AbstractBallerItem) {
-            Thads.get().getLang().getString("lol.menu.objects.edit.title").replace("%item%", trimDisplayName(((AbstractBallerItem) item).getBallerItemStack().getItemMeta().getDisplayName()));
+            return Thads.get().getLang().getString("lol.menu.objects.edit.title").replace("%item%", trimDisplayName(((AbstractBallerItem) item).getBallerItemStack().getItemMeta().getDisplayName()));
         } else if (item instanceof AbstractBallerArmor) {
-
+            return Thads.get().getLang().getString("lol.menu.armor.edit.title").replace("%item%", trimDisplayName(((AbstractBallerArmor) item).getBallerArmor()[1].getItemMeta().getDisplayName()));
         }
-        return "empty";
+        return "error";
     }
 
     @Override
@@ -43,7 +43,7 @@ public class LOLObjectEditMenu extends Menu {
         }
 
         buttons.put(10, new BallerObjectToggleButton(item));
-        if (item instanceof AbstractBallerItem) {
+        if (item instanceof AbstractBallerItem && ((AbstractBallerItem) item).getLegendaryItemStack().getType() != Material.BEDROCK) {
             buttons.put(12, new LegendaryItemToggleButton((AbstractBallerItem) item));
         }
         buttons.put(14, new BallerObjectEditBuyPriceButton(item));

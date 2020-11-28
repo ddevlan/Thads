@@ -25,7 +25,9 @@ public abstract class FilterablePaginatedMenu<T> extends PaginatedMenu {
 	@Override
 	public Map<Integer, Button> getGlobalButtons(Player player) {
 		Map<Integer, Button> buttons = new HashMap<>();
+
 		buttons.put(7, new PageFilterButton<>(this));
+
 		return buttons;
 	}
 

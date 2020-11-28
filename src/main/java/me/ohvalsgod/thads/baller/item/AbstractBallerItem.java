@@ -1,41 +1,45 @@
 package me.ohvalsgod.thads.baller.item;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.ohvalsgod.thads.Thads;
 import me.ohvalsgod.thads.baller.object.AbstractBallerObject;
 import me.ohvalsgod.thads.config.ConfigCursor;
+import me.ohvalsgod.thads.util.ItemBuilder;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
 public abstract class AbstractBallerItem extends AbstractBallerObject implements IBallerItem {
 
-    protected final ConfigCursor LANG_ITEM;
-    protected final ConfigCursor LANG;
-
     private Map<UUID, Long> cooldowns;
 
-    private ItemStack ballerItemStack, legendaryItemStack;
-    public Listener listener;
-    private boolean legendaryEnabled;
+    private boolean legendaryEnabled = false;
     private List<String> aliases;
     private boolean registered = false;
+    @Setter @Getter
     private double cooldown;
 
     public AbstractBallerItem(String name) {
         super(name);
 
-        //FIX AND MAKE CONFIG TYPE UNIVERSAL
+        aliases = new ArrayList<>();
+        cooldowns = new HashMap<>();
+    }
 
-        LANG_ITEM = new ConfigCursor(Thads.get().getLangConfig(), "lol.weapons." + name);
-        LANG = new ConfigCursor(Thads.get().getLangConfig(), "");
+    @Override
+    public void fixJrebel() {
+        super.fixJrebel();
+
         aliases = new ArrayList<>();
         cooldowns = new HashMap<>();
     }
 
     public boolean expired(Player player) {
-        return cooldowns.getOrDefault(player.getUniqueId(), 0L) + cooldown*1000 > System.currentTimeMillis();
+        return cooldowns.getOrDefault(player.getUniqueId(), Long.MAX_VALUE) + cooldown*1000 > System.currentTimeMillis();
     }
 
     public void cool(Player player) {
@@ -43,7 +47,7 @@ public abstract class AbstractBallerItem extends AbstractBallerObject implements
     }
 
     public double remaining(Player player) {
-        return System.currentTimeMillis() + cooldown*1000 - cooldowns.get(player.getUniqueId());
+        return cooldowns.get(player.getUniqueId()) + cooldown*1000 - System.currentTimeMillis();
     }
     @Override
     public List<String> getAliases() {
@@ -52,23 +56,67 @@ public abstract class AbstractBallerItem extends AbstractBallerObject implements
 
     @Override
     public ItemStack getBallerItemStack() {
-        return ballerItemStack;
-    }
+        ConfigCursor cursor = new ConfigCursor(Thads.get().getBallerObjectConfig(), getName() + ".baller-item");
 
-    @Override
-    public void setBallerItemStack(ItemStack item) {
-        ballerItemStack = item;
+        ItemBuilder builder = new ItemBuilder(Material.valueOf(cursor.getString("material")));
+        builder.name(cursor.getString("name"));
+        builder.lore(cursor.getStringList("lore"));
+        if (!cursor.getKeys("enchants").isEmpty()) {
+            for (String string : cursor.getKeys("enchants")) {
+                builder.enchantment(Enchantment.getByName(string), cursor.getInt("enchants." + string));
+            }
+        }
+
+        if (cursor.parentPath().getBoolean("hide-flags")) {
+            builder.hideFlags();
+        }
+
+        return builder.build();
     }
 
     @Override
     public ItemStack getLegendaryItemStack() {
-        return legendaryItemStack;
+        ConfigCursor cursor = new ConfigCursor(Thads.get().getBallerObjectConfig(), getName() + ".legendary-item");
+
+        ItemBuilder builder = new ItemBuilder(Material.valueOf(cursor.getString("material")));
+
+        if (cursor.getString("material").equalsIgnoreCase("AIR")) {
+            builder.type(Material.BEDROCK);
+        }
+
+        builder.name(cursor.getString("name"));
+        builder.lore(cursor.getStringList("lore"));
+        if (!cursor.getKeys(".enchants").isEmpty()) {
+            for (String string : cursor.getKeys(".enchants")) {
+                builder.enchantment(Enchantment.getByName(string), cursor.getInt("enchants." + string));
+            }
+        }
+
+        if (cursor.parentPath().getBoolean("hide-flags")) {
+            builder.hideFlags();
+        }
+
+        return builder.build();
     }
 
-    @Override
-    public void setLegendaryItemStack(ItemStack item) {
-        legendaryItemStack = item;
+    //TODO
+    public boolean check(ItemStack item, boolean legendary) {
+        if (item != null) {
+            if (item.hasItemMeta()) {
+                if (legendary) {
+                    if (item.getItemMeta().getLore().equals(getLegendaryItemStack().getItemMeta().getLore()) && item.getItemMeta().getDisplayName().equalsIgnoreCase(getLegendaryItemStack().getItemMeta().getDisplayName())) {
+                        return Thads.get().getBallerManager().getItemByName(getName()) == this;
+                    }
+                } else {
+                    if (item.getItemMeta().getLore().equals(getBallerItemStack().getItemMeta().getLore()) && item.getItemMeta().getDisplayName().equalsIgnoreCase(getBallerItemStack().getItemMeta().getDisplayName())) {
+                        return Thads.get().getBallerManager().getItemByName(getName()) == this;
+                    }
+                }
+            }
+        }
+        return false;
     }
+
     @Override
     public Boolean isLegendaryEnabled() {
         return legendaryEnabled;
@@ -78,5 +126,23 @@ public abstract class AbstractBallerItem extends AbstractBallerObject implements
     public void setLegendaryEnabled(boolean b) {
         this.legendaryEnabled = b;
     }
+
+    @Override
+    public void give(Player player) {
+        if (player.getInventory().firstEmpty() == -1) {
+            player.getWorld().dropItem(player.getLocation(), getBallerItemStack());
+        } else {
+            player.getInventory().addItem(getBallerItemStack());
+        }
+    }
+
+    public void giveLegendary(Player player) {
+        if (player.getInventory().firstEmpty() == -1) {
+            player.getWorld().dropItem(player.getLocation(), getLegendaryItemStack());
+        } else {
+            player.getInventory().addItem(getLegendaryItemStack());
+        }
+    }
+
 
 }

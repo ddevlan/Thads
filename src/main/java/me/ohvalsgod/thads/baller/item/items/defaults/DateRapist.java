@@ -11,6 +11,4 @@ public class DateRapist extends AbstractBallerItem {
         setWeight(3.5);
     }
 
-
-
 }

@@ -6,11 +6,7 @@ public interface IBallerItem {
 
     ItemStack getBallerItemStack();
 
-    void setBallerItemStack(ItemStack item);
-
     ItemStack getLegendaryItemStack();
-
-    void setLegendaryItemStack(ItemStack item);
 
     Boolean isLegendaryEnabled();
 

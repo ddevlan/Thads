@@ -10,6 +10,4 @@ public class SparringAxe extends AbstractBallerItem {
         setWeight(3);
     }
 
-
-
 }

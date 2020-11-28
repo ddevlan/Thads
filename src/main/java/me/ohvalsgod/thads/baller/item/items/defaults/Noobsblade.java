@@ -11,6 +11,4 @@ public class Noobsblade extends AbstractBallerItem {
         setWeight(1.0);
     }
 
-
-
 }

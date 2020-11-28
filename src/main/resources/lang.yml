@@ -14,7 +14,7 @@ lol:
     armor:
       edit:
         information:
-          name: "&eInformation on '%item%'"
+          name: "&eInformation on '%armor%'"
           lore:
             - "%separator%"
             - "&7Enabled? &f%enabled%"
@@ -46,7 +46,6 @@ lol:
           - "%separator%"
           - "&7&oLeft-click for regular, right-click for legendary."
           - "&7&oMiddle-click to edit settings. &7*CREATIVE-ONLY*"
-
     objects:
       edit:
         information:
@@ -87,33 +86,34 @@ lol:
   objects:
     edit:
       price:
-        sell: "&7The sell price of %item% &7has been changed to &b%amount%&7."
-        buy: "&7The buy price of %item% &7has been changed to &b%amount%&7."
-    item-toggled: "&7You have %toggled% &7the %item%&7."
+        sell: "&6[&e!&6] &7The sell price of %item% &7has been changed to &b%amount%&7."
+        buy: "&6[&e!&6] &7The buy price of %item% &7has been changed to &b%amount%&7."
+    item-toggled: "&6[&e!&6] &7You have %toggled% &7&l: %item%&7."
     invisibilityring:
-      no-longer-invisible: "&cYou are no longer invisible."
-      hit-on-vanish: "&cYou cannot vanish now. You were hit."
+      no-longer-invisible: "&6[&e!&6] &cYou are no longer invisible."
+      hit-on-vanish: "&6[&e!&6] &cYou cannot vanish now. You were hit."
       vanishing-in: "&7Vanishing in: &b%time% &7seconds."
       now-invisible:
         chat: "&aYou are now invisible."
         bar: "&c&lYou are now invisible!"
   tag: "&8[&4%tag%&8]&r"
   error:
-    edit-expired: "&7Your editing time has expired."
-    edit-already-running: "&cYou already have an edit in process, please finish that one or chests 'cancel' to cancel it."
-    edit-cancelled: "&7Your edit has been cancelled."
-    not-a-number: "&cSorry but that is not a number."
-    cooldown: "&b%item% &cis on cooldown for %time% seconds."
-    non-invis-ring: "&cYou cannot use this while '&bInvisibility Ring&c' is active!"
-    legendary-disabled: "&cSorry but this legendary baller item is disabled. Please try again later."
-    baller-item-disabled: "&cSorry but this baller item is disabled. Please try again later."
-    non-pvp-area: "&cYou can only use this in PVP enabled areas!"
+    edit-expired: "&4[&c!&4] &7Your editing time has expired."
+    edit-already-running: "&4[&c!&4] &cYou already have an edit in process, please finish that one or chests 'cancel' to cancel it."
+    edit-cancelled: "&4[&c!&4] &7Your edit has been cancelled."
+    not-a-number: "&4[&c!&4]&cSorry but that is not a number."
+    cooldown: "&4[&c!&4] &b%item% &cis on cooldown for %time% seconds."
+    non-invis-ring: "&4[&c!&4] &cYou cannot use this while '&bInvisibility Ring&c' is active!"
+    legendary-disabled: "&4[&c!&4] &cSorry but this legendary baller item is disabled. Please try again later."
+    baller-item-disabled: "&4[&c!&4] &cSorry but this baller item is disabled. Please try again later."
+    non-pvp-area: "&4[&c!&4] &cYou can only use this in PVP enabled areas!"
 
   help:
     - "&6&m------------------------------------------------"
     - "&9&lLOLPVP Help &7- &eInformation on LOLPVP"
     - "&7&m------------------------------------------------"
     - "&e/lol help &7- Displays this help gui"
+    - "&e/lol reload &7- Reloads all config files"
     - "&e/lol weapons &7- Opens gui with custom weapons"
     - "&6&m------------------------------------------------"
 
@@ -143,6 +143,7 @@ kits:
     - "&7/kit <kitName> - Applies a kit."
 
 mystery-chests:
+  broadcast: "&b{player} &cjust opened a {mysterychest}&c!"
   given: "&aYou have been given a %chest%!"
   menu:
     edit:

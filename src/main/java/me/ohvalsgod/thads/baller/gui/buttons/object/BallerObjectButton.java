@@ -23,9 +23,10 @@ public class BallerObjectButton extends Button {
 
     @Override
     public ItemStack getButtonItem(Player player) {
+        ItemStack toReturn;
         if (item instanceof AbstractBallerArmor) {
             AbstractBallerArmor armor = (AbstractBallerArmor) item;
-            ItemBuilder builder = new ItemBuilder(armor.getBallerArmor()[1].getType());
+            ItemBuilder builder = new ItemBuilder(armor.getBallerArmor()[2].getType());
             builder.enchantment(Enchantment.DURABILITY, 1);
             builder.hideFlags();
             builder.name(armor.getBallerArmor()[1].getItemMeta().getDisplayName());
@@ -40,7 +41,8 @@ public class BallerObjectButton extends Button {
 
                 builder.lore(CC.translate(lore));
             }
-        } else if (item instanceof AbstractBallerItem) {
+            toReturn = builder.build();
+        } else  {
             AbstractBallerItem ballerItem = (AbstractBallerItem) item;
             ItemBuilder builder = new ItemBuilder(ballerItem.getBallerItemStack().getType());
             builder.enchantment(Enchantment.DURABILITY, 1);
@@ -58,13 +60,15 @@ public class BallerObjectButton extends Button {
 
                 builder.lore(CC.translate(lore));
             }
+            toReturn = builder.build();
         }
-        return null;
+        return toReturn;
     }
 
     @Override
     public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
         if (clickType.isRightClick()) {
+            //  Specific check for legendary get,
             if (item instanceof AbstractBallerItem) {
                 if (((AbstractBallerItem) item).isLegendaryEnabled() && item.isEnabled()) {
                     if (player.getInventory().firstEmpty() > -1) {
@@ -76,17 +80,7 @@ public class BallerObjectButton extends Button {
             }
         } else if (clickType.isLeftClick()) {
             if (item.isEnabled()) {
-                if (player.getInventory().firstEmpty() > -1) {
-                    if (item instanceof AbstractBallerItem) {
-                        player.getInventory().addItem(((AbstractBallerItem) item).getBallerItemStack());
-                    } else if (item instanceof AbstractBallerArmor) {
-                        if (player.getInventory().firstEmpty() > 2) {
-                            for (ItemStack itemStack : ((AbstractBallerArmor) item).getBallerArmor()) {
-                                player.getInventory().addItem(itemStack);
-                            }
-                        }
-                    }
-                }
+                item.give(player);
             } else {
                 player.sendMessage(CC.translate(Thads.get().getLang().getString("lol.error.baller-item-disabled")));
             }

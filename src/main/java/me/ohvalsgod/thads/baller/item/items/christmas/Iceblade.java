@@ -2,7 +2,6 @@ package me.ohvalsgod.thads.baller.item.items.christmas;
 
 import lombok.Getter;
 import me.ohvalsgod.thads.Thads;
-import me.ohvalsgod.thads.baller.BallerManager;
 import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
 import me.ohvalsgod.thads.baller.item.items.avengers.InvisibilityRing;
 import me.ohvalsgod.thads.data.PlayerData;
@@ -34,12 +33,14 @@ public class Iceblade extends AbstractBallerItem {
     public Iceblade() {
         super("iceblade");
         getAliases().add("ib");
-        setWeight(5.5);
+        setWeight(6.5);
         frozen = new HashSet<>();
         runnable = new HashSet<>();
         listener = new IBListener();
+        setCooldown(10);
     }
 
+    @me.ohvalsgod.thads.listener.Listener
     public class IBListener implements Listener {
         @EventHandler
         public void onVelocityChange(PlayerVelocityEvent e) {
@@ -83,7 +84,7 @@ public class Iceblade extends AbstractBallerItem {
             if (isEnabled()) {
                 final Player player = e.getPlayer();
                 final PlayerData data = Thads.get().getPlayerDataHandler().getPlayerData(player.getUniqueId());
-                if (BallerManager.getBallerManager().getItemByStack(player.getItemInHand()) instanceof Iceblade) {
+                if (Thads.get().getBallerManager().getItemByStack(player.getItemInHand()) instanceof Iceblade) {
                     if (!runnable.contains(player.getName())) {
                         new BukkitRunnable() {
                             Double radius = 0d;
@@ -91,10 +92,10 @@ public class Iceblade extends AbstractBallerItem {
                             @Override
                             public void run() {
                                 if (player.isSneaking()) {
-                                    if (this.radius <= 10) {
+                                    if (this.radius >= 10) {
                                         if (expired(player) || runnable.contains(player.getName())) {
                                             runnable.add(player.getName());
-                                            BossBarAPI.setMessage(player, ChatColor.AQUA + "" + ChatColor.BOLD + "Freeze Radius: " + Float.toString(radius.floatValue()));
+                                            BossBarAPI.setMessage(player, ChatColor.AQUA + "" + ChatColor.BOLD + "Freeze Radius: " + radius.floatValue());
                                             radius = radius + 1;
                                         } else {
                                             runnable.remove(player.getName());

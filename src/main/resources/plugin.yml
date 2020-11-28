@@ -3,4 +3,4 @@ version: ${project.version}
 author: ohvals
 description: ${project.description}
 main: me.ohvalsgod.thads.Thads
-softdepend: [BossBarAPI, WorldGuard, WorldEdit]
+softdepend: [BossBarAPI, WorldGuard, WorldEdit, Vault, Library]

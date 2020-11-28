@@ -97,11 +97,7 @@ prot6ae:
       PROTECTION_FALL: 6
       WATER_WORKER: 6
       OXYGEN: 6
-#
-#
-#########################################
-#   ITEMS
-#   Defaults
+
 noobsblade:
   enabled: true
   sell: 25000
@@ -356,7 +352,7 @@ aebow:
     name: "&bAE Bow"
     hide-flags: false
     lore:
-      - "&7Poison VIII"
+      - "&7Poison VIIISS"
       - "&8The poison sword!"
     enchants:
       ARROW_INFINITE: 1
@@ -365,7 +361,7 @@ aebow:
       ARROW_DAMAGE: 5
       ARROW_KNOCKBACK: 5
   legendary-item:
-    enabled: true
+    enabled: false
     material: "BOW"
     name: "&6Legendary AE Bow"
     hide-flags: false
@@ -504,7 +500,7 @@ magicfeather:
   legendary-item:
     enabled: true
     material: "FEATHER"
-    name: "&6Legendary Magic Feather"
+    name: "&a&lLegendary Magic Feather"
     hide-flags: true
     lore:
       - "&7Flight I"
@@ -665,3 +661,59 @@ captainamericasvibrainumsword:
       - "&cBy default disabled, if you'd like to change the lore go to 'baller-objects.yml'"
     enchants:
       DURABILITY: 1
+
+magicjohnson:
+  enabled: true
+  sell: 100000000
+  buy: 1000000000
+  cooldown: 0.0
+  baller-item:
+    enabled: true
+    material: "MAGMA_CREAM"
+    name: "&6Magic Johnson's Basket Ball"
+    hide-flags: true
+    lore:
+      - "&7Baller I"
+      - "&8"
+    enchants:
+      DURABILITY: 1
+  legendary-item:
+    enabled: false
+    material: "BEDROCK"
+    name: "&6Magic Johnson's Basket Ball"
+    hide-flags: true
+    lore:
+      - "&7Baller I"
+      - "&8"
+    enchants:
+      DURABILITY: 1
+
+abominablesnowman:
+  enabled: true
+  sell: 100000000
+  buy: 1000000000
+  cooldown: 0.0
+  baller-item:
+    enabled: true
+    material: "DIAMOND_SWORD"
+    name: "&bAbominable Snowman"
+    hide-flags: true
+    lore:
+      - "&7Snowstorm I"
+      - "&8This sword was found buried deep in a cavern in Antarctica. Shift to charge."
+    enchants:
+      DAMAGE_ALL: 10
+      DAMAGE_UNDEAD: 10
+      LOOT_BONUS_MOBS: 5
+  legendary-item:
+    enabled: false
+    material: "BEDROCK"
+    name: "&6Magic Johnson's Basket Ball"
+    hide-flags: true
+    lore:
+      - "&7Snowstorm I"
+      - "&8This sword was found buried deep in a cavern in Antarctica. Shift to charge."
+    enchants:
+      DAMAGE_ALL: 10
+      DAMAGE_UNDEAD: 10
+      LOOT_BONUS_MOBS: 5

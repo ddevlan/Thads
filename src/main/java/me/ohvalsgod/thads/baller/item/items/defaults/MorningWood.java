@@ -1,6 +1,6 @@
 package me.ohvalsgod.thads.baller.item.items.defaults;
 
-import me.ohvalsgod.thads.baller.BallerManager;
+import me.ohvalsgod.thads.Thads;
 import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,8 +16,7 @@ public class MorningWood extends AbstractBallerItem {
         listener = new MWListener();
     }
 
-
-
+    @me.ohvalsgod.thads.listener.Listener
     public class MWListener implements Listener {
         @EventHandler
         public void onDamage(EntityDamageByEntityEvent event) {
@@ -25,7 +24,7 @@ public class MorningWood extends AbstractBallerItem {
                 if (event.getEntity() instanceof Player) {
                     if (event.getDamager() instanceof Player) {
                         Player player = (Player) event.getDamager();
-                        if (BallerManager.getBallerManager().getItemByStack(player.getItemInHand()) instanceof MorningBJ) {
+                        if (Thads.get().getBallerManager().getItemByStack(player.getItemInHand()) instanceof MorningBJ) {
                             event.setDamage(event.getDamage() * 1.1);
                         }
                     }

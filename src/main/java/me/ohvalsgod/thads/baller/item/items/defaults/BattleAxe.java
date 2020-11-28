@@ -1,6 +1,6 @@
 package me.ohvalsgod.thads.baller.item.items.defaults;
 
-import me.ohvalsgod.thads.baller.BallerManager;
+import me.ohvalsgod.thads.Thads;
 import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,6 +19,7 @@ public class BattleAxe extends AbstractBallerItem {
 
 
 
+    @me.ohvalsgod.thads.listener.Listener
     public class BAXEListener implements Listener {
 
         @EventHandler
@@ -28,7 +29,7 @@ public class BattleAxe extends AbstractBallerItem {
                     if (e.getDamager() instanceof Player) {
                         Player damager = (Player) e.getDamager();
 
-                        if (BallerManager.getBallerManager().getItemByStack(damager.getItemInHand()) instanceof BattleAxe) {
+                        if (Thads.get().getBallerManager().getItemByStack(damager.getItemInHand()) instanceof BattleAxe) {
                             e.setDamage(EntityDamageEvent.DamageModifier.ARMOR, e.getDamage() * 1.2);
                         }
                     }

@@ -2,10 +2,7 @@ package me.ohvalsgod.thads.data;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.ohvalsgod.thads.perk.Perk;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -16,7 +13,7 @@ public class PlayerData {
     private String lolTag;
     private long lastLolTag;
     private boolean debugMode;
-    private Set<Perk> perks;
+//    private Set<Perk> perks;
 
     public PlayerData(UUID uuid) {
         this.uuid = uuid;
@@ -26,28 +23,28 @@ public class PlayerData {
 
     //TODO: write receivers and givers
 
-    public Perk getRank() {
-        for (Perk perk : perks) {
-            if (perk.isRank()) {
-                return perk;
-            }
-        }
-        return null;
-    }
-
-    public Set<Perk> getPermissionPerks() {
-        Set<Perk> toReturn = new HashSet<>();
-
-        for (Perk perk : perks) {
-            if (perk.isPermission()) {
-                toReturn.add(perk);
-            }
-        }
-        return toReturn;
-    }
-
-    public boolean hasPerk(Perk perk) {
-        return perks.contains(perk);
-    }
+//    public Perk getRank() {
+//        for (Perk perk : perks) {
+//            if (perk.isRank()) {
+//                return perk;
+//            }
+//        }
+//        return null;
+//    }
+//
+//    public Set<Perk> getPermissionPerks() {
+//        Set<Perk> toReturn = new HashSet<>();
+//
+//        for (Perk perk : perks) {
+//            if (perk.isPermission()) {
+//                toReturn.add(perk);
+//            }
+//        }
+//        return toReturn;
+//    }
+//
+//    public boolean hasPerk(Perk perk) {
+//        return perks.contains(perk);
+//    }
 
 }

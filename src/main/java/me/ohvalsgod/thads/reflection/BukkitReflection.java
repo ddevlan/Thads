@@ -76,18 +76,18 @@ public class BukkitReflection {
     public static ItemStack addGlow(ItemStack itemStack) {
         //TODO: add reflection support, rn this is 1.7.10 only
         itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, -1);
-        net.minecraft.server.v1_8_R3.ItemStack nstack = org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack.asNMSCopy(itemStack);
-        net.minecraft.server.v1_8_R3.NBTTagCompound compound = nstack.getTag();
+        net.minecraft.server.v1_7_R4.ItemStack nstack = org.bukkit.craftbukkit.v1_7_R4.inventory.CraftItemStack.asNMSCopy(itemStack);
+        net.minecraft.server.v1_7_R4.NBTTagCompound compound = nstack.getTag();
 
         if(compound == null){
-            compound = new net.minecraft.server.v1_8_R3.NBTTagCompound();
+            compound = new net.minecraft.server.v1_7_R4.NBTTagCompound();
             nstack.setTag(compound);
             compound = nstack.getTag();
         }
 
         if(!compound.hasKey("HideFlags")) compound.setInt("HideFlags", 1);
         nstack.setTag(compound);
-        itemStack = org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack.asCraftMirror(nstack);
+        itemStack = org.bukkit.craftbukkit.v1_7_R4.inventory.CraftItemStack.asCraftMirror(nstack);
 
         return itemStack;
     }

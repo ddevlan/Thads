@@ -33,7 +33,7 @@ public class PageFilterButton<T> extends Button {
 			String decoration = "";
 			String icon;
 
-			if (filter.isEnabled()) {
+			if (!filter.isEnabled()) {
 				color = ChatColor.GREEN.toString();
 				icon = StringEscapeUtils.unescapeJava("\u2713");
 			} else {

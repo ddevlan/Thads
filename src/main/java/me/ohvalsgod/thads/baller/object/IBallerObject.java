@@ -4,7 +4,7 @@ import org.bukkit.event.Listener;
 
 import java.util.List;
 
-public interface IBallerObject {
+interface IBallerObject {
 
     String getName();
 

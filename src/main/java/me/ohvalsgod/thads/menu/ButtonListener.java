@@ -1,7 +1,6 @@
 package me.ohvalsgod.thads.menu;
 
 import me.ohvalsgod.thads.Thads;
-import me.ohvalsgod.thads.menu.pagination.PaginatedMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,17 +9,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.metadata.FixedMetadataValue;
 
 public class ButtonListener implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onButtonPress(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-
         Menu openMenu = Menu.currentlyOpenedMenus.get(player.getName());
 
         if (openMenu != null) {
@@ -34,7 +28,7 @@ public class ButtonListener implements Listener {
 
             if (openMenu.getButtons().containsKey(event.getSlot())) {
                 Button button = openMenu.getButtons().get(event.getSlot());
-                boolean cancel = button.shouldCancel(player, event.getSlot(), event.getClick());
+                boolean cancel = button.shouldCancel(player, event.getClick());
 
                 if (!cancel && (event.getClick() == ClickType.SHIFT_LEFT || event.getClick() == ClickType.SHIFT_RIGHT)) {
                     event.setCancelled(true);
@@ -46,6 +40,7 @@ public class ButtonListener implements Listener {
                     event.setCancelled(cancel);
                 }
 
+                button.clicked(player, event.getClick());
                 button.clicked(player, event.getSlot(), event.getClick(), event.getHotbarButton());
 
                 if (Menu.currentlyOpenedMenus.containsKey(player.getName())) {
@@ -65,9 +60,13 @@ public class ButtonListener implements Listener {
                 }
 
                 if (event.isCancelled()) {
-                    Bukkit.getScheduler().runTaskLater(Thads.get(), () -> player.updateInventory(), 1L);
+                    Bukkit.getScheduler().runTaskLater(Thads.get(), player::updateInventory, 1L);
                 }
             } else {
+                if (event.getCurrentItem() != null) {
+                    event.setCancelled(true);
+                }
+
                 if ((event.getClick() == ClickType.SHIFT_LEFT || event.getClick() == ClickType.SHIFT_RIGHT)) {
                     event.setCancelled(true);
                 }
@@ -84,33 +83,6 @@ public class ButtonListener implements Listener {
             openMenu.onClose(player);
 
             Menu.currentlyOpenedMenus.remove(player.getName());
-
-            if (openMenu instanceof PaginatedMenu) {
-                return;
-            }
-        }
-
-        player.setMetadata("scanglitch", new FixedMetadataValue(Thads.get(), true));
-    }
-
-    @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-
-        if (player.hasMetadata("scanglitch")) {
-            player.removeMetadata("scanglitch", Thads.get());
-
-            for (ItemStack it : player.getInventory().getContents()) {
-                if (it != null) {
-                    ItemMeta meta = it.getItemMeta();
-                    if (meta != null && meta.hasDisplayName()) {
-
-                        if (meta.getDisplayName().contains("§b§c§d§e")) {
-                            player.getInventory().remove(it);
-                        }
-                    }
-                }
-            }
         }
     }
 

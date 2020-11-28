@@ -2,7 +2,6 @@ package me.ohvalsgod.thads.baller.item.items.defaults;
 
 import lombok.Getter;
 import me.ohvalsgod.thads.Thads;
-import me.ohvalsgod.thads.baller.BallerManager;
 import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
 import me.ohvalsgod.thads.util.CC;
 import org.bukkit.entity.Player;
@@ -26,9 +25,9 @@ public class MagicSperm extends AbstractBallerItem {
         listener = new MSListener();
     }
 
-
-
+    @me.ohvalsgod.thads.listener.Listener
     public class MSListener implements Listener {
+
         @EventHandler
         public void onHit(EntityDamageByEntityEvent event) {
             if (isEnabled()) {
@@ -36,7 +35,7 @@ public class MagicSperm extends AbstractBallerItem {
                     Player target = (Player) event.getEntity();
                     if (event.getDamager() instanceof Player) {
                         Player player = (Player) event.getDamager();
-                        if (BallerManager.getBallerManager().getItemByStack(player.getItemInHand()) instanceof MagicSperm) {
+                        if (Thads.get().getBallerManager().getItemByStack(player.getItemInHand()) instanceof MagicSperm) {
                             int i = 2;
                             if (!invis.containsKey(player.getName())) {
                                 target.hidePlayer(player);

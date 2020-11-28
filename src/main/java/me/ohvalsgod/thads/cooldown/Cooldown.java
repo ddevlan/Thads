@@ -22,7 +22,7 @@ public class Cooldown {
     }
 
     public boolean hasExpired() {
-        return System.currentTimeMillis() - this.expire >= 0;
+        return System.currentTimeMillis() - this.expire <= 0;
     }
 
     public String getTimeLeft() {

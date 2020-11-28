@@ -28,7 +28,8 @@ public class LegendaryItemToggleButton extends Button {
     @Override
     public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
         item.setLegendaryEnabled(!item.isLegendaryEnabled());
-        player.sendMessage(Thads.get().getLang().getString("lol.weapons.item-toggled")
+        Thads.change();
+        player.sendMessage(Thads.get().getLang().getString("lol.objects.item-toggled")
                 .replace("%item%", item.getLegendaryItemStack().getItemMeta().getDisplayName())
                 .replace("%toggled%", item.isLegendaryEnabled() ? CC.GREEN + "enabled":CC.RED + "disabled"));
     }

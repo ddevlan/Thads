@@ -5,7 +5,6 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -15,9 +14,12 @@ import org.bukkit.material.MaterialData;
 import java.util.ArrayList;
 import java.util.List;
 
+//import org.bukkit.inventory.ItemFlag;
+
 public class ItemBuilder implements Listener {
 
     private final ItemStack is;
+    private boolean hideFlags = false;
 
     public ItemBuilder(final Material mat) {
         is = new ItemStack(mat);
@@ -52,9 +54,7 @@ public class ItemBuilder implements Listener {
     }
 
     public ItemBuilder hideFlags() {
-        final ItemMeta meta = is.getItemMeta();
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        is.setItemMeta(meta);
+        hideFlags = true;
         return this;
     }
 
@@ -99,7 +99,7 @@ public class ItemBuilder implements Listener {
 
     public ItemBuilder clearLore() {
         final ItemMeta meta = is.getItemMeta();
-        meta.setLore(new ArrayList<String>());
+        meta.setLore(new ArrayList<>());
         is.setItemMeta(meta);
         return this;
     }

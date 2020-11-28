@@ -11,6 +11,4 @@ public class Excalibur extends AbstractBallerItem {
         setWeight(1.5);
     }
 
-
-
 }

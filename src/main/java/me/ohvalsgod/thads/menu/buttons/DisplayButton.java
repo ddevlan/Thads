@@ -27,7 +27,7 @@ public class DisplayButton extends Button {
     }
 
     @Override
-    public boolean shouldCancel(Player player, int slot, ClickType clickType) {
+    public boolean shouldCancel(Player player, ClickType clickType) {
         return this.cancel;
     }
 

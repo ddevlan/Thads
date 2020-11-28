@@ -1,7 +1,6 @@
 package me.ohvalsgod.thads.baller.item.items.defaults;
 
 import me.ohvalsgod.thads.Thads;
-import me.ohvalsgod.thads.baller.BallerManager;
 import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
 import me.ohvalsgod.thads.util.WorldGuardUtil;
 import org.bukkit.Bukkit;
@@ -34,7 +33,9 @@ public class AEBow extends AbstractBallerItem {
 
 
 
+    @me.ohvalsgod.thads.listener.Listener
     public class AEBOWListener implements Listener {
+
         @EventHandler
         public void onDamage(EntityDamageByEntityEvent event) {
             if (event.getEntity() instanceof Player) {
@@ -72,7 +73,7 @@ public class AEBow extends AbstractBallerItem {
                 Arrow arrow = (Arrow) event.getProjectile();
                 ItemStack bow = event.getBow();
 
-                if (BallerManager.getBallerManager().getItemByStack(bow) instanceof AEBow) {
+                if (Thads.get().getBallerManager().getItemByStack(bow) instanceof AEBow) {
                     arrows.add(arrow);
                 }
             }

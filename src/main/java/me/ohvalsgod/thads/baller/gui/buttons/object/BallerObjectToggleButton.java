@@ -30,7 +30,8 @@ public class BallerObjectToggleButton extends Button {
     @Override
     public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
         item.setEnabled(!item.isEnabled());
-        player.sendMessage(Thads.get().getLang().getString("lol.weapons.item-toggled")
+        Thads.change();
+        player.sendMessage(Thads.get().getLang().getString("lol.objects.item-toggled")
                 .replace("%item%", (item instanceof AbstractBallerItem ? ((AbstractBallerItem) item).getBallerItemStack().getItemMeta().getDisplayName():((AbstractBallerArmor)item).getBallerArmor()[1].getItemMeta().getDisplayName()))
                 .replace("%toggled%", item.isEnabled() ? CC.GREEN + "enabled":CC.RED + "disabled"));
     }

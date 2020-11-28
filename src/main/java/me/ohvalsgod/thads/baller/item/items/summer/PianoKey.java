@@ -2,17 +2,15 @@ package me.ohvalsgod.thads.baller.item.items.summer;
 
 import lombok.Getter;
 import me.ohvalsgod.thads.Thads;
-import me.ohvalsgod.thads.baller.BallerManager;
 import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
 import me.ohvalsgod.thads.baller.item.items.avengers.InvisibilityRing;
 import me.ohvalsgod.thads.util.CC;
 import me.ohvalsgod.thads.util.LocationUtil;
 import me.ohvalsgod.thads.util.WorldGuardUtil;
-import net.minecraft.server.v1_8_R3.BlockPosition;
-import net.minecraft.server.v1_8_R3.PacketPlayOutWorldEvent;
+import net.minecraft.server.v1_7_R4.PacketPlayOutWorldEvent;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R4.entity.CraftPlayer;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -28,6 +26,8 @@ import org.inventivetalent.bossbar.BossBarAPI;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+;
 
 public class PianoKey extends AbstractBallerItem {
 
@@ -45,16 +45,15 @@ public class PianoKey extends AbstractBallerItem {
         listener = new PKListener();
     }
 
-
-
+    @me.ohvalsgod.thads.listener.Listener
     public class PKListener implements Listener {
 
         private void playRecord(Player player, Location location, Integer record) {
-            ((CraftPlayer)player).getHandle().playerConnection.sendPacket(new PacketPlayOutWorldEvent(1005, new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()), record, false));
+            ((CraftPlayer)player).getHandle().playerConnection.sendPacket(new PacketPlayOutWorldEvent(1005, location.getBlockX(), location.getBlockY(), location.getBlockZ(), record, false));
         }
 
         private void stopRecord(Player player, Location location) {
-            ((CraftPlayer)player).getHandle().playerConnection.sendPacket(new PacketPlayOutWorldEvent(1005, new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()), 0, false));
+            ((CraftPlayer)player).getHandle().playerConnection.sendPacket(new PacketPlayOutWorldEvent(1005, location.getBlockX(), location.getBlockY(), location.getBlockZ(), 0, false));
         }
 
         private void activate(Player player, Double radius) {
@@ -107,7 +106,7 @@ public class PianoKey extends AbstractBallerItem {
         @EventHandler
         public void onSneak(PlayerToggleSneakEvent event) {
             Player player = event.getPlayer();
-            if (BallerManager.getBallerManager().getItemByStack(player.getItemInHand()) instanceof PianoKey) {
+            if (Thads.get().getBallerManager().getItemByStack(player.getItemInHand()) instanceof PianoKey) {
                 if (expired(player)) {
                     new BukkitRunnable() {
                         Double radius = 0d;
@@ -149,7 +148,7 @@ public class PianoKey extends AbstractBallerItem {
             if (event.getDamager() instanceof Player) {
                 Player player = (Player) event.getDamager();
 
-                if (BallerManager.getBallerManager().getItemByStack(player.getItemInHand()) instanceof PianoKey) {
+                if (Thads.get().getBallerManager().getItemByStack(player.getItemInHand()) instanceof PianoKey) {
                     player.getWorld().playEffect(player.getLocation().add(new Vector(0,1,0)), Effect.NOTE, 2);
                     player.getWorld().playEffect(player.getLocation().add(new Vector(0,1,1)), Effect.NOTE, 2);
                     player.getWorld().playEffect(player.getLocation().add(new Vector(1,1,0)), Effect.NOTE, 2);
@@ -163,7 +162,7 @@ public class PianoKey extends AbstractBallerItem {
             if (player.getKiller() != null) {
                 if (player.getKiller() instanceof Player) {
                     Player killer = player.getKiller();
-                    if (BallerManager.getBallerManager().getItemByStack(killer.getItemInHand()) instanceof PianoKey) {
+                    if (Thads.get().getBallerManager().getItemByStack(killer.getItemInHand()) instanceof PianoKey) {
                         String id = player.getItemInHand().getItemMeta().getLore().get(3).split(":")[1].substring(1);
                         for (Player other : Bukkit.getServer().getOnlinePlayers()) {
                             final Location location = other.getLocation().clone();

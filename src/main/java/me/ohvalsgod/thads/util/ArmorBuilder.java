@@ -2,7 +2,6 @@ package me.ohvalsgod.thads.util;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -36,19 +35,7 @@ public class ArmorBuilder {
 
     public ArmorBuilder enchant(Enchantment enchantment, int value) {
         for (ItemStack itemStack : is) {
-            if (enchantment == Enchantment.PROTECTION_FALL) {
-                if (itemStack.getType().toString().contains("_BOOTS")) {
-                    itemStack.addUnsafeEnchantment(enchantment, value);
-                }
-            } else if (enchantment == Enchantment.WATER_WORKER) {
-                if (itemStack.getType().toString().contains("_HELMET")) {
-                    itemStack.addUnsafeEnchantment(enchantment, value);
-                }
-            } else if (enchantment == Enchantment.OXYGEN) {
-                if (itemStack.getType().toString().contains("_HELMET")) {
-                    itemStack.addUnsafeEnchantment(enchantment, value);
-                }
-            } else {
+            if (enchantment.canEnchantItem(itemStack)) {
                 itemStack.addUnsafeEnchantment(enchantment, value);
             }
         }
@@ -56,11 +43,11 @@ public class ArmorBuilder {
     }
 
     public ArmorBuilder hideFlags() {
-        for (ItemStack item : is) {
-            final ItemMeta meta = item.getItemMeta();
-            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            item.setItemMeta(meta);
-        }
+//        for (ItemStack item : is) {
+//            final ItemMeta meta = item.getItemMeta();
+//            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+//            item.setItemMeta(meta);
+//        }
         return this;
     }
 

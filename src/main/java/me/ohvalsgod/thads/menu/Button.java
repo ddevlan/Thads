@@ -78,7 +78,7 @@ public abstract class Button {
 
     public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {}
 
-    public boolean shouldCancel(Player player, int slot, ClickType clickType) {
+    public boolean shouldCancel(Player player, ClickType clickType) {
         return (true);
     }
 

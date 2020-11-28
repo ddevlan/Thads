@@ -6,6 +6,4 @@ public interface IBallerArmor {
 
     ItemStack[] getBallerArmor();
 
-    void setArmor(ItemStack[] item);
-
 }

@@ -1,17 +1,23 @@
 package me.ohvalsgod.thads.baller.object;
 
 import me.ohvalsgod.thads.Thads;
+import me.ohvalsgod.thads.baller.BallerManager;
+import me.ohvalsgod.thads.config.ConfigCursor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AbstractBallerObject implements IBallerObject {
+public abstract class AbstractBallerObject implements IBallerObject {
+
+    protected final ConfigCursor LANG;
+    protected BallerManager ballerManager;
 
     private String name;
     private int sellPrice, buyPrice;
-    public Listener listener;
+    protected Listener listener;
     private boolean enabled;
     private List<String> aliases;
     private double weight;
@@ -19,11 +25,14 @@ public class AbstractBallerObject implements IBallerObject {
 
     public AbstractBallerObject(String name) {
         this.name = name;
-        this.sellPrice = 10000000;
-        this.buyPrice = 100000000;
+        this.sellPrice = 0;
+        this.buyPrice = 0;
         this.enabled = true;
         this.aliases = new ArrayList<>();
         this.weight = 0;
+
+        LANG = new ConfigCursor(Thads.get().getLangConfig(), "lol.objects." + name);
+        ballerManager = Thads.get().getBallerManager();
     }
 
     @Override
@@ -81,6 +90,12 @@ public class AbstractBallerObject implements IBallerObject {
         return listener;
     }
 
+    public void fixJrebel() {
+        System.out.println(getClass().getSimpleName() + "#fixJrebel() method ran");
+    }
+
+    public abstract void give(Player player);
+
     @Override
     public void unregister() {
         if (registered) {
@@ -95,11 +110,13 @@ public class AbstractBallerObject implements IBallerObject {
 
     @Override
     public void register() {
-        if (!registered) {
-            Thads.get().getServer().getPluginManager().registerEvents(listener, Thads.get());
-            registered = !registered;
-        } else {
-            Thads.get().getLogger().warning("Tried to register events that were already registered.");
+        if (getListener() != null) {
+            if (!registered) {
+                Thads.get().getServer().getPluginManager().registerEvents(listener, Thads.get());
+                registered = !registered;
+            } else {
+                Thads.get().getLogger().warning("Tried to register events that were already registered.");
+            }
         }
     }
 

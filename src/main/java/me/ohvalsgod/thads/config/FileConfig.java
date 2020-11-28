@@ -15,6 +15,26 @@ public class FileConfig {
     private File file;
     private FileConfiguration config;
 
+    public FileConfig(JavaPlugin plugin, File parentFile, String fileName) {
+        this.file = new File(parentFile, File.separator + fileName);
+
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+
+            if (plugin.getResource(fileName) == null) {
+                try {
+                    this.file.createNewFile();
+                } catch (IOException e) {
+                    plugin.getLogger().severe("Failed to create new file " + fileName);
+                }
+            }
+        }
+
+        plugin.saveResource(fileName, true);
+
+        this.config = YamlConfiguration.loadConfiguration(this.file);
+    }
+
     public FileConfig(JavaPlugin plugin, String fileName) {
         this.file = new File(plugin.getDataFolder(), fileName);
 

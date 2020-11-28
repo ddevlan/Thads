@@ -21,9 +21,9 @@ public class BallerObjectInfoButton extends Button {
 
     @Override
     public ItemStack getButtonItem(Player player) {
+        ItemBuilder builder = new ItemBuilder(Material.PAPER);
         if (item instanceof AbstractBallerItem) {
             AbstractBallerItem ballerItem = (AbstractBallerItem) item;
-            ItemBuilder builder = new ItemBuilder(Material.PAPER);
 
             builder.name(Thads.get().getLang().getString("lol.menu.objects.edit.information.name").replace("%item%", ballerItem.getBallerItemStack().getItemMeta().getDisplayName()));
             for (String string : Thads.get().getLang().getStringList("lol.menu.objects.edit.information.lore")) {
@@ -39,7 +39,6 @@ public class BallerObjectInfoButton extends Button {
             }
         } else {
             AbstractBallerArmor armor = (AbstractBallerArmor) item;
-            ItemBuilder builder = new ItemBuilder(Material.PAPER);
 
             builder.name(Thads.get().getLang().getString("lol.menu.armor.edit.information.name").replace("%armor%", armor.getBallerArmor()[0].getItemMeta().getDisplayName()));
             for (String string : Thads.get().getLang().getStringList("lol.menu.armor.edit.information.lore")) {
@@ -52,10 +51,8 @@ public class BallerObjectInfoButton extends Button {
 
                 builder.lore(CC.translate(lore));
             }
-
-            return builder.build();
         }
-        return null;
+        return builder.build();
     }
 
 }

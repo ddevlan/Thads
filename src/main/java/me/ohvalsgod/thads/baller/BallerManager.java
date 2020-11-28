@@ -3,20 +3,15 @@ package me.ohvalsgod.thads.baller;
 import lombok.Getter;
 import me.ohvalsgod.thads.Thads;
 import me.ohvalsgod.thads.baller.armor.AbstractBallerArmor;
-import me.ohvalsgod.thads.baller.armor.IBallerArmor;
 import me.ohvalsgod.thads.baller.item.AbstractBallerItem;
-import me.ohvalsgod.thads.baller.item.IBallerItem;
 import me.ohvalsgod.thads.baller.object.AbstractBallerObject;
-import me.ohvalsgod.thads.baller.object.IBallerObject;
 import me.ohvalsgod.thads.config.ConfigCursor;
-import me.ohvalsgod.thads.util.ArmorBuilder;
+import me.ohvalsgod.thads.config.FileConfig;
 import me.ohvalsgod.thads.util.ClassUtil;
-import me.ohvalsgod.thads.util.ItemBuilder;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 import java.util.*;
@@ -24,17 +19,20 @@ import java.util.stream.Collectors;
 
 public class BallerManager {
 
-    private final Thads thads;
+    private final JavaPlugin plugin;
 
-    @Getter private Set<IBallerObject> ballerObjects;
+    private FileConfig objectsConfig;
 
-    public BallerManager(Thads thads) {
-        this.thads = thads;
+    @Getter private Set<AbstractBallerObject> ballerObjects;
+
+    public BallerManager(JavaPlugin plugin, FileConfig objectsConfig) {
+        this.plugin = plugin;
+        this.objectsConfig = objectsConfig;
 
         ballerObjects = new HashSet<>();
         System.out.println("[Thads] [INIT] There have been a total of " + generateBallerObjects() + " baller objects loaded.");
         ballerObjects.forEach(this::loadBallerObject);
-        ballerObjects = ballerObjects.stream().sorted(Comparator.comparingDouble(IBallerObject::getWeight)).collect(Collectors.toCollection(LinkedHashSet::new));
+        ballerObjects = ballerObjects.stream().sorted(Comparator.comparingDouble(AbstractBallerObject::getWeight)).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     /*
@@ -55,82 +53,17 @@ public class BallerManager {
         return loaded;
     }
 
-    public void loadBallerObject(IBallerObject item) {
-        ConfigCursor cursor = new ConfigCursor(thads.getBallerObjectConfig(), item.getName());
+    public void loadBallerObject(AbstractBallerObject object) {
+        ConfigCursor cursor = new ConfigCursor(objectsConfig, object.getName());
 
-        cursor.setPath(cursor.getPath() + ".baller-" + (item instanceof IBallerItem ? "item":"armor"));
+        object.setEnabled(cursor.getBoolean("enabled"));
+        object.setBuyPrice(cursor.getInt("buy"));
+        object.setSellPrice(cursor.getInt("sell"));
 
-        item.setEnabled(cursor.getBoolean("enabled"));
-        item.setBuyPrice(cursor.getInt("buy"));
-        item.setSellPrice(cursor.getInt("sell"));
-
-        /**
-         * BallerObjects are loaded from file and into an ItemStack on generation.
-         * Maybe possibly in the future this could be changed and it could happen on command for in-game item updates.
-         */
-        if (item instanceof IBallerItem) {
-            IBallerItem ballerItem = (IBallerItem) item;
-
-            ItemBuilder builder = new ItemBuilder(Material.getMaterial(cursor.getString("material")));
-
-            builder.name(cursor.getString("name"));
-            builder.lore(cursor.getStringList("lore"));
-
-            cursor.setPath(cursor.getPath() + ".enchants");
-            for (String string : cursor.getKeys()) {
-                builder.enchantment(Enchantment.getByName(string), cursor.getInt(string));
-            }
-
-            if (cursor.getBoolean("hide-flags")) {
-                builder.hideFlags();
-            }
-
-            ballerItem.setBallerItemStack(builder.build());
-
-            cursor.setPath(item.getName() + ".legendary-item");
-
-            builder = new ItemBuilder(Material.getMaterial(cursor.getString("material")));
-
-            builder.name(cursor.getString("name"));
-            builder.lore(cursor.getStringList("lore"));
-
-            cursor.setPath(cursor.getPath() + ".enchants");
-            for (String string : cursor.getKeys()) {
-                builder.enchantment(Enchantment.getByName(string), cursor.getInt(string));
-            }
-
-            if (cursor.getBoolean("hide-flags")) {
-                builder.hideFlags();
-            }
-
-            ballerItem.setLegendaryItemStack(builder.build());
-
-            cursor.setPath(item.getName());
-
-            ballerItem.setLegendaryEnabled(cursor.getBoolean("legendary-item.enabled"));
-        } else if (item instanceof IBallerArmor) {
-            IBallerArmor ballerArmor = (IBallerArmor) item;
-
-            ArmorBuilder builder = new ArmorBuilder(cursor.getString("type"));
-
-            builder.name(cursor.getString("name"));
-            builder.lore(cursor.getStringList("lore"));
-
-            cursor.set(cursor.getPath() + ".enchants");
-            for (String string : cursor.getKeys()) {
-                builder.enchant(Enchantment.getByName(string), cursor.getInt(string));
-            }
-
-            if (cursor.getBoolean("hide-flags")) {
-                builder.hideFlags();
-            }
-
-            ballerArmor.setArmor(builder.build());
-        }
-
-        if (item.isEnabled()) {
-            if (item.getListener() != null) {
-                item.register();
+        if (object instanceof AbstractBallerItem) {
+            boolean b = cursor.getBoolean("legendary-item.enabled");
+            if (b) {
+                ((AbstractBallerItem) object).setLegendaryEnabled(b);
             }
         }
     }
@@ -139,31 +72,37 @@ public class BallerManager {
         int i = 0;
 
         for (Class<?> clazz : ClassUtil.getClassesInPackage(Thads.get(), pkg)) {
-            System.out.println(clazz.getName() + " - Super: " + clazz.getSuperclass().getName() + " - ");
-//            if (clazz.getSuperclass().getSuperclass().equals(AbstractBallerObject.class)) {
-//                try {
-//                    AbstractBallerObject obj = (AbstractBallerObject) clazz.newInstance();
-//                    ballerObjects.add(obj);
-//                    i++;
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
+            if (clazz.getSuperclass() != null && clazz.getSuperclass().equals(AbstractBallerItem.class) || clazz.getSuperclass().equals(AbstractBallerArmor.class)) {
+                try {
+                    AbstractBallerObject object = (AbstractBallerObject) clazz.newInstance();
+                    loadBallerObject(object);
+                    ballerObjects.add(object);
+
+                    if (object.getListener() != null) {
+                        if (object.isEnabled()) {
+                            object.register();
+                        }
+                    }
+
+                    i++;
+                } catch (IllegalAccessException | InstantiationException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return i;
     }
 
     public AbstractBallerObject getBallerObjectByName(String name) {
-        for (IBallerObject object : ballerObjects) {
+        for (AbstractBallerObject object : ballerObjects) {
             if (object.getName().equalsIgnoreCase(name)) {
-                return (AbstractBallerObject) object;
+                return object;
             }
         }
+        int i = 0;
         return null;
     }
-    //
 
     /*
         BallerItem Methods
@@ -173,7 +112,7 @@ public class BallerManager {
         Set<AbstractBallerItem> ballerItems = new HashSet<>();
         ballerObjects.forEach(iBallerObject -> {
             if (iBallerObject instanceof AbstractBallerItem) {
-                getBallerItems().add((AbstractBallerItem) iBallerObject);
+                ballerItems.add((AbstractBallerItem) iBallerObject);
             }
         });
         return ballerItems;
@@ -232,7 +171,7 @@ public class BallerManager {
                 if (source.getItemMeta().hasLore()) {
                     for (AbstractBallerItem item : getBallerItems()) {
                         if (item.isLegendaryEnabled()) {
-                            if (item.getLegendaryItemStack().getItemMeta().getLore().equals(source.getItemMeta().getLore())) {
+                            if (item.getLegendaryItemStack().getItemMeta().getLore().equals(source.getItemMeta().getLore()) && !item.getBallerItemStack().getItemMeta().getLore().equals(source.getItemMeta().getLore())) {
                                 return item;
                             }
                         }
@@ -244,7 +183,7 @@ public class BallerManager {
     }
 
     public void saveBallerItem(AbstractBallerItem item) {
-        YamlConfiguration config = YamlConfiguration.loadConfiguration(Thads.get().getBallerObjectConfig().getFile());
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(objectsConfig.getFile());
 
         config.set(item.getName() + ".enabled", item.isEnabled());
         config.set(item.getName() + ".sell", item.getSellPrice());
@@ -252,7 +191,7 @@ public class BallerManager {
         config.set(item.getName() + ".legendary-item.enabled", item.isLegendaryEnabled());
 
         try {
-            config.save(Thads.get().getBallerObjectConfig().getFile());
+            config.save(objectsConfig.getFile());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -285,14 +224,14 @@ public class BallerManager {
     }
 
     public void saveBallerArmor(AbstractBallerArmor item) {
-        YamlConfiguration config = YamlConfiguration.loadConfiguration(Thads.get().getBallerObjectConfig().getFile());
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(objectsConfig.getFile());
 
         config.set(item.getName() + ".enabled", item.isEnabled());
         config.set(item.getName() + ".sell", item.getSellPrice());
         config.set(item.getName() + ".buy", item.getBuyPrice());
 
         try {
-            config.save(Thads.get().getBallerObjectConfig().getFile());
+            config.save(objectsConfig.getFile());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -376,13 +315,6 @@ public class BallerManager {
         }
 
         return getArmorByLore(strings);
-    }
-
-    /*
-        Instance method
-     */
-    public static BallerManager getBallerManager() {
-        return Thads.get().getBallerManager();
     }
 
 }
